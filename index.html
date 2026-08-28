@@ -2279,7 +2279,256 @@ a{
   }
 
 }
+/* =========================================================
+   NOVA CAPA — FOTO DO DUDU COMO BACKGROUND
+========================================================= */
 
+.hero{
+  position:relative;
+  isolation:isolate;
+
+  max-width:none;
+  min-height:100svh;
+
+  padding:
+    120px
+    clamp(20px,7vw,100px)
+    70px;
+
+  display:flex;
+  align-items:flex-end;
+
+  overflow:hidden;
+}
+
+/* FOTO DO DUDU */
+
+.hero::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  z-index:-3;
+
+  background-image:
+    url("assets/dudu.jpg.PNG");
+
+  background-size:cover;
+  background-position:center 25%;
+
+  opacity:.34;
+
+  transform:scale(1.03);
+
+  filter:
+    contrast(1.05)
+    saturate(.8);
+
+  animation:
+    heroImage 12s ease-in-out infinite alternate;
+}
+
+/* DEGRADÊ SOBRE A FOTO */
+
+.hero::after{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  z-index:-2;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(13,13,13,.98) 0%,
+      rgba(13,13,13,.88) 28%,
+      rgba(13,13,13,.48) 58%,
+      rgba(13,13,13,.75) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(13,13,13,.45) 0%,
+      transparent 35%,
+      rgba(13,13,13,.98) 100%
+    );
+}
+
+/* MOVIMENTO SUAVE DA FOTO */
+
+@keyframes heroImage{
+
+  from{
+    transform:scale(1.03);
+  }
+
+  to{
+    transform:scale(1.08);
+  }
+
+}
+
+/* CONTEÚDO DA CAPA */
+
+.hero-copy{
+  position:relative;
+  z-index:5;
+
+  width:min(850px,100%);
+}
+
+/* TÍTULO */
+
+.hero h1{
+  max-width:900px;
+
+  font:
+    900
+    clamp(90px,13vw,190px)
+    /.72
+    var(--disp);
+
+  margin:
+    28px 0
+    35px;
+
+  letter-spacing:-.035em;
+
+  text-shadow:
+    0 15px 60px #000;
+}
+
+/* TEXTO */
+
+.hero p{
+  max-width:650px;
+
+  font-size:17px;
+
+  line-height:1.8;
+
+  text-shadow:
+    0 4px 20px #000;
+}
+
+/* PROGRESSO */
+
+.hero-progress{
+  position:relative;
+
+  left:auto;
+  right:auto;
+  bottom:auto;
+
+  max-width:650px;
+
+  margin-top:35px;
+}
+
+.hero-progress-number{
+  font-size:42px;
+}
+
+.hero-progress-bar{
+  height:8px;
+
+  background:#ffffff20;
+
+  box-shadow:
+    inset 0 0 0 1px #ffffff0b,
+    0 0 25px #0008;
+}
+
+/* BOTÕES DA CAPA */
+
+.hero .actions{
+  position:relative;
+
+  z-index:10;
+
+  margin-top:22px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:600px){
+
+  .hero{
+    min-height:100svh;
+
+    padding:
+      100px
+      20px
+      45px;
+
+    align-items:flex-end;
+  }
+
+  .hero::before{
+
+    background-position:
+      62% center;
+
+    opacity:.28;
+  }
+
+  .hero::after{
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(13,13,13,.35),
+        rgba(13,13,13,.65) 40%,
+        rgba(13,13,13,.98) 100%
+      );
+  }
+
+  .hero h1{
+
+    font-size:
+      clamp(72px,23vw,110px);
+
+    margin:
+      20px 0
+      25px;
+  }
+
+  .hero p{
+
+    font-size:15px;
+
+    line-height:1.7;
+  }
+
+  .hero-progress{
+
+    margin-top:25px;
+  }
+
+  .hero-progress-number{
+
+    font-size:34px;
+  }
+
+  .hero .actions{
+
+    display:grid;
+
+    grid-template-columns:1fr;
+
+    width:100%;
+  }
+
+  .hero .btn{
+
+    width:100%;
+  }
+
+}
 </style>
 </head>
 
