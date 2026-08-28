@@ -13,58 +13,68 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link
-href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"
-rel="stylesheet"
->
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 
 :root{
   --bg:#0d0d0d;
-  --bg2:#11100f;
+  --bg2:#12100e;
   --card:#171717;
-  --card2:#1d1916;
-  --line:#ffffff1c;
-  --line2:#ffffff30;
+  --card2:#201b17;
 
-  --text:#f6f0e9;
-  --muted:#aaa29a;
-  --soft:#d6cec5;
+  --line:#ffffff18;
+  --line2:#ffffff2b;
+
+  --text:#f7f1ea;
+  --muted:#a9a19a;
+  --soft:#d9d0c7;
 
   --o:#ff7a00;
   --o2:#ffb15c;
   --sand:#d99c5c;
-  --brown:#8a5a2b;
 
   --disp:"Barlow Condensed",sans-serif;
   --body:"Inter",sans-serif;
 
-  --shadow:0 30px 100px rgba(0,0,0,.45);
   --ease:cubic-bezier(.2,.8,.2,1);
+
+  --shadow:
+    0 30px 100px rgba(0,0,0,.48);
 }
 
 *{
   box-sizing:border-box;
 }
 
-html{
-  scroll-behavior:smooth;
+html,
+body{
+  margin:0;
+  width:100%;
+  min-height:100%;
 }
 
 body{
-  margin:0;
-  min-height:100vh;
-
   background:
-    radial-gradient(circle at 80% 10%,#ff7a0007,transparent 28%),
-    radial-gradient(circle at 10% 80%,#d99c5c05,transparent 25%),
+    radial-gradient(
+      circle at 80% 10%,
+      #ff7a0008,
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 10% 80%,
+      #d99c5c05,
+      transparent 28%
+    ),
     var(--bg);
 
   color:var(--text);
   font-family:var(--body);
 
-  overflow-x:hidden;
+  overflow:hidden;
 }
 
 body.menu-open{
@@ -72,8 +82,7 @@ body.menu-open{
 }
 
 button,
-input,
-a{
+input{
   font:inherit;
 }
 
@@ -89,6 +98,7 @@ a{
   background:var(--o);
   color:#111;
 }
+
 
 /* =====================================================
    NOISE
@@ -107,6 +117,7 @@ a{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+
 /* =====================================================
    GLOBAL PROGRESS
 ===================================================== */
@@ -118,34 +129,34 @@ a{
   left:0;
   right:0;
 
-  z-index:1000;
-
   height:3px;
 
   background:#ffffff0d;
+
+  z-index:500;
 }
 
 .top i{
   display:block;
 
-  width:0;
+  width:0%;
   height:100%;
 
   background:
     linear-gradient(
       90deg,
       var(--o),
-      var(--o2),
-      #fff
+      var(--o2)
     );
 
   box-shadow:
-    0 0 15px #ff7a0080,
-    0 0 30px #ff7a0030;
+    0 0 15px #ff7a00,
+    0 0 35px #ff7a0060;
 
   transition:
     width .9s var(--ease);
 }
+
 
 /* =====================================================
    NAV
@@ -154,13 +165,13 @@ a{
 .nav{
   position:fixed;
 
-  z-index:900;
-
   top:0;
   left:0;
   right:0;
 
-  height:72px;
+  height:76px;
+
+  z-index:400;
 
   display:flex;
   align-items:center;
@@ -173,8 +184,8 @@ a{
   background:
     linear-gradient(
       180deg,
-      rgba(13,13,13,.97),
-      rgba(13,13,13,.55),
+      rgba(13,13,13,.96),
+      rgba(13,13,13,.45),
       transparent
     );
 
@@ -182,12 +193,13 @@ a{
   -webkit-backdrop-filter:blur(12px);
 
   transition:
-    background .3s ease,
-    border-color .3s ease;
+    background .35s ease,
+    border-color .35s ease;
 }
 
 .nav.scrolled{
-  background:rgba(13,13,13,.92);
+  background:#0d0d0de8;
+
   border-bottom:1px solid var(--line);
 }
 
@@ -195,18 +207,9 @@ a{
   color:var(--text);
 
   font:
-    800
-    17px
-    var(--disp);
+    800 18px var(--disp);
 
   letter-spacing:.12em;
-
-  transition:
-    transform .25s ease;
-}
-
-.brand:hover{
-  transform:translateY(-1px);
 }
 
 .brand b{
@@ -216,12 +219,13 @@ a{
 .navright{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:15px;
 }
 
 .pct{
-  font-size:11px;
   color:var(--muted);
+
+  font-size:11px;
 
   min-width:100px;
 
@@ -229,236 +233,442 @@ a{
 }
 
 .menu{
-  width:42px;
-  height:42px;
-
-  border:1px solid var(--line);
-
-  background:#ffffff08;
-
-  color:white;
+  width:44px;
+  height:44px;
 
   border-radius:50%;
 
+  display:grid;
+  place-items:center;
+
   cursor:pointer;
+
+  color:white;
+
+  background:
+    rgba(255,255,255,.055);
+
+  border:1px solid var(--line2);
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,.3);
 
   transition:
     transform .3s var(--ease),
-    border-color .3s ease,
-    background .3s ease;
+    background .3s ease,
+    border-color .3s ease;
 }
 
 .menu:hover{
-  transform:rotate(8deg) scale(1.05);
+  transform:scale(1.06) rotate(5deg);
+
+  background:
+    rgba(255,122,0,.12);
 
   border-color:#ff7a0070;
-
-  background:#ff7a0012;
 }
 
-.menu:after{
-  content:"☰";
+.menu-lines{
+  width:18px;
 
-  font-size:16px;
+  display:grid;
+
+  gap:4px;
 }
+
+.menu-lines i{
+  display:block;
+
+  height:2px;
+
+  border-radius:10px;
+
+  background:#f4eee8;
+
+  transition:
+    transform .3s ease,
+    opacity .3s ease;
+}
+
+.menu.open .menu-lines i:nth-child(1){
+  transform:translateY(6px) rotate(45deg);
+}
+
+.menu.open .menu-lines i:nth-child(2){
+  opacity:0;
+}
+
+.menu.open .menu-lines i:nth-child(3){
+  transform:translateY(-6px) rotate(-45deg);
+}
+
+
+/* =====================================================
+   APP
+===================================================== */
+
+#app{
+  position:relative;
+
+  width:100vw;
+  height:100vh;
+}
+
 
 /* =====================================================
    PAGE SYSTEM
 ===================================================== */
 
-.book{
-  min-height:100vh;
-  position:relative;
-}
-
 .page{
-  display:none;
+  position:absolute;
 
-  min-height:100vh;
+  inset:0;
 
-  padding:
-    115px
-    clamp(20px,5vw,70px)
-    90px;
+  width:100%;
+  height:100%;
 
-  animation:
-    pageIn .7s var(--ease);
+  padding-top:76px;
+
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  opacity:0;
+  visibility:hidden;
+
+  transform:
+    translateX(35px)
+    scale(.985);
+
+  transition:
+    opacity .5s var(--ease),
+    transform .65s var(--ease),
+    visibility .5s;
+
+  scrollbar-width:thin;
+  scrollbar-color:
+    #ff7a0060
+    transparent;
 }
 
 .page.active{
-  display:block;
+  opacity:1;
+
+  visibility:visible;
+
+  transform:none;
+
+  z-index:10;
 }
 
-@keyframes pageIn{
-  from{
-    opacity:0;
-    transform:
-      translateY(25px)
-      scale(.985);
-  }
-
-  to{
-    opacity:1;
-    transform:none;
-  }
+.page.prev{
+  transform:
+    translateX(-35px)
+    scale(.985);
 }
-
-/* =====================================================
-   PAGE HEADER
-===================================================== */
 
 .page-inner{
   width:min(1120px,100%);
+
+  min-height:calc(100vh - 76px);
+
   margin:auto;
-}
 
-.page-top{
+  padding:
+    60px
+    clamp(18px,5vw,55px)
+    100px;
+
   display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  margin-bottom:35px;
+  flex-direction:column;
 }
 
-.page-number{
-  font:
-    800
-    11px
-    var(--disp);
-
-  letter-spacing:.18em;
-
-  color:var(--muted);
-
-  text-transform:uppercase;
-}
-
-.page-number b{
-  color:var(--o);
-}
 
 /* =====================================================
-   HERO
+   HERO / HOME
 ===================================================== */
 
-.hero-page{
-  max-width:1400px;
-  margin:auto;
+.home{
+  position:relative;
 
-  min-height:
-    calc(100vh - 80px);
+  padding:0;
 
-  display:grid;
-
-  grid-template-columns:
-    1fr
-    .85fr;
-
-  gap:7vw;
-
-  align-items:center;
+  overflow:hidden;
 }
 
-.eyebrow,
-.kicker{
+.home-image{
+  position:absolute;
+
+  inset:0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(13,13,13,.98) 0%,
+      rgba(13,13,13,.82) 35%,
+      rgba(13,13,13,.35) 70%,
+      rgba(13,13,13,.58) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(13,13,13,.05) 15%,
+      rgba(13,13,13,.35) 60%,
+      rgba(13,13,13,.98) 100%
+    ),
+    url("assets/dudu.jpg.PNG");
+
+  background-size:cover;
+
+  background-position:center;
+
+  transform:scale(1.02);
+
+  animation:
+    homeImage 14s ease-in-out infinite alternate;
+}
+
+@keyframes homeImage{
+  from{
+    transform:scale(1.02);
+  }
+
+  to{
+    transform:scale(1.07);
+  }
+}
+
+.home:after{
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  pointer-events:none;
+
+  background:
+    radial-gradient(
+      circle at 70% 35%,
+      #ff7a0015,
+      transparent 30%
+    );
+}
+
+.home-content{
+  position:relative;
+
+  z-index:5;
+
+  width:min(1150px,100%);
+
+  min-height:100vh;
+
+  margin:auto;
+
+  padding:
+    130px
+    clamp(22px,6vw,75px)
+    60px;
+
+  display:flex;
+  flex-direction:column;
+
+  justify-content:center;
+}
+
+.home-kicker{
   color:var(--o2);
 
   font-size:11px;
 
   font-weight:800;
 
-  letter-spacing:.2em;
+  letter-spacing:.22em;
 
   text-transform:uppercase;
+
+  display:flex;
+  align-items:center;
+
+  gap:10px;
 }
 
-.dot{
-  display:inline-block;
+.home-kicker:before{
+  content:"";
 
-  width:7px;
-  height:7px;
-
-  background:var(--o);
+  width:8px;
+  height:8px;
 
   border-radius:50%;
 
-  margin-right:9px;
+  background:var(--o);
 
   box-shadow:
     0 0 15px var(--o),
-    0 0 35px #ff7a0040;
+    0 0 30px #ff7a0070;
 
-  animation:pulseDot 2s infinite;
+  animation:pulse 2s infinite;
 }
 
-@keyframes pulseDot{
+@keyframes pulse{
   0%,100%{
     transform:scale(1);
   }
 
   50%{
-    transform:scale(1.3);
+    transform:scale(1.35);
   }
 }
 
-.hero h1,
-.page h2,
-.final h2{
+.home h1{
+  margin:
+    24px
+    0
+    22px;
+
+  max-width:800px;
+
   font:
-    900
-    clamp(75px,11vw,165px)
-    /.75
-    var(--disp);
+    900 clamp(85px,12vw,170px)/.74 var(--disp);
+
+  letter-spacing:-.035em;
 
   text-transform:uppercase;
 
-  letter-spacing:-.025em;
-
-  margin:
-    25px
-    0
-    32px;
+  text-shadow:
+    0 15px 60px rgba(0,0,0,.5);
 }
 
-.hero h1 span,
-.final h2 span{
+.home h1 span{
   color:var(--o);
+
+  display:inline-block;
 }
 
-.hero p{
-  max-width:620px;
+.home-sub{
+  max-width:600px;
 
-  color:var(--muted);
+  color:#d0c8c0;
+
+  font-size:15px;
 
   line-height:1.75;
 
-  font-size:16px;
+  margin-bottom:25px;
 }
 
-.hero strong{
-  color:var(--text);
+.home-sub b{
+  color:white;
 }
+
+.home-progress{
+  width:min(650px,100%);
+
+  margin-top:5px;
+}
+
+.home-progress-top{
+  display:flex;
+
+  align-items:flex-end;
+  justify-content:space-between;
+
+  margin-bottom:9px;
+}
+
+.home-progress-top span:first-child{
+  color:#ffffffb8;
+
+  font-size:10px;
+
+  font-weight:800;
+
+  letter-spacing:.16em;
+
+  text-transform:uppercase;
+}
+
+.home-progress-number{
+  font:
+    800 38px var(--disp);
+
+  line-height:1;
+}
+
+.home-progress-number b{
+  color:var(--o);
+}
+
+.progress-track{
+  position:relative;
+
+  width:100%;
+
+  height:7px;
+
+  overflow:hidden;
+
+  border-radius:99px;
+
+  background:#ffffff24;
+
+  backdrop-filter:blur(5px);
+}
+
+.progress-track i{
+  display:block;
+
+  width:0%;
+
+  height:100%;
+
+  border-radius:99px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--o),
+      var(--o2),
+      white
+    );
+
+  box-shadow:
+    0 0 15px #ff7a00,
+    0 0 35px #ff7a0060;
+
+  transition:
+    width 1s var(--ease);
+}
+
+.home-actions{
+  display:flex;
+
+  gap:10px;
+
+  flex-wrap:wrap;
+
+  margin-top:25px;
+}
+
 
 /* =====================================================
    BUTTONS
 ===================================================== */
 
-.actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-
-  margin-top:28px;
-}
-
 .btn{
   position:relative;
 
-  border-radius:999px;
+  display:inline-flex;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:8px;
 
   padding:
     14px
     21px;
+
+  border-radius:999px;
 
   cursor:pointer;
 
@@ -467,7 +677,8 @@ a{
   transition:
     transform .3s var(--ease),
     box-shadow .3s ease,
-    background .3s ease;
+    background .3s ease,
+    opacity .3s ease;
 }
 
 .btn:before{
@@ -476,22 +687,22 @@ a{
   position:absolute;
 
   top:0;
-  left:-100%;
+  left:-120%;
 
-  width:60%;
+  width:65%;
   height:100%;
+
+  transform:skewX(-20deg);
 
   background:
     linear-gradient(
       90deg,
       transparent,
-      rgba(255,255,255,.3),
+      #ffffff40,
       transparent
     );
 
-  transform:skewX(-20deg);
-
-  transition:left .7s ease;
+  transition:left .75s ease;
 }
 
 .btn:hover:before{
@@ -513,295 +724,79 @@ a{
   transform:translateY(-4px);
 
   box-shadow:
-    0 20px 50px #ff7a0045,
-    0 0 0 5px #ff7a0010;
+    0 22px 55px #ff7a0045;
 }
 
 .secondary{
-  color:var(--text);
-
   background:#ffffff08;
 
-  border:1px solid var(--line);
+  color:white;
+
+  border:1px solid var(--line2);
 }
 
 .secondary:hover{
   transform:translateY(-3px);
 
-  background:#ffffff12;
-
-  border-color:#ffffff35;
+  background:#ffffff10;
 }
+
+.btn.locked{
+  opacity:.4;
+
+  cursor:not-allowed;
+
+  pointer-events:none;
+}
+
 
 /* =====================================================
-   HERO IMAGE
+   STANDARD HEADER
 ===================================================== */
 
-.heroimg{
-  position:relative;
+.kicker{
+  color:var(--o2);
 
-  min-height:620px;
-
-  border:
-    1px solid
-    var(--line);
-
-  border-radius:34px;
-
-  overflow:hidden;
-
-  background:
-    linear-gradient(
-      145deg,
-      #4c2b16,
-      #111
-    );
-
-  box-shadow:var(--shadow);
-
-  isolation:isolate;
-}
-
-.heroimg:before{
-  content:"";
-
-  position:absolute;
-
-  inset:-40%;
-
-  background:
-    radial-gradient(
-      circle,
-      #ff7a0025 0%,
-      transparent 55%
-    );
-
-  z-index:1;
-
-  animation:
-    heroGlow 7s ease-in-out infinite;
-}
-
-@keyframes heroGlow{
-  0%,100%{
-    transform:
-      translate(-8%,-8%)
-      scale(1);
-  }
-
-  50%{
-    transform:
-      translate(8%,8%)
-      scale(1.1);
-  }
-}
-
-.heroimg img{
-  position:absolute;
-
-  inset:0;
-
-  width:100%;
-  height:100%;
-
-  object-fit:cover;
-
-  display:block;
-
-  filter:
-    contrast(1.06)
-    saturate(.92);
-
-  transform:scale(1.01);
-
-  transition:
-    transform 1.2s var(--ease),
-    filter .8s ease;
-}
-
-.heroimg:hover img{
-  transform:scale(1.045);
-
-  filter:
-    contrast(1.08)
-    saturate(1);
-}
-
-.heroimg:after{
-  content:"";
-
-  position:absolute;
-
-  inset:0;
-
-  z-index:2;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(0,0,0,.05) 20%,
-      rgba(0,0,0,.15) 40%,
-      rgba(0,0,0,.92) 100%
-    );
-}
-
-.tag{
-  position:absolute;
-
-  z-index:5;
-
-  top:20px;
-  right:20px;
-
-  padding:
-    9px
-    12px;
-
-  border:
-    1px solid
-    #ffffff24;
-
-  border-radius:999px;
-
-  background:#0008;
-
-  font-size:10px;
-
-  letter-spacing:.13em;
-
-  text-transform:uppercase;
-
-  backdrop-filter:blur(8px);
-}
-
-.caption{
-  position:absolute;
-
-  z-index:5;
-
-  bottom:25px;
-  left:25px;
-
-  font:
-    700
-    30px
-    var(--disp);
-
-  text-transform:uppercase;
-}
-
-/* =====================================================
-   HERO PROGRESS
-===================================================== */
-
-.hero-progress{
-  position:absolute;
-
-  z-index:5;
-
-  left:25px;
-  right:25px;
-
-  bottom:85px;
-}
-
-.hero-progress-label{
-  display:flex;
-
-  justify-content:space-between;
-  align-items:end;
-
-  margin-bottom:9px;
-}
-
-.hero-progress-label span:first-child{
   font-size:10px;
 
   font-weight:800;
 
-  letter-spacing:.16em;
+  letter-spacing:.2em;
 
   text-transform:uppercase;
-
-  color:#ffffffb8;
 }
 
-.hero-progress-number{
-  font:
-    800
-    34px
-    var(--disp);
-
-  color:white;
-}
-
-.hero-progress-number b{
-  color:var(--o);
-}
-
-.hero-progress-bar{
-  height:6px;
-
-  overflow:hidden;
-
-  border-radius:99px;
-
-  background:#ffffff25;
-}
-
-.hero-progress-bar i{
-  display:block;
-
-  width:0%;
-
-  height:100%;
-
-  border-radius:99px;
-
-  background:
-    linear-gradient(
-      90deg,
-      var(--o),
-      var(--o2),
-      #fff
-    );
-
-  box-shadow:
-    0 0 15px #ff7a00,
-    0 0 30px #ff7a0080;
-
-  transition:
-    width 1s var(--ease);
-}
-
-/* =====================================================
-   CONTENT
-===================================================== */
-
-.page h2{
-  font-size:
-    clamp(
-      60px,
-      8vw,
-      105px
-    );
-
+.page-title{
   margin:
     10px
     0
-    20px;
+    18px;
+
+  font:
+    900 clamp(60px,8vw,105px)/.8 var(--disp);
+
+  text-transform:uppercase;
+
+  letter-spacing:-.025em;
+}
+
+.page-title span{
+  color:var(--o);
 }
 
 .intro{
-  max-width:700px;
+  max-width:650px;
 
   color:var(--muted);
 
   line-height:1.8;
+
+  font-size:15px;
 }
 
+
 /* =====================================================
-   PILLARS
+   INTRO PILLARS
 ===================================================== */
 
 .pillars{
@@ -812,222 +807,17 @@ a{
 
   gap:10px;
 
-  margin-top:35px;
+  margin-top:40px;
 }
 
 .pillar{
   position:relative;
 
-  min-height:200px;
-
-  border:
-    1px solid
-    var(--line);
-
-  border-radius:22px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #ffffff09,
-      #ffffff02
-    );
+  min-height:190px;
 
   padding:22px;
 
-  color:var(--text);
-
-  overflow:hidden;
-
-  cursor:pointer;
-
-  transition:
-    transform .45s var(--ease),
-    border-color .35s ease,
-    background .35s ease,
-    box-shadow .45s ease;
-}
-
-.pillar:hover{
-  transform:
-    translateY(-8px);
-
-  border-color:#ff7a0070;
-
-  background:#ff7a0010;
-
-  box-shadow:
-    0 25px 50px #0006;
-}
-
-.num{
-  font:
-    800
-    34px
-    var(--disp);
-
-  color:var(--o);
-}
-
-.pillar h3{
-  font:
-    800
-    29px
-    var(--disp);
-
-  text-transform:uppercase;
-
-  margin:
-    22px
-    0
-    7px;
-}
-
-.pillar p{
-  color:var(--muted);
-
-  font-size:12px;
-
-  line-height:1.55;
-}
-
-/* =====================================================
-   CHAPTER
-===================================================== */
-
-.chapter-card{
-  border:
-    1px solid
-    var(--line);
-
-  border-radius:32px;
-
-  overflow:hidden;
-
-  background:#ffffff03;
-
-  box-shadow:
-    0 25px 90px #0006;
-}
-
-.grid{
-  display:grid;
-
-  grid-template-columns:
-    .7fr
-    1.3fr;
-}
-
-.aside{
-  position:relative;
-
-  padding:38px;
-
-  background:
-    radial-gradient(
-      circle at 20% 20%,
-      #ff7a0012,
-      transparent 30%
-    ),
-    linear-gradient(
-      150deg,
-      #ff7a0019,
-      #3a23141f,
-      transparent
-    );
-
-  min-height:620px;
-
-  overflow:hidden;
-}
-
-.big{
-  font:
-    800
-    120px/.75
-    var(--disp);
-
-  color:transparent;
-
-  -webkit-text-stroke:
-    1px
-    #ff7a0080;
-}
-
-.aside h3{
-  position:relative;
-  z-index:2;
-
-  font:
-    800
-    55px/.86
-    var(--disp);
-
-  text-transform:uppercase;
-
-  margin:
-    28px
-    0
-    15px;
-}
-
-.aside p{
-  position:relative;
-
-  z-index:2;
-
-  color:var(--muted);
-
-  line-height:1.6;
-}
-
-.body{
-  padding:42px;
-}
-
-.body>p{
-  color:#c8c0b8;
-
-  line-height:1.8;
-
-  font-size:15px;
-}
-
-.body b{
-  color:var(--text);
-}
-
-/* =====================================================
-   QUOTE
-===================================================== */
-
-.quote{
-  border-left:
-    3px solid
-    var(--o);
-
-  padding-left:17px;
-
-  margin:27px 0;
-
-  font:
-    700
-    29px/1
-    var(--disp);
-
-  text-transform:uppercase;
-}
-
-/* =====================================================
-   PANELS
-===================================================== */
-
-.panel{
-  margin-top:22px;
-
-  border:
-    1px solid
-    var(--line);
+  border:1px solid var(--line);
 
   border-radius:22px;
 
@@ -1038,15 +828,259 @@ a{
       #ffffff02
     );
 
-  padding:22px;
+  color:white;
+
+  overflow:hidden;
 
   transition:
-    border-color .35s ease,
-    transform .35s var(--ease);
+    transform .4s var(--ease),
+    border-color .3s ease,
+    background .3s ease;
 }
 
-.panel:hover{
-  border-color:#ffffff28;
+.pillar:hover{
+  transform:translateY(-7px);
+
+  border-color:#ff7a0060;
+
+  background:#ff7a000b;
+}
+
+.pillar.locked{
+  opacity:.42;
+
+  cursor:not-allowed;
+}
+
+.pillar.locked:hover{
+  transform:none;
+
+  border-color:var(--line);
+}
+
+.num{
+  color:var(--o);
+
+  font:
+    800 34px var(--disp);
+}
+
+.pillar h3{
+  margin:
+    20px
+    0
+    8px;
+
+  font:
+    800 29px var(--disp);
+
+  text-transform:uppercase;
+}
+
+.pillar p{
+  margin:0;
+
+  color:var(--muted);
+
+  font-size:12px;
+
+  line-height:1.55;
+}
+
+.lock-icon{
+  position:absolute;
+
+  right:16px;
+  top:16px;
+
+  font-size:13px;
+}
+
+
+/* =====================================================
+   CHAPTER PAGE
+===================================================== */
+
+.chapter-page .page-inner{
+  max-width:1250px;
+}
+
+.chapter-layout{
+  display:grid;
+
+  grid-template-columns:
+    .68fr
+    1.32fr;
+
+  gap:0;
+
+  margin-top:25px;
+
+  border:1px solid var(--line);
+
+  border-radius:30px;
+
+  overflow:hidden;
+
+  background:#ffffff03;
+
+  box-shadow:
+    0 30px 90px #0007;
+}
+
+.chapter-aside{
+  position:relative;
+
+  min-height:560px;
+
+  padding:38px;
+
+  background:
+    radial-gradient(
+      circle at 20% 15%,
+      #ff7a0016,
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      #ff7a0015,
+      #3a231410,
+      transparent
+    );
+
+  overflow:hidden;
+}
+
+.chapter-aside:after{
+  content:"";
+
+  position:absolute;
+
+  width:350px;
+  height:350px;
+
+  right:-180px;
+  bottom:-170px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      #ff7a0020,
+      transparent 70%
+    );
+
+  animation:
+    floatGlow 6s ease-in-out infinite;
+}
+
+@keyframes floatGlow{
+  0%,100%{
+    transform:translate(0,0);
+  }
+
+  50%{
+    transform:translate(-20px,-15px);
+  }
+}
+
+.big{
+  font:
+    900 150px/.7 var(--disp);
+
+  color:transparent;
+
+  -webkit-text-stroke:
+    1px
+    #ff7a0080;
+
+  position:relative;
+
+  z-index:2;
+}
+
+.chapter-aside h2{
+  position:relative;
+
+  z-index:2;
+
+  margin:
+    28px
+    0
+    15px;
+
+  max-width:370px;
+
+  font:
+    900 58px/.84 var(--disp);
+
+  text-transform:uppercase;
+}
+
+.chapter-aside p{
+  position:relative;
+
+  z-index:2;
+
+  color:var(--muted);
+
+  line-height:1.6;
+
+  max-width:340px;
+}
+
+.chapter-body{
+  padding:42px;
+}
+
+.chapter-body p{
+  color:#c8c0b8;
+
+  font-size:15px;
+
+  line-height:1.8;
+}
+
+.chapter-body p b{
+  color:white;
+}
+
+.quote{
+  position:relative;
+
+  margin:
+    30px
+    0;
+
+  padding-left:17px;
+
+  border-left:
+    3px solid var(--o);
+
+  color:white;
+
+  font:
+    800 29px/1 var(--disp);
+
+  text-transform:uppercase;
+}
+
+.panel{
+  margin-top:22px;
+
+  padding:22px;
+
+  border:1px solid var(--line);
+
+  border-radius:20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff08,
+      #ffffff02
+    );
 }
 
 .paneltitle{
@@ -1062,6 +1096,7 @@ a{
 
   margin-bottom:15px;
 }
+
 
 /* =====================================================
    CHOICES
@@ -1079,17 +1114,15 @@ a{
 .choice{
   position:relative;
 
-  padding:13px;
+  padding:14px;
 
-  border:
-    1px solid
-    var(--line);
+  border:1px solid var(--line);
 
   border-radius:14px;
 
   background:#ffffff06;
 
-  color:var(--text);
+  color:white;
 
   text-align:left;
 
@@ -1104,14 +1137,12 @@ a{
 .choice:hover{
   transform:translateY(-3px);
 
-  border-color:#ff7a0070;
+  border-color:#ff7a0060;
 
   background:#ff7a000c;
 }
 
 .choice.active{
-  transform:translateY(-2px);
-
   border-color:var(--o);
 
   background:#ff7a0014;
@@ -1133,6 +1164,7 @@ a{
   font-weight:900;
 }
 
+
 /* =====================================================
    FEEDBACK
 ===================================================== */
@@ -1148,9 +1180,7 @@ a{
 
   background:#ff7a0010;
 
-  border:
-    1px solid
-    #ff7a0020;
+  border:1px solid #ff7a0020;
 
   color:#e9dfd4;
 
@@ -1178,6 +1208,7 @@ a{
   }
 }
 
+
 /* =====================================================
    CHECKLIST
 ===================================================== */
@@ -1191,15 +1222,13 @@ a{
 .check{
   display:flex;
 
-  gap:11px;
-
   align-items:center;
+
+  gap:11px;
 
   padding:11px;
 
-  border:
-    1px solid
-    var(--line);
+  border:1px solid var(--line);
 
   border-radius:13px;
 
@@ -1230,9 +1259,7 @@ a{
   width:19px;
   height:19px;
 
-  border:
-    1px solid
-    #6d665f;
+  border:1px solid #6d665f;
 
   border-radius:5px;
 
@@ -1241,6 +1268,8 @@ a{
   display:grid;
 
   place-items:center;
+
+  cursor:pointer;
 
   transition:
     background .25s ease,
@@ -1264,45 +1293,62 @@ a{
   font-weight:900;
 
   animation:
-    checkPop .3s var(--ease);
+    checkPop .25s var(--ease);
 }
 
 @keyframes checkPop{
   from{
-    transform:scale(.3) rotate(-20deg);
+    transform:scale(.4);
   }
 
   to{
-    transform:scale(1) rotate(0);
+    transform:scale(1);
   }
 }
 
 .check.done{
-  opacity:.55;
+  opacity:.5;
 
   text-decoration:line-through;
 }
 
+
 /* =====================================================
-   PROGRESS BAR
+   CHAPTER PROGRESS
 ===================================================== */
 
-.bar{
+.chapter-progress{
+  margin-top:18px;
+}
+
+.chapter-progress-head{
+  display:flex;
+
+  justify-content:space-between;
+
+  color:var(--muted);
+
+  font-size:10px;
+
+  text-transform:uppercase;
+}
+
+.chapter-progress-bar{
   height:7px;
+
+  margin-top:9px;
 
   background:#292522;
 
   border-radius:99px;
 
   overflow:hidden;
-
-  margin-top:13px;
 }
 
-.bar i{
+.chapter-progress-bar i{
   display:block;
 
-  width:0;
+  width:0%;
 
   height:100%;
 
@@ -1314,25 +1360,12 @@ a{
     );
 
   box-shadow:
-    0 0 15px #ff7a0050;
+    0 0 15px #ff7a0060;
 
   transition:
-    width .8s var(--ease);
+    width .7s var(--ease);
 }
 
-.barlabel{
-  display:flex;
-
-  justify-content:space-between;
-
-  margin-top:7px;
-
-  color:var(--muted);
-
-  font-size:10px;
-
-  text-transform:uppercase;
-}
 
 /* =====================================================
    METRICS
@@ -1346,17 +1379,15 @@ a{
 
   gap:8px;
 
-  margin:18px 0;
+  margin:20px 0;
 }
 
 .metric{
-  border:
-    1px solid
-    var(--line);
+  padding:14px;
+
+  border:1px solid var(--line);
 
   border-radius:15px;
-
-  padding:14px;
 
   background:#ffffff05;
 
@@ -1373,9 +1404,7 @@ a{
 
 .metric strong{
   font:
-    700
-    30px
-    var(--disp);
+    700 30px var(--disp);
 }
 
 .metric small{
@@ -1390,26 +1419,15 @@ a{
   margin-top:3px;
 }
 
+
 /* =====================================================
    STORY
 ===================================================== */
 
 .story-demo{
-  max-width:330px;
+  min-height:380px;
 
-  margin:
-    0
-    auto
-    22px;
-
-  aspect-ratio:9/14;
-
-  background:
-    linear-gradient(
-      150deg,
-      #8a5a2b,
-      #1a100b
-    );
+  position:relative;
 
   display:flex;
 
@@ -1417,7 +1435,12 @@ a{
 
   overflow:hidden;
 
-  position:relative;
+  background:
+    linear-gradient(
+      150deg,
+      #8a5a2b,
+      #1a100b
+    );
 }
 
 .story-demo:before{
@@ -1455,18 +1478,87 @@ a{
 
   z-index:2;
 
-  padding:25px;
+  padding:28px;
 
   font:
-    800
-    36px/.9
-    var(--disp);
+    800 42px/.9 var(--disp);
 
   text-transform:uppercase;
 }
 
+
 /* =====================================================
-   BADGES
+   PAGE FOOTER NAV
+===================================================== */
+
+.page-footer{
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  gap:12px;
+
+  margin-top:auto;
+
+  padding-top:45px;
+}
+
+.page-footer .center{
+  color:#625d58;
+
+  font-size:10px;
+
+  letter-spacing:.15em;
+
+  text-transform:uppercase;
+
+  text-align:center;
+}
+
+.nav-btn{
+  min-width:145px;
+}
+
+.nav-btn.locked{
+  filter:grayscale(1);
+
+  opacity:.3;
+
+  cursor:not-allowed;
+
+  pointer-events:none;
+}
+
+.unlock-message{
+  margin-top:15px;
+
+  padding:12px 14px;
+
+  border-radius:12px;
+
+  background:#ff7a0009;
+
+  border:1px solid #ff7a0020;
+
+  color:#a9a19a;
+
+  font-size:11px;
+
+  display:none;
+}
+
+.unlock-message.show{
+  display:block;
+
+  animation:
+    feedbackIn .4s ease;
+}
+
+
+/* =====================================================
+   PASSAPORTE
 ===================================================== */
 
 .badges{
@@ -1477,21 +1569,19 @@ a{
 
   gap:9px;
 
-  margin-top:25px;
+  margin-top:35px;
 }
 
 .badge{
-  padding:17px 8px;
+  padding:18px 8px;
 
-  border:
-    1px solid
-    var(--line);
+  border:1px solid var(--line);
 
   border-radius:17px;
 
   text-align:center;
 
-  color:#655f59;
+  color:#625d58;
 
   transition:
     transform .4s var(--ease),
@@ -1518,21 +1608,15 @@ a{
 
 @keyframes badgeUnlock{
   0%{
-    transform:
-      scale(.75)
-      rotate(-5deg);
+    transform:scale(.85) rotate(-4deg);
   }
 
   60%{
-    transform:
-      scale(1.12)
-      rotate(2deg);
+    transform:scale(1.08) rotate(2deg);
   }
 
   100%{
-    transform:
-      scale(1)
-      rotate(0);
+    transform:scale(1) rotate(0);
   }
 }
 
@@ -1548,105 +1632,12 @@ a{
   text-transform:uppercase;
 }
 
-/* =====================================================
-   PAGE NAVIGATION
-===================================================== */
-
-.page-navigation{
-  width:min(1120px,100%);
-
-  margin:
-    50px
-    auto
-    0;
-
-  padding-top:25px;
-
-  border-top:
-    1px solid
-    var(--line);
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  gap:10px;
-}
-
-.page-navigation .page-next{
-  margin-left:auto;
-}
-
-.page-nav-info{
-  color:var(--muted);
-
-  font-size:10px;
-
-  text-transform:uppercase;
-
-  letter-spacing:.12em;
-}
-
-/* =====================================================
-   PDF BUTTON
-===================================================== */
-
-.pdf-btn{
-  display:inline-flex;
-
-  align-items:center;
-
-  gap:8px;
-
-  color:var(--muted);
-
-  background:#ffffff06;
-
-  border:
-    1px solid
-    var(--line);
-
-  padding:
-    11px
-    15px;
-
-  border-radius:999px;
-
-  cursor:pointer;
-
-  font-size:11px;
-
-  transition:
-    transform .25s ease,
-    border-color .25s ease,
-    color .25s ease;
-}
-
-.pdf-btn:hover{
-  transform:translateY(-2px);
-
-  color:var(--text);
-
-  border-color:#ff7a0070;
-}
 
 /* =====================================================
    FINAL
 ===================================================== */
 
-.final{
-  min-height:calc(100vh - 160px);
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:center;
-
-  align-items:center;
-
+.final-page{
   text-align:center;
 
   position:relative;
@@ -1654,7 +1645,7 @@ a{
   overflow:hidden;
 }
 
-.final:before{
+.final-page:before{
   content:"";
 
   position:absolute;
@@ -1665,8 +1656,7 @@ a{
   left:50%;
   top:50%;
 
-  transform:
-    translate(-50%,-50%);
+  transform:translate(-50%,-50%);
 
   background:
     radial-gradient(
@@ -1675,41 +1665,49 @@ a{
       transparent 65%
     );
 
-  pointer-events:none;
-
   animation:
     finalGlow 8s ease-in-out infinite;
+
+  pointer-events:none;
 }
 
 @keyframes finalGlow{
   0%,100%{
-    transform:
-      translate(-50%,-50%)
-      scale(1);
+    transform:translate(-50%,-50%) scale(1);
   }
 
   50%{
-    transform:
-      translate(-50%,-50%)
-      scale(1.2);
+    transform:translate(-50%,-50%) scale(1.2);
   }
 }
 
-.final>*{
+.final-content{
   position:relative;
+
   z-index:2;
+
+  margin:auto;
+
+  max-width:900px;
 }
 
-.final h2{
-  font-size:
-    clamp(
-      75px,
-      12vw,
-      165px
-    );
+.final-title{
+  margin:
+    20px
+    0
+    25px;
+
+  font:
+    900 clamp(75px,12vw,165px)/.73 var(--disp);
+
+  text-transform:uppercase;
 }
 
-.final p{
+.final-title span{
+  color:var(--o);
+}
+
+.final-content p{
   max-width:620px;
 
   margin:auto;
@@ -1718,6 +1716,22 @@ a{
 
   line-height:1.75;
 }
+
+.signature{
+  margin-top:35px !important;
+
+  color:white !important;
+
+  font:
+    700 27px var(--disp) !important;
+
+  text-transform:uppercase;
+}
+
+.signature span{
+  color:var(--o);
+}
+
 
 /* =====================================================
    DRAWER
@@ -1728,12 +1742,12 @@ a{
 
   inset:0;
 
-  z-index:2000;
+  z-index:800;
 
   pointer-events:none;
 }
 
-.drawerbg{
+.drawer-bg{
   position:absolute;
 
   inset:0;
@@ -1745,83 +1759,83 @@ a{
   transition:opacity .35s ease;
 }
 
-.drawerpanel{
+.drawer-panel{
   position:absolute;
 
-  right:0;
   top:0;
+  right:0;
+
+  width:min(410px,92vw);
 
   height:100%;
 
-  width:min(390px,92vw);
+  padding:
+    100px
+    28px
+    28px;
 
   background:
     radial-gradient(
       circle at 20% 10%,
-      #ff7a0008,
+      #ff7a000b,
       transparent 35%
     ),
     #111;
 
-  padding:
-    95px
-    25px
-    25px;
+  border-left:1px solid var(--line2);
 
   transform:translateX(100%);
 
   transition:
-    transform .5s var(--ease);
-
-  border-left:
-    1px solid
-    var(--line);
+    transform .55s var(--ease);
 
   overflow-y:auto;
+
+  box-shadow:
+    -30px 0 100px #0008;
 }
 
 .drawer.open{
   pointer-events:auto;
 }
 
-.drawer.open .drawerbg{
+.drawer.open .drawer-bg{
   opacity:1;
 }
 
-.drawer.open .drawerpanel{
+.drawer.open .drawer-panel{
   transform:none;
 }
 
 .drawer-title{
-  font:
-    800
-    48px
-    var(--disp);
-
-  text-transform:uppercase;
-
   margin:
     10px
     0
     25px;
+
+  font:
+    900 53px/.8 var(--disp);
+
+  text-transform:uppercase;
 }
 
-.link{
+.drawer-link{
   width:100%;
 
   display:flex;
 
   align-items:center;
-
   justify-content:space-between;
 
   padding:16px 0;
 
-  border-bottom:
-    1px solid
-    var(--line);
+  border-bottom:1px solid var(--line);
 
   color:#c9c1b9;
+
+  background:none;
+
+  text-align:left;
 
   cursor:pointer;
 
@@ -1830,46 +1844,35 @@ a{
     padding-left .25s ease;
 }
 
-.link:after{
-  content:"→";
-
-  color:var(--o);
-
-  opacity:0;
-
-  transform:translateX(-5px);
-
-  transition:
-    opacity .25s ease,
-    transform .25s ease;
-}
-
-.link:hover,
-.link.active{
+.drawer-link:hover:not(.locked){
   color:var(--o);
 
   padding-left:5px;
 }
 
-.link:hover:after,
-.link.active:after{
-  opacity:1;
+.drawer-link.locked{
+  color:#4e4945;
 
-  transform:none;
+  cursor:not-allowed;
 }
 
-.link-progress{
-  font-size:9px;
-
-  color:#777;
-
-  margin-left:auto;
-
-  margin-right:10px;
+.drawer-link.current{
+  color:var(--o);
 }
+
+.drawer-status{
+  font-size:10px;
+
+  color:inherit;
+}
+
+.drawer-reset{
+  margin-top:25px;
+}
+
 
 /* =====================================================
-   CELEBRATION
+   PREMIUM CELEBRATION
 ===================================================== */
 
 .celebration{
@@ -1877,92 +1880,87 @@ a{
 
   inset:0;
 
-  z-index:5000;
+  z-index:2000;
 
-  display:none;
+  pointer-events:none;
 
-  place-items:center;
+  display:flex;
 
-  background:
-    rgba(0,0,0,.75);
+  align-items:center;
+  justify-content:center;
 
-  backdrop-filter:blur(12px);
+  opacity:0;
 }
 
 .celebration.show{
-  display:grid;
-
   animation:
-    celebrationIn .4s ease;
-}
-
-@keyframes celebrationIn{
-  from{
-    opacity:0;
-  }
-
-  to{
-    opacity:1;
-  }
+    celebrationFade 1.7s ease forwards;
 }
 
 .celebration-card{
-  width:min(500px,90vw);
+  min-width:270px;
+
+  padding:30px;
 
   text-align:center;
 
-  padding:45px 30px;
+  border:1px solid #ff7a0070;
 
-  border:
-    1px solid
-    #ff7a0070;
-
-  border-radius:30px;
+  border-radius:25px;
 
   background:
-    radial-gradient(
-      circle at top,
-      #ff7a0020,
-      transparent 60%
-    ),
-    #171717;
+    linear-gradient(
+      145deg,
+      #20150eeb,
+      #111111f5
+    );
 
   box-shadow:
-    0 40px 120px #000b,
-    0 0 70px #ff7a0020;
+    0 30px 100px #000b,
+    0 0 60px #ff7a0025;
+
+  transform:scale(.75);
 
   animation:
-    celebrationCard .7s var(--ease);
-}
-
-@keyframes celebrationCard{
-  from{
-    opacity:0;
-    transform:
-      scale(.75)
-      translateY(30px);
-  }
-
-  to{
-    opacity:1;
-    transform:none;
-  }
+    celebrationPop .7s var(--ease) forwards;
 }
 
 .celebration-icon{
-  font-size:65px;
+  font-size:42px;
 
-  animation:
-    celebrationIcon .9s var(--ease);
+  margin-bottom:8px;
 }
 
-@keyframes celebrationIcon{
+.celebration-title{
+  font:
+    900 42px/.85 var(--disp);
+
+  color:white;
+
+  text-transform:uppercase;
+}
+
+.celebration-sub{
+  margin-top:8px;
+
+  color:var(--o2);
+
+  font-size:11px;
+
+  font-weight:800;
+
+  letter-spacing:.15em;
+
+  text-transform:uppercase;
+}
+
+@keyframes celebrationPop{
   0%{
-    transform:scale(.2) rotate(-20deg);
+    transform:scale(.75) translateY(20px);
   }
 
-  70%{
-    transform:scale(1.15) rotate(5deg);
+  65%{
+    transform:scale(1.04) translateY(0);
   }
 
   100%{
@@ -1970,80 +1968,208 @@ a{
   }
 }
 
-.celebration-card h2{
-  font:
-    900
-    65px
-    var(--disp);
+@keyframes celebrationFade{
+  0%{
+    opacity:0;
+  }
 
-  text-transform:uppercase;
+  15%{
+    opacity:1;
+  }
 
-  margin:15px 0;
+  75%{
+    opacity:1;
+  }
+
+  100%{
+    opacity:0;
+  }
 }
 
-.celebration-card p{
-  color:var(--muted);
-
-  line-height:1.7;
-}
 
 /* =====================================================
-   PARTICLES
+   CONFETTI
 ===================================================== */
 
-.particle{
+.confetti{
   position:fixed;
 
-  width:8px;
-  height:8px;
+  width:7px;
+  height:12px;
 
-  border-radius:50%;
+  top:50%;
+  left:50%;
 
-  background:var(--o);
+  z-index:2100;
 
   pointer-events:none;
 
-  z-index:6000;
-
   animation:
-    particleFly 900ms var(--ease) forwards;
+    confettiFall 1.4s ease-out forwards;
 }
 
-@keyframes particleFly{
-  from{
+@keyframes confettiFall{
+  0%{
     opacity:1;
 
     transform:
-      translate(0,0)
-      scale(1);
+      translate(-50%,-50%)
+      rotate(0);
   }
 
-  to{
+  100%{
     opacity:0;
 
     transform:
       translate(
-        var(--x),
-        var(--y)
+        calc(-50% + var(--x)),
+        calc(-50% + var(--y))
       )
-      rotate(180deg)
-      scale(0);
+      rotate(720deg);
   }
 }
 
+
 /* =====================================================
-   AUDIO
+   PDF BUTTON
 ===================================================== */
 
-#audiotxt{
-  display:inline-block;
+.pdf-btn{
+  position:fixed;
 
+  right:25px;
+  bottom:25px;
+
+  z-index:350;
+
+  width:48px;
+  height:48px;
+
+  border-radius:50%;
+
+  color:white;
+
+  background:
+    #171717e8;
+
+  border:1px solid var(--line2);
+
+  box-shadow:
+    0 15px 40px #0008;
+
+  cursor:pointer;
+
+  transition:
+    transform .3s var(--ease),
+    border-color .3s ease;
+}
+
+.pdf-btn:hover{
+  transform:
+    translateY(-4px)
+    scale(1.05);
+
+  border-color:#ff7a0070;
+}
+
+.pdf-btn span{
+  font-size:15px;
+}
+
+
+/* =====================================================
+   PDF MODAL
+===================================================== */
+
+.pdf-modal{
+  position:fixed;
+
+  inset:0;
+
+  z-index:1500;
+
+  display:none;
+
+  align-items:center;
+  justify-content:center;
+
+  padding:20px;
+
+  background:#000b;
+
+  backdrop-filter:blur(8px);
+}
+
+.pdf-modal.show{
+  display:flex;
+}
+
+.pdf-card{
+  width:min(500px,100%);
+
+  padding:30px;
+
+  border-radius:26px;
+
+  border:1px solid var(--line2);
+
+  background:#151515;
+
+  box-shadow:
+    0 40px 120px #000b;
+}
+
+.pdf-card h3{
+  margin:0 0 8px;
+
+  font:
+    900 42px var(--disp);
+
+  text-transform:uppercase;
+}
+
+.pdf-card p{
   color:var(--muted);
 
-  font-size:12px;
+  font-size:13px;
 
-  margin-left:10px;
+  line-height:1.6;
 }
+
+.pdf-input{
+  width:100%;
+
+  padding:14px 16px;
+
+  margin:
+    15px
+    0;
+
+  border-radius:13px;
+
+  border:1px solid var(--line2);
+
+  background:#ffffff08;
+
+  color:white;
+
+  outline:none;
+}
+
+.pdf-input:focus{
+  border-color:#ff7a0070;
+}
+
+.pdf-actions{
+  display:flex;
+
+  gap:8px;
+
+  justify-content:flex-end;
+
+  margin-top:15px;
+}
+
 
 /* =====================================================
    RESPONSIVE
@@ -2051,16 +2177,27 @@ a{
 
 @media(max-width:900px){
 
-  .hero-page{
-    grid-template-columns:1fr;
-
-    padding-top:50px;
+  .home-content{
+    padding:
+      115px
+      22px
+      40px;
   }
 
-  .heroimg{
-    min-height:560px;
+  .home-image{
+    background-position:
+      62% center;
 
-    order:-1;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(13,13,13,.3),
+        rgba(13,13,13,.72) 55%,
+        rgba(13,13,13,.98) 100%
+      ),
+      url("assets/dudu.jpg.PNG");
+
+    background-size:cover;
   }
 
   .pillars{
@@ -2068,11 +2205,11 @@ a{
       repeat(2,1fr);
   }
 
-  .grid{
+  .chapter-layout{
     grid-template-columns:1fr;
   }
 
-  .aside{
+  .chapter-aside{
     min-height:auto;
   }
 
@@ -2080,12 +2217,18 @@ a{
     grid-template-columns:
       repeat(3,1fr);
   }
+
+  .metrics{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
 }
 
 @media(max-width:600px){
 
   .nav{
-    height:62px;
+    height:64px;
   }
 
   .pct{
@@ -2093,36 +2236,59 @@ a{
   }
 
   .page{
+    padding-top:64px;
+  }
+
+  .page-inner{
+    min-height:calc(100vh - 64px);
+
     padding:
-      85px
+      55px
       18px
-      70px;
+      90px;
   }
 
-  .hero-page{
-    min-height:auto;
+  .home-content{
+    min-height:100vh;
+
+    padding:
+      95px
+      18px
+      40px;
+
+    justify-content:flex-end;
   }
 
-  .hero h1{
-    font-size:78px;
+  .home h1{
+    font-size:82px;
   }
 
-  .heroimg{
-    min-height:440px;
+  .home-sub{
+    font-size:13px;
+  }
 
-    border-radius:25px;
+  .home-progress-number{
+    font-size:32px;
   }
 
   .pillars{
     grid-template-columns:1fr;
   }
 
-  .aside,
-  .body{
+  .page-title{
+    font-size:62px;
+  }
+
+  .chapter-layout{
+    border-radius:22px;
+  }
+
+  .chapter-aside,
+  .chapter-body{
     padding:25px;
   }
 
-  .aside h3{
+  .chapter-aside h2{
     font-size:47px;
   }
 
@@ -2140,21 +2306,25 @@ a{
       repeat(2,1fr);
   }
 
-  .page-navigation{
+  .page-footer{
     flex-wrap:wrap;
   }
 
-  .page-nav-info{
+  .page-footer .center{
     width:100%;
 
-    text-align:center;
-
-    order:3;
+    order:-1;
   }
 
-  .final h2{
-    font-size:78px;
+  .nav-btn{
+    flex:1;
   }
+
+  .pdf-btn{
+    right:15px;
+    bottom:15px;
+  }
+
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -2166,14 +2336,14 @@ a{
 
     animation-iteration-count:1 !important;
 
-    scroll-behavior:auto !important;
-
     transition-duration:.01ms !important;
   }
+
 }
 
 </style>
 </head>
+
 
 <body>
 
@@ -2183,22 +2353,20 @@ a{
   <i id="topbar"></i>
 </div>
 
+
+<!-- =====================================================
+     NAV
+===================================================== -->
+
 <nav class="nav" id="nav">
 
-  <button
-    class="brand"
-    data-page="home"
-    style="background:none;color:inherit;cursor:pointer;padding:0"
-  >
+  <a class="brand" href="#" id="brand">
     MOTIM <b>BOOK</b>
-  </button>
+  </a>
 
   <div class="navright">
 
-    <span
-      class="pct"
-      id="pct"
-    >
+    <span class="pct" id="pct">
       0% concluído
     </span>
 
@@ -2207,7 +2375,13 @@ a{
       id="menu"
       aria-label="Abrir menu"
       aria-expanded="false"
-    ></button>
+    >
+      <span class="menu-lines">
+        <i></i>
+        <i></i>
+        <i></i>
+      </span>
+    </button>
 
   </div>
 
@@ -2218,17 +2392,11 @@ a{
      DRAWER
 ===================================================== -->
 
-<div
-  class="drawer"
-  id="drawer"
->
+<div class="drawer" id="drawer">
 
-  <div
-    class="drawerbg"
-    id="drawerbg"
-  ></div>
+  <div class="drawer-bg" id="drawerBg"></div>
 
-  <aside class="drawerpanel">
+  <aside class="drawer-panel">
 
     <div class="kicker">
       Sua jornada
@@ -2238,14 +2406,13 @@ a{
       Navegue pelo Motim.
     </h2>
 
-    <div id="links"></div>
+    <div id="drawerLinks"></div>
 
     <button
-      class="btn secondary"
+      class="btn secondary drawer-reset"
       id="reset"
-      style="margin-top:25px"
     >
-      Resetar jornada
+      Resetar minha jornada
     </button>
 
   </aside>
@@ -2254,143 +2421,81 @@ a{
 
 
 <!-- =====================================================
-     CELEBRATION
+     APP
 ===================================================== -->
 
-<div
-  class="celebration"
-  id="celebration"
->
-
-  <div class="celebration-card">
-
-    <div class="celebration-icon">
-      🚀
-    </div>
-
-    <h2>
-      Missão cumprida!
-    </h2>
-
-    <p>
-      Você completou toda a jornada do Motim Book.
-      Agora não é mais teoria. É hora de colocar tudo
-      em prática e buscar os seus 50K.
-    </p>
-
-    <button
-      class="btn primary"
-      id="closeCelebration"
-      style="margin-top:20px"
-    >
-      Continuar jornada
-    </button>
-
-  </div>
-
-</div>
-
-
-<main class="book" id="book">
+<main id="app">
 
 
 <!-- =====================================================
-     PÁGINA 00 — CAPA
+     HOME
 ===================================================== -->
 
 <section
-  class="page active"
+  class="page home active"
   data-page="home"
-  data-title="Capa — Do Zero aos 50K"
 >
 
-  <div class="hero-page">
+  <div class="home-image"></div>
 
-    <div class="hero">
+  <div class="home-content">
 
-      <div>
+    <div class="home-kicker">
+      Dudu Maranhense · experiência real
+    </div>
 
-        <div class="eyebrow">
-          <span class="dot"></span>
-          Dudu Maranhense · experiência real
-        </div>
+    <h1>
+      DO ZERO
+      <br>
+      <span>AOS 50K</span>
+    </h1>
 
-        <h1>
-          DO ZERO
-          <br>
-          <span>AOS 50K</span>
-        </h1>
+    <p class="home-sub">
+      Uma experiência prática para quem quer começar a criar
+      conteúdo, perder o medo da câmera e construir uma audiência.
+      <b>Sem fórmula mágica. Sem complicação.</b>
+    </p>
 
-        <p>
-          Uma experiência simples e prática para quem quer começar
-          a criar conteúdo, perder o medo da câmera e construir uma
-          audiência no Instagram.
 
-          <strong>
-            Sem fórmula mágica. Sem complicação.
-          </strong>
-        </p>
+    <div class="home-progress">
 
-        <div class="actions">
+      <div class="home-progress-top">
 
-          <button
-            class="btn primary"
-            data-next
-          >
-            Começar missão →
-          </button>
-
-          <button
-            class="btn secondary"
-            data-page="camera"
-          >
-            Ir para desafios
-          </button>
-
-        </div>
-
-      </div>
-
-      <div class="heroimg">
-
-        <span class="tag">
-          50K · método real
+        <span>
+          Progresso da jornada
         </span>
 
-        <img
-          src="assets/dudu.jpg.PNG"
-          alt="Dudu Maranhense"
-          onerror="this.style.display='none'"
+        <div
+          class="home-progress-number"
+          id="homeProgressNumber"
         >
-
-        <div class="hero-progress">
-
-          <div class="hero-progress-label">
-
-            <span>
-              Progresso da jornada
-            </span>
-
-            <div
-              class="hero-progress-number"
-              id="heroProgress"
-            >
-              0<b>%</b>
-            </div>
-
-          </div>
-
-          <div class="hero-progress-bar">
-            <i id="heroProgressBar"></i>
-          </div>
-
-        </div>
-
-        <div class="caption">
-          Dudu Maranhense
+          0<span>%</span>
         </div>
 
       </div>
+
+      <div class="progress-track">
+        <i id="homeProgressBar"></i>
+      </div>
+
+    </div>
+
+
+    <div class="home-actions">
+
+      <button
+        class="btn primary"
+        id="startBtn"
+      >
+        Começar missão →
+      </button>
+
+      <button
+        class="btn secondary"
+        id="challengeBtn"
+      >
+        Ver desafios
+      </button>
 
     </div>
 
@@ -2400,53 +2505,38 @@ a{
 
 
 <!-- =====================================================
-     PÁGINA 01 — INTRODUÇÃO
+     INTRO
 ===================================================== -->
 
 <section
   class="page"
   data-page="intro"
-  data-title="Introdução — Você está pronto?"
 >
 
   <div class="page-inner">
-
-    <div class="page-top">
-
-      <span class="page-number">
-        Página <b>01</b>
-      </span>
-
-      <button
-        class="pdf-btn"
-        data-pdf
-      >
-        ↓ Baixar página em PDF
-      </button>
-
-    </div>
 
     <div class="kicker">
       Antes de começar
     </div>
 
-    <h2>
+    <h1 class="page-title">
       Você está
       <br>
-      pronto?
-    </h2>
+      <span>pronto?</span>
+    </h1>
 
     <p class="intro">
       Você não precisa ser famoso, ter uma câmera cara ou saber
-      editar. Precisa começar. O Motim organiza a jornada em
+      editar. Precisa começar. O Motim organiza sua jornada em
       quatro pilares.
     </p>
+
 
     <div class="pillars">
 
       <button
         class="pillar"
-        data-page="camera"
+        data-target="camera"
       >
         <div class="num">01</div>
 
@@ -2459,10 +2549,13 @@ a{
         </p>
       </button>
 
+
       <button
-        class="pillar"
-        data-page="edicao"
+        class="pillar locked"
+        data-target="edicao"
       >
+        <span class="lock-icon">🔒</span>
+
         <div class="num">02</div>
 
         <h3>
@@ -2474,10 +2567,13 @@ a{
         </p>
       </button>
 
+
       <button
-        class="pillar"
-        data-page="metricas"
+        class="pillar locked"
+        data-target="metricas"
       >
+        <span class="lock-icon">🔒</span>
+
         <div class="num">03</div>
 
         <h3>
@@ -2489,10 +2585,13 @@ a{
         </p>
       </button>
 
+
       <button
-        class="pillar"
-        data-page="stories"
+        class="pillar locked"
+        data-target="stories"
       >
+        <span class="lock-icon">🔒</span>
+
         <div class="num">04</div>
 
         <h3>
@@ -2506,24 +2605,25 @@ a{
 
     </div>
 
-    <div class="page-navigation">
+
+    <div class="page-footer">
 
       <button
-        class="btn secondary"
+        class="btn secondary nav-btn"
         data-prev
       >
-        ← Capa
+        ← Anterior
       </button>
 
-      <span class="page-nav-info">
-        Introdução · 1 de 6
-      </span>
+      <div class="center">
+        Introdução · Motim Book
+      </div>
 
       <button
-        class="btn primary page-next"
+        class="btn primary nav-btn"
         data-next
       >
-        Capítulo 01 →
+        Próximo →
       </button>
 
     </div>
@@ -2534,168 +2634,177 @@ a{
 
 
 <!-- =====================================================
-     PÁGINA 02 — CÂMERA
+     CAPÍTULO 01
 ===================================================== -->
 
 <section
-  class="page"
+  class="page chapter-page"
   data-page="camera"
-  data-title="Capítulo 01 — Perca o medo da câmera"
+  data-chapter="1"
 >
 
   <div class="page-inner">
 
-    <div class="page-top">
-
-      <span class="page-number">
-        Capítulo <b>01</b>
-      </span>
-
-      <button
-        class="pdf-btn"
-        data-pdf
-      >
-        ↓ Baixar capítulo em PDF
-      </button>
-
+    <div class="kicker">
+      Capítulo 01 · Câmera
     </div>
 
-    <div class="chapter-card">
 
-      <div class="grid">
+    <div class="chapter-layout">
 
-        <div class="aside">
+      <div class="chapter-aside">
 
-          <div class="big">
-            01
+        <div class="big">
+          01
+        </div>
+
+        <div class="kicker">
+          Primeiro desafio
+        </div>
+
+        <h2>
+          Perca o medo da câmera
+        </h2>
+
+        <p>
+          O segredo não é nascer desinibido.
+          É treinar.
+        </p>
+
+      </div>
+
+
+      <div class="chapter-body">
+
+        <p>
+          Uma das maiores barreiras para quem quer começar
+          a criar conteúdo é apertar o botão de gravar.
+          Você olha para a câmera e parece que esquece tudo.
+        </p>
+
+        <p>
+          Mas existe uma verdade simples:
+          <b>
+            você não precisa perder o medo para começar.
+            Você precisa começar para perder o medo.
+          </b>
+        </p>
+
+        <p>
+          Grave mesmo que não publique.
+          Fale sobre qualquer assunto.
+          Depois assista.
+          Você provavelmente vai achar estranho —
+          e está tudo bem.
+        </p>
+
+        <div class="quote">
+          O treino vem antes da confiança.
+        </div>
+
+
+        <div class="panel">
+
+          <div class="paneltitle">
+            Você tem vergonha de aparecer?
           </div>
 
-          <div class="kicker">
-            Capítulo 01
+          <div
+            class="choices"
+            data-type="camera"
+          >
+
+            <button
+              class="choice"
+              data-v="sim"
+            >
+              😰 Sim
+            </button>
+
+            <button
+              class="choice"
+              data-v="pouco"
+            >
+              😐 Um pouco
+            </button>
+
+            <button
+              class="choice"
+              data-v="nao"
+            >
+              😎 Não
+            </button>
+
           </div>
 
-          <h3>
-            Perca o medo da câmera
-          </h3>
-
-          <p>
-            O segredo não é nascer desinibido.
-            É treinar.
-          </p>
+          <div
+            class="feedback"
+            id="cameraFeedback"
+          ></div>
 
         </div>
 
-        <div class="body">
 
-          <p>
-            Uma das maiores barreiras para quem quer começar
-            a criar conteúdo é apertar o botão de gravar.
-            Você olha para a câmera e parece que esquece tudo.
-          </p>
+        <div class="panel">
 
-          <p>
-            Mas existe uma verdade simples:
-            <b>
-              você não precisa perder o medo para começar.
-              Você precisa começar para perder o medo.
-            </b>
-          </p>
-
-          <p>
-            Grave mesmo que não publique.
-            Fale sobre qualquer assunto.
-            Depois assista.
-            Você provavelmente vai achar estranho —
-            e está tudo bem.
-          </p>
-
-          <div class="quote">
-            O treino vem antes da confiança.
+          <div class="paneltitle">
+            Desafio dos 7 dias
           </div>
 
-          <div class="panel">
+          <div class="checks">
 
-            <div class="paneltitle">
-              Você tem vergonha de aparecer?
-            </div>
+            <label class="check">
+              <input type="checkbox" data-k="cam1">
+              Dia 01 · gravar 1 vídeo de 1 minuto
+            </label>
 
-            <div
-              class="choices"
-              data-type="camera"
-            >
+            <label class="check">
+              <input type="checkbox" data-k="cam2">
+              Dia 02 · gravar 1 vídeo de 1 minuto
+            </label>
 
-              <button class="choice" data-v="sim">
-                😰 Sim
-              </button>
+            <label class="check">
+              <input type="checkbox" data-k="cam3">
+              Dia 03 · gravar 1 vídeo de 1 minuto
+            </label>
 
-              <button class="choice" data-v="pouco">
-                😐 Um pouco
-              </button>
+            <label class="check">
+              <input type="checkbox" data-k="cam4">
+              Dia 04 · gravar 1 vídeo de 1 minuto
+            </label>
 
-              <button class="choice" data-v="nao">
-                😎 Não
-              </button>
+            <label class="check">
+              <input type="checkbox" data-k="cam5">
+              Dia 05 · gravar 1 vídeo de 1 minuto
+            </label>
 
-            </div>
+            <label class="check">
+              <input type="checkbox" data-k="cam6">
+              Dia 06 · gravar 1 vídeo de 1 minuto
+            </label>
 
-            <div
-              class="feedback"
-              id="cameraFeedback"
-            ></div>
+            <label class="check">
+              <input type="checkbox" data-k="cam7">
+              Dia 07 · gravar 1 vídeo de 1 minuto
+            </label>
 
           </div>
 
-          <div class="panel">
+          <div class="chapter-progress">
 
-            <div class="paneltitle">
-              Desafio dos 7 dias
-            </div>
+            <div class="chapter-progress-head">
 
-            <div class="checks">
+              <span>
+                Progresso
+              </span>
 
-              <label class="check">
-                <input type="checkbox" data-k="cam1">
-                Dia 01 · gravar 1 vídeo de 1 minuto
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="cam2">
-                Dia 02 · gravar 1 vídeo de 1 minuto
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="cam3">
-                Dia 03 · gravar 1 vídeo de 1 minuto
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="cam4">
-                Dia 04 · gravar 1 vídeo de 1 minuto
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="cam5">
-                Dia 05 · gravar 1 vídeo de 1 minuto
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="cam6">
-                Dia 06 · gravar 1 vídeo de 1 minuto
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="cam7">
-                Dia 07 · gravar 1 vídeo de 1 minuto
-              </label>
+              <span id="camcount">
+                0/7
+              </span>
 
             </div>
 
-            <div class="barlabel">
-              <span>Progresso</span>
-              <span id="camcount">0/7</span>
-            </div>
-
-            <div class="bar">
+            <div class="chapter-progress-bar">
               <i id="cambar"></i>
             </div>
 
@@ -2703,28 +2812,37 @@ a{
 
         </div>
 
+
+        <div
+          class="unlock-message"
+          id="cameraUnlock"
+        >
+          🔥 Missão concluída. O próximo capítulo foi desbloqueado.
+        </div>
+
       </div>
 
     </div>
 
-    <div class="page-navigation">
+
+    <div class="page-footer">
 
       <button
-        class="btn secondary"
+        class="btn secondary nav-btn"
         data-prev
       >
-        ← Introdução
+        ← Anterior
       </button>
 
-      <span class="page-nav-info">
-        Capítulo 01 · 2 de 6
-      </span>
+      <div class="center">
+        Capítulo 01 · Câmera
+      </div>
 
       <button
-        class="btn primary page-next"
+        class="btn primary nav-btn"
         data-next
       >
-        Capítulo 02 →
+        Próximo →
       </button>
 
     </div>
@@ -2735,163 +2853,179 @@ a{
 
 
 <!-- =====================================================
-     PÁGINA 03 — EDIÇÃO
+     CAPÍTULO 02
 ===================================================== -->
 
 <section
-  class="page"
+  class="page chapter-page"
   data-page="edicao"
-  data-title="Capítulo 02 — A mágica da edição básica"
+  data-chapter="2"
 >
 
   <div class="page-inner">
 
-    <div class="page-top">
+    <div class="kicker">
+      Capítulo 02 · Edição
+    </div>
 
-      <span class="page-number">
-        Capítulo <b>02</b>
-      </span>
+    <div class="chapter-layout">
+
+      <div class="chapter-aside">
+
+        <div class="big">
+          02
+        </div>
+
+        <div class="kicker">
+          Segundo desafio
+        </div>
+
+        <h2>
+          A mágica da edição básica
+        </h2>
+
+        <p>
+          Você não precisa ser editor profissional.
+        </p>
+
+      </div>
+
+
+      <div class="chapter-body">
+
+        <p>
+          O objetivo principal da edição é fazer o espectador
+          <b>
+            não perceber as partes que deveriam ter ficado de fora.
+          </b>
+        </p>
+
+
+        <div class="metrics">
+
+          <div class="metric">
+            <strong>01</strong>
+            <small>Gravação</small>
+          </div>
+
+          <div class="metric">
+            <strong>02</strong>
+            <small>Cortes</small>
+          </div>
+
+          <div class="metric">
+            <strong>03</strong>
+            <small>Texto</small>
+          </div>
+
+          <div class="metric">
+            <strong>04</strong>
+            <small>Publicação</small>
+          </div>
+
+        </div>
+
+
+        <div class="quote">
+          Edite para melhorar o conteúdo.
+          Não para mostrar que você sabe editar.
+        </div>
+
+
+        <div class="panel">
+
+          <div class="paneltitle">
+            Checklist da edição
+          </div>
+
+          <div class="checks">
+
+            <label class="check">
+              <input type="checkbox" data-k="edit1">
+              Remover erros
+            </label>
+
+            <label class="check">
+              <input type="checkbox" data-k="edit2">
+              Cortar silêncios
+            </label>
+
+            <label class="check">
+              <input type="checkbox" data-k="edit3">
+              Tirar repetições
+            </label>
+
+            <label class="check">
+              <input type="checkbox" data-k="edit4">
+              Melhorar o ritmo
+            </label>
+
+            <label class="check">
+              <input type="checkbox" data-k="edit5">
+              Conferir clareza
+            </label>
+
+            <label class="check">
+              <input type="checkbox" data-k="edit6">
+              Adicionar texto quando necessário
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <div class="chapter-progress">
+
+          <div class="chapter-progress-head">
+
+            <span>
+              Progresso
+            </span>
+
+            <span id="editcount">
+              0/6
+            </span>
+
+          </div>
+
+          <div class="chapter-progress-bar">
+            <i id="editbar"></i>
+          </div>
+
+        </div>
+
+
+        <div
+          class="unlock-message"
+          id="editUnlock"
+        >
+          🔥 Missão concluída. O próximo capítulo foi desbloqueado.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="page-footer">
 
       <button
-        class="pdf-btn"
-        data-pdf
+        class="btn secondary nav-btn"
+        data-prev
       >
-        ↓ Baixar capítulo em PDF
+        ← Anterior
       </button>
 
-    </div>
-
-    <div class="chapter-card">
-
-      <div class="grid">
-
-        <div class="aside">
-
-          <div class="big">
-            02
-          </div>
-
-          <div class="kicker">
-            Capítulo 02
-          </div>
-
-          <h3>
-            A mágica da edição básica
-          </h3>
-
-          <p>
-            Você não precisa ser editor profissional.
-          </p>
-
-        </div>
-
-        <div class="body">
-
-          <p>
-            O objetivo principal da edição é fazer o espectador
-            <b>
-              não perceber as partes que deveriam ter ficado de fora.
-            </b>
-          </p>
-
-          <div class="metrics">
-
-            <div class="metric">
-              <strong>01</strong>
-              <small>Gravação</small>
-            </div>
-
-            <div class="metric">
-              <strong>02</strong>
-              <small>Cortes</small>
-            </div>
-
-            <div class="metric">
-              <strong>03</strong>
-              <small>Texto</small>
-            </div>
-
-            <div class="metric">
-              <strong>04</strong>
-              <small>Publicação</small>
-            </div>
-
-          </div>
-
-          <div class="quote">
-            Edite para melhorar o conteúdo.
-            Não para mostrar que você sabe editar.
-          </div>
-
-          <div class="panel">
-
-            <div class="paneltitle">
-              Checklist da edição
-            </div>
-
-            <div class="checks">
-
-              <label class="check">
-                <input type="checkbox" data-k="edit1">
-                Remover erros
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="edit2">
-                Cortar silêncios
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="edit3">
-                Tirar repetições
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="edit4">
-                Melhorar o ritmo
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="edit5">
-                Conferir clareza
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="edit6">
-                Adicionar texto quando necessário
-              </label>
-
-            </div>
-
-            <div class="barlabel">
-              <span>Progresso da edição</span>
-              <span id="editcount">0/6</span>
-            </div>
-
-            <div class="bar">
-              <i id="editbar"></i>
-            </div>
-
-          </div>
-
-        </div>
-
+      <div class="center">
+        Capítulo 02 · Edição
       </div>
 
-    </div>
-
-    <div class="page-navigation">
-
-      <button class="btn secondary" data-prev>
-        ← Capítulo 01
-      </button>
-
-      <span class="page-nav-info">
-        Capítulo 02 · 3 de 6
-      </span>
-
-      <button class="btn primary page-next" data-next>
-        Capítulo 03 →
+      <button
+        class="btn primary nav-btn"
+        data-next
+      >
+        Próximo →
       </button>
 
     </div>
@@ -2902,388 +3036,220 @@ a{
 
 
 <!-- =====================================================
-     PÁGINA 04 — MÉTRICAS
+     CAPÍTULO 03
 ===================================================== -->
 
 <section
-  class="page"
+  class="page chapter-page"
   data-page="metricas"
-  data-title="Capítulo 03 — Decifre as métricas"
+  data-chapter="3"
 >
 
   <div class="page-inner">
 
-    <div class="page-top">
-
-      <span class="page-number">
-        Capítulo <b>03</b>
-      </span>
-
-      <button class="pdf-btn" data-pdf>
-        ↓ Baixar capítulo em PDF
-      </button>
-
+    <div class="kicker">
+      Capítulo 03 · Métricas
     </div>
 
-    <div class="chapter-card">
+    <div class="chapter-layout">
 
-      <div class="grid">
+      <div class="chapter-aside">
 
-        <div class="aside">
-
-          <div class="big">
-            03
-          </div>
-
-          <div class="kicker">
-            Capítulo 03
-          </div>
-
-          <h3>
-            Decifre as métricas
-          </h3>
-
-          <p>
-            Não poste e simplesmente vá embora.
-          </p>
-
+        <div class="big">
+          03
         </div>
 
-        <div class="body">
-
-          <p>
-            Você publicou um vídeo.
-            Agora vem uma das partes mais importantes:
-            <b>
-              olhar o que aconteceu.
-            </b>
-          </p>
-
-          <div class="metrics">
-
-            <div class="metric">
-              <strong>12.4K</strong>
-              <small>Visualizações</small>
-            </div>
-
-            <div class="metric">
-              <strong>734</strong>
-              <small>Curtidas</small>
-            </div>
-
-            <div class="metric">
-              <strong>83</strong>
-              <small>Comentários</small>
-            </div>
-
-            <div class="metric">
-              <strong>241</strong>
-              <small>Compartilhamentos</small>
-            </div>
-
-          </div>
-
-          <p>
-            Não pense apenas:
-            <b>“esse viralizou”.</b>
-
-            Pergunte:
-            <b>
-              o que havia de diferente nele?
-            </b>
-
-            Era o assunto?
-            A primeira frase?
-            A forma de contar?
-            A identificação?
-          </p>
-
-          <div class="panel">
-
-            <div class="paneltitle">
-              Atividade · qual vídeo funcionou melhor?
-            </div>
-
-            <div
-              class="choices"
-              data-type="metrics"
-            >
-
-              <button class="choice" data-v="a">
-                Vídeo A · 800 views
-              </button>
-
-              <button class="choice" data-v="b">
-                Vídeo B · 2K views
-              </button>
-
-              <button class="choice" data-v="c">
-                Vídeo C · 20K views
-              </button>
-
-            </div>
-
-            <div
-              class="feedback"
-              id="metricsFeedback"
-            ></div>
-
-          </div>
-
-          <div class="panel">
-
-            <div class="paneltitle">
-              Depois da análise
-            </div>
-
-            <div class="checks">
-
-              <label class="check">
-                <input type="checkbox" data-k="met1">
-                Comparar 3 vídeos
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="met2">
-                Escolher o melhor desempenho
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="met3">
-                Anotar 3 diferenças
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="met4">
-                Definir 1 hipótese para testar
-              </label>
-
-            </div>
-
-            <div class="barlabel">
-              <span>Progresso da análise</span>
-              <span id="metcount">0/4</span>
-            </div>
-
-            <div class="bar">
-              <i id="metbar"></i>
-            </div>
-
-          </div>
-
+        <div class="kicker">
+          Terceiro desafio
         </div>
+
+        <h2>
+          Decifre as métricas
+        </h2>
+
+        <p>
+          Não poste e simplesmente vá embora.
+        </p>
 
       </div>
 
-    </div>
 
-    <div class="page-navigation">
+      <div class="chapter-body">
 
-      <button class="btn secondary" data-prev>
-        ← Capítulo 02
-      </button>
-
-      <span class="page-nav-info">
-        Capítulo 03 · 4 de 6
-      </span>
-
-      <button class="btn primary page-next" data-next>
-        Capítulo 04 →
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
+        <p>
+          Você publicou um vídeo.
+          Agora vem uma das partes mais importantes:
+          <b>
+            olhar o que aconteceu.
+          </b>
+        </p>
 
 
-<!-- =====================================================
-     PÁGINA 05 — STORIES
-===================================================== -->
+        <div class="metrics">
 
-<section
-  class="page"
-  data-page="stories"
-  data-title="Capítulo 04 — O poder dos Stories"
->
-
-  <div class="page-inner">
-
-    <div class="page-top">
-
-      <span class="page-number">
-        Capítulo <b>04</b>
-      </span>
-
-      <button class="pdf-btn" data-pdf>
-        ↓ Baixar capítulo em PDF
-      </button>
-
-    </div>
-
-    <div class="chapter-card">
-
-      <div class="grid">
-
-        <div class="aside">
-
-          <div class="big">
-            04
+          <div class="metric">
+            <strong>12.4K</strong>
+            <small>Visualizações</small>
           </div>
 
-          <div class="kicker">
-            Capítulo 04
+          <div class="metric">
+            <strong>734</strong>
+            <small>Curtidas</small>
           </div>
 
-          <h3>
-            O poder dos Stories
-          </h3>
+          <div class="metric">
+            <strong>83</strong>
+            <small>Comentários</small>
+          </div>
 
-          <p>
-            Reels podem trazer pessoas.
-            Stories podem fazer elas ficarem.
-          </p>
+          <div class="metric">
+            <strong>241</strong>
+            <small>Compartilhamentos</small>
+          </div>
 
         </div>
 
-        <div class="body">
 
-          <div class="panel story-demo">
+        <p>
+          Não pense apenas:
+          <b>“esse viralizou”.</b>
 
-            <div class="story-text">
-              Mostre o que acontece quando ninguém está olhando.
-            </div>
+          Pergunte:
+          <b>o que havia de diferente nele?</b>
 
+          Era o assunto?
+          A primeira frase?
+          A forma de contar?
+          A identificação?
+        </p>
+
+
+        <div class="panel">
+
+          <div class="paneltitle">
+            Atividade · qual vídeo funcionou melhor?
           </div>
 
-          <p>
-            Mostre seu dia.
-            Converse.
-            Conte uma história.
-            Faça uma pergunta.
-            Mostre bastidores.
-            Responda alguém.
-          </p>
-
-          <div class="quote">
-            Crescer é importante.
-            Ser lembrado é ainda mais.
-          </div>
-
-          <div class="panel">
-
-            <div class="paneltitle">
-              O que você postaria hoje?
-            </div>
-
-            <div
-              class="choices"
-              data-type="stories"
-            >
-
-              <button class="choice" data-v="momento">
-                ☕ Momento do dia
-              </button>
-
-              <button class="choice" data-v="bastidor">
-                🎬 Bastidor
-              </button>
-
-              <button class="choice" data-v="pergunta">
-                💬 Pergunta
-              </button>
-
-            </div>
-
-            <div
-              class="feedback"
-              id="storiesFeedback"
-            ></div>
-
-          </div>
-
-          <div class="panel">
-
-            <div class="paneltitle">
-              Missão Stories
-            </div>
-
-            <div class="checks">
-
-              <label class="check">
-                <input type="checkbox" data-k="sto1">
-                Mostrar um momento do meu dia
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="sto2">
-                Fazer uma pergunta
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="sto3">
-                Responder alguém
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="sto4">
-                Mostrar um bastidor
-              </label>
-
-              <label class="check">
-                <input type="checkbox" data-k="sto5">
-                Criar uma enquete
-              </label>
-
-            </div>
-
-            <div class="barlabel">
-              <span>Progresso dos Stories</span>
-              <span id="stocount">0/5</span>
-            </div>
-
-            <div class="bar">
-              <i id="stobar"></i>
-            </div>
-
-          </div>
-
-          <div class="panel">
-
-            <div class="paneltitle">
-              Dudu te conta · demonstração
-            </div>
+          <div
+            class="choices"
+            data-type="metrics"
+          >
 
             <button
-              class="btn primary"
-              id="audio"
+              class="choice"
+              data-v="a"
             >
-              ▶ Reproduzir áudio
+              Vídeo A · 800 views
             </button>
 
-            <span id="audiotxt"></span>
+            <button
+              class="choice"
+              data-v="b"
+            >
+              Vídeo B · 2K views
+            </button>
+
+            <button
+              class="choice"
+              data-v="c"
+            >
+              Vídeo C · 20K views
+            </button>
 
           </div>
 
+          <div
+            class="feedback"
+            id="metricsFeedback"
+          ></div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="paneltitle">
+            Depois da análise
+          </div>
+
+          <div class="checks">
+
+            <label class="check">
+              <input type="checkbox" data-k="met1">
+              Comparar 3 vídeos
+            </label>
+
+            <label class="check">
+              <input type="checkbox" data-k="met2">
+              Escolher o melhor desempenho
+            </label>
+
+            <label class="check">
+              <input type="checkbox" data-k="met3">
+              Anotar 3 diferenças
+            </label>
+
+            <label class="check">
+              <input type="checkbox" data-k="met4">
+              Definir 1 hipótese para testar
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <div class="chapter-progress">
+
+          <div class="chapter-progress-head">
+
+            <span>
+              Progresso
+            </span>
+
+            <span id="metcount">
+              0/4
+            </span>
+
+          </div>
+
+          <div class="chapter-progress-bar">
+            <i id="metbar"></i>
+          </div>
+
+        </div>
+
+
+        <div
+          class="unlock-message"
+          id="metUnlock"
+        >
+          🔥 Missão concluída. O próximo capítulo foi desbloqueado.
         </div>
 
       </div>
 
     </div>
 
-    <div class="page-navigation">
 
-      <button class="btn secondary" data-prev>
-        ← Capítulo 03
+    <div class="page-footer">
+
+      <button
+        class="btn secondary nav-btn"
+        data-prev
+      >
+        ← Anterior
       </button>
 
-      <span class="page-nav-info">
-        Capítulo 04 · 5 de 6
-      </span>
+      <div class="center">
+        Capítulo 03 · Métricas
+      </div>
 
-      <button class="btn primary page-next" data-next>
-        Passaporte →
+      <button
+        class="btn primary nav-btn"
+        data-next
+      >
+        Próximo →
       </button>
 
     </div>
@@ -3294,43 +3260,259 @@ a{
 
 
 <!-- =====================================================
-     PÁGINA 06 — PASSAPORTE
+     CAPÍTULO 04
+===================================================== -->
+
+<section
+  class="page chapter-page"
+  data-page="stories"
+  data-chapter="4"
+>
+
+  <div class="page-inner">
+
+    <div class="kicker">
+      Capítulo 04 · Stories
+    </div>
+
+    <div class="chapter-layout">
+
+      <div class="chapter-aside">
+
+        <div class="big">
+          04
+        </div>
+
+        <div class="kicker">
+          Quarto desafio
+        </div>
+
+        <h2>
+          O poder dos Stories
+        </h2>
+
+        <p>
+          Reels podem trazer pessoas.
+          Stories podem fazer elas ficarem.
+        </p>
+
+      </div>
+
+
+      <div class="chapter-body">
+
+        <div class="panel story-demo">
+
+          <div class="story-text">
+            Mostre o que acontece quando ninguém está olhando.
+          </div>
+
+        </div>
+
+
+        <p>
+          Mostre seu dia.
+          Converse.
+          Conte uma história.
+          Faça uma pergunta.
+          Mostre bastidores.
+          Responda alguém.
+        </p>
+
+
+        <div class="quote">
+          Crescer é importante.
+          Ser lembrado é ainda mais.
+        </div>
+
+
+        <div class="panel">
+
+          <div class="paneltitle">
+            O que você postaria hoje?
+          </div>
+
+          <div
+            class="choices"
+            data-type="stories"
+          >
+
+            <button
+              class="choice"
+              data-v="momento"
+            >
+              ☕ Momento do dia
+            </button>
+
+            <button
+              class="choice"
+              data-v="bastidor"
+            >
+              🎬 Bastidor
+            </button>
+
+            <button
+              class="choice"
+              data-v="pergunta"
+            >
+              💬 Pergunta
+            </button>
+
+          </div>
+
+          <div
+            class="feedback"
+            id="storiesFeedback"
+          ></div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="paneltitle">
+            Missão Stories
+          </div>
+
+          <div class="checks">
+
+            <label class="check">
+              <input type="checkbox" data-k="sto1">
+              Mostrar um momento do meu dia
+            </label>
+
+            <label class="check">
+              <input type="checkbox" data-k="sto2">
+              Fazer uma pergunta
+            </label>
+
+            <label class="check">
+              <input type="checkbox" data-k="sto3">
+              Responder alguém
+            </label>
+
+            <label class="check">
+              <input type="checkbox" data-k="sto4">
+              Mostrar um bastidor
+            </label>
+
+            <label class="check">
+              <input type="checkbox" data-k="sto5">
+              Criar uma enquete
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="paneltitle">
+            Dudu te conta · demonstração
+          </div>
+
+          <button
+            class="btn primary"
+            id="audio"
+          >
+            ▶ Reproduzir áudio
+          </button>
+
+          <span
+            id="audiotxt"
+            style="color:var(--muted);font-size:12px;margin-left:10px;"
+          ></span>
+
+        </div>
+
+
+        <div class="chapter-progress">
+
+          <div class="chapter-progress-head">
+
+            <span>
+              Progresso
+            </span>
+
+            <span id="stocount">
+              0/5
+            </span>
+
+          </div>
+
+          <div class="chapter-progress-bar">
+            <i id="stobar"></i>
+          </div>
+
+        </div>
+
+
+        <div
+          class="unlock-message"
+          id="stoUnlock"
+        >
+          🚀 Jornada concluída. Você desbloqueou o Passaporte Motim.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="page-footer">
+
+      <button
+        class="btn secondary nav-btn"
+        data-prev
+      >
+        ← Anterior
+      </button>
+
+      <div class="center">
+        Capítulo 04 · Stories
+      </div>
+
+      <button
+        class="btn primary nav-btn"
+        data-next
+      >
+        Próximo →
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     PASSAPORTE
 ===================================================== -->
 
 <section
   class="page"
   data-page="passaporte"
-  data-title="Passaporte Motim — Desbloqueie sua jornada"
 >
 
   <div class="page-inner">
-
-    <div class="page-top">
-
-      <span class="page-number">
-        <b>PASSAPORTE</b>
-      </span>
-
-      <button class="pdf-btn" data-pdf>
-        ↓ Baixar passaporte em PDF
-      </button>
-
-    </div>
 
     <div class="kicker">
       Passaporte Motim
     </div>
 
-    <h2>
+    <h1 class="page-title">
       Desbloqueie
       <br>
-      sua jornada.
-    </h2>
+      sua <span>jornada.</span>
+    </h1>
 
     <p class="intro">
       As conquistas são liberadas conforme você completa
       as atividades.
     </p>
+
 
     <div class="badges">
 
@@ -3366,40 +3548,25 @@ a{
 
     </div>
 
-    <div
-      class="panel"
-      style="margin-top:40px"
-    >
 
-      <div class="paneltitle">
-        Progresso geral
-      </div>
+    <div class="page-footer">
 
-      <div class="bar">
-        <i id="passportbar"></i>
-      </div>
-
-      <div class="barlabel">
-        <span>Sua jornada</span>
-        <span id="passportcount">
-          0%
-        </span>
-      </div>
-
-    </div>
-
-    <div class="page-navigation">
-
-      <button class="btn secondary" data-prev>
-        ← Capítulo 04
+      <button
+        class="btn secondary nav-btn"
+        data-prev
+      >
+        ← Anterior
       </button>
 
-      <span class="page-nav-info">
-        Passaporte · 6 de 6
-      </span>
+      <div class="center">
+        Passaporte Motim
+      </div>
 
-      <button class="btn primary page-next" data-next>
-        Conclusão →
+      <button
+        class="btn primary nav-btn"
+        data-next
+      >
+        Próximo →
       </button>
 
     </div>
@@ -3410,42 +3577,29 @@ a{
 
 
 <!-- =====================================================
-     PÁGINA 07 — FINAL
+     FINAL
 ===================================================== -->
 
 <section
-  class="page"
+  class="page final-page"
   data-page="final"
-  data-title="Conclusão — Comece. Observe. Repita."
 >
 
   <div class="page-inner">
 
-    <div class="page-top">
-
-      <span class="page-number">
-        <b>FINAL</b>
-      </span>
-
-      <button class="pdf-btn" data-pdf>
-        ↓ Baixar conclusão em PDF
-      </button>
-
-    </div>
-
-    <div class="final">
+    <div class="final-content">
 
       <div class="kicker">
         Missão cumprida
       </div>
 
-      <h2>
+      <h1 class="final-title">
         COMECE.
         <br>
         <span>OBSERVE.</span>
         <br>
         REPITA.
-      </h2>
+      </h1>
 
       <p>
         Você não precisa descobrir a fórmula perfeita para começar.
@@ -3455,36 +3609,23 @@ a{
       </p>
 
       <div
-        class="actions"
+        class="home-actions"
         style="justify-content:center"
       >
 
         <button
           class="btn primary"
-          data-page="home"
+          data-page-target="home"
         >
           Voltar ao início ↑
         </button>
 
       </div>
 
-      <p
-        style="
-          margin-top:35px;
-          color:#eee;
-          font:700 27px var(--disp);
-          text-transform:uppercase;
-        "
-      >
-
+      <p class="signature">
         Nos vemos nos 50 mil. 🚀
-
         <br>
-
-        <span style="color:var(--o)">
-          — Dudu Maranhense
-        </span>
-
+        <span>— Dudu Maranhense</span>
       </p>
 
     </div>
@@ -3493,7 +3634,105 @@ a{
 
 </section>
 
+
 </main>
+
+
+<!-- =====================================================
+     PDF BUTTON
+===================================================== -->
+
+<button
+  class="pdf-btn"
+  id="pdfBtn"
+  title="Baixar PDF desta página"
+>
+  <span>PDF</span>
+</button>
+
+
+<!-- =====================================================
+     PDF MODAL
+===================================================== -->
+
+<div
+  class="pdf-modal"
+  id="pdfModal"
+>
+
+  <div class="pdf-card">
+
+    <div class="kicker">
+      Material de estudo
+    </div>
+
+    <h3>
+      Baixar página
+    </h3>
+
+    <p>
+      O Motim vai criar um PDF personalizado desta etapa,
+      com o conteúdo, exercícios, checklist e seu progresso.
+    </p>
+
+    <input
+      class="pdf-input"
+      id="studentName"
+      placeholder="Seu nome"
+      autocomplete="name"
+    >
+
+    <div class="pdf-actions">
+
+      <button
+        class="btn secondary"
+        id="cancelPdf"
+      >
+        Cancelar
+      </button>
+
+      <button
+        class="btn primary"
+        id="generatePdf"
+      >
+        Gerar PDF →
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     CELEBRATION
+===================================================== -->
+
+<div
+  class="celebration"
+  id="celebration"
+>
+
+  <div class="celebration-card">
+
+    <div class="celebration-icon">
+      🔥
+    </div>
+
+    <div class="celebration-title">
+      MISSÃO
+      <br>
+      CONCLUÍDA
+    </div>
+
+    <div class="celebration-sub">
+      Novo capítulo desbloqueado
+    </div>
+
+  </div>
+
+</div>
 
 
 <script>
@@ -3504,7 +3743,8 @@ a{
 
 const STORAGE_KEY = "motim_book_v2";
 
-const PAGE_ORDER = [
+
+const pages = [
   "home",
   "intro",
   "camera",
@@ -3515,619 +3755,44 @@ const PAGE_ORDER = [
   "final"
 ];
 
-const PAGE_NAMES = {
-  home:"Capa",
-  intro:"Introdução",
-  camera:"01 · Câmera",
-  edicao:"02 · Edição",
-  metricas:"03 · Métricas",
-  stories:"04 · Stories",
-  passaporte:"🏅 Passaporte",
-  final:"Conclusão"
+
+const chapterTasks = {
+
+  camera:[
+    "cam1",
+    "cam2",
+    "cam3",
+    "cam4",
+    "cam5",
+    "cam6",
+    "cam7"
+  ],
+
+  edicao:[
+    "edit1",
+    "edit2",
+    "edit3",
+    "edit4",
+    "edit5",
+    "edit6"
+  ],
+
+  metricas:[
+    "met1",
+    "met2",
+    "met3",
+    "met4"
+  ],
+
+  stories:[
+    "sto1",
+    "sto2",
+    "sto3",
+    "sto4",
+    "sto5"
+  ]
+
 };
-
-
-/* =====================================================
-   STORAGE
-===================================================== */
-
-let saved = {};
-
-try{
-  saved =
-    JSON.parse(
-      localStorage.getItem(STORAGE_KEY) || "{}"
-    );
-}catch{
-  saved = {};
-}
-
-function save(){
-
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(saved)
-  );
-
-}
-
-
-/* =====================================================
-   ELEMENTOS
-===================================================== */
-
-const pages =
-  [...document.querySelectorAll(".page")];
-
-const topbar =
-  document.querySelector("#topbar");
-
-const pct =
-  document.querySelector("#pct");
-
-const heroProgress =
-  document.querySelector("#heroProgress");
-
-const heroProgressBar =
-  document.querySelector("#heroProgressBar");
-
-const passportbar =
-  document.querySelector("#passportbar");
-
-const passportcount =
-  document.querySelector("#passportcount");
-
-const nav =
-  document.querySelector("#nav");
-
-const drawer =
-  document.querySelector("#drawer");
-
-const menu =
-  document.querySelector("#menu");
-
-const drawerbg =
-  document.querySelector("#drawerbg");
-
-const links =
-  document.querySelector("#links");
-
-
-/* =====================================================
-   ESTADO DA PÁGINA
-===================================================== */
-
-let currentPage =
-  saved.currentPage || "home";
-
-
-/* =====================================================
-   TAREFAS
-===================================================== */
-
-function getAllInputs(){
-
-  return [
-    ...document.querySelectorAll(
-      'input[data-k]'
-    )
-  ];
-
-}
-
-function getCompletedCount(){
-
-  return getAllInputs()
-    .filter(
-      input =>
-        saved[input.dataset.k] === true
-    )
-    .length;
-
-}
-
-function getTotalTasks(){
-
-  return getAllInputs().length;
-
-}
-
-
-/* =====================================================
-   PROGRESSO
-===================================================== */
-
-function getProgress(){
-
-  const total =
-    getTotalTasks();
-
-  const done =
-    getCompletedCount();
-
-  if(!total) return 0;
-
-  return Math.round(
-    done / total * 100
-  );
-
-}
-
-
-function animateNumber(
-  element,
-  target
-){
-
-  const start =
-    parseInt(
-      element.dataset.value || "0"
-    );
-
-  const duration = 700;
-
-  const startTime =
-    performance.now();
-
-  function tick(now){
-
-    const progress =
-      Math.min(
-        (now - startTime) / duration,
-        1
-      );
-
-    const eased =
-      1 -
-      Math.pow(
-        1 - progress,
-        3
-      );
-
-    const value =
-      Math.round(
-        start +
-        (target - start) *
-        eased
-      );
-
-    element.innerHTML =
-      value + "<b>%</b>";
-
-    if(progress < 1){
-
-      requestAnimationFrame(
-        tick
-      );
-
-    }else{
-
-      element.dataset.value =
-        target;
-
-    }
-
-  }
-
-  requestAnimationFrame(tick);
-
-}
-
-
-/* =====================================================
-   ATUALIZAR PROGRESSO
-===================================================== */
-
-function refresh(){
-
-  const progress =
-    getProgress();
-
-  topbar.style.width =
-    progress + "%";
-
-  pct.textContent =
-    progress + "% concluído";
-
-  heroProgressBar.style.width =
-    progress + "%";
-
-  passportbar.style.width =
-    progress + "%";
-
-  passportcount.textContent =
-    progress + "%";
-
-  animateNumber(
-    heroProgress,
-    progress
-  );
-
-
-  /* CHECKBOXES */
-
-  getAllInputs()
-    .forEach(input => {
-
-      const checked =
-        saved[input.dataset.k] === true;
-
-      input.checked =
-        checked;
-
-      const label =
-        input.closest(".check");
-
-      if(label){
-
-        label.classList.toggle(
-          "done",
-          checked
-        );
-
-      }
-
-    });
-
-
-  /* CAMERA */
-
-  updateSectionProgress(
-    "cam",
-    7,
-    "camcount",
-    "cambar"
-  );
-
-
-  /* EDIÇÃO */
-
-  updateSectionProgress(
-    "edit",
-    6,
-    "editcount",
-    "editbar"
-  );
-
-
-  /* MÉTRICAS */
-
-  updateSectionProgress(
-    "met",
-    4,
-    "metcount",
-    "metbar"
-  );
-
-
-  /* STORIES */
-
-  updateSectionProgress(
-    "sto",
-    5,
-    "stocount",
-    "stobar"
-  );
-
-
-  updateBadges();
-
-  updateDrawer();
-
-}
-
-
-function updateSectionProgress(
-  prefix,
-  total,
-  countId,
-  barId
-){
-
-  const inputs =
-    getAllInputs()
-      .filter(
-        input =>
-          input.dataset.k.startsWith(
-            prefix
-          )
-      );
-
-  const done =
-    inputs.filter(
-      input =>
-        saved[input.dataset.k]
-    ).length;
-
-  const count =
-    document.getElementById(
-      countId
-    );
-
-  const bar =
-    document.getElementById(
-      barId
-    );
-
-  if(count){
-
-    count.textContent =
-      `${done}/${total}`;
-
-  }
-
-  if(bar){
-
-    bar.style.width =
-      `${done / total * 100}%`;
-
-  }
-
-}
-
-
-/* =====================================================
-   BADGES
-===================================================== */
-
-function updateBadges(){
-
-  const done =
-    getCompletedCount();
-
-  const camera =
-    [1,2,3,4,5,6,7]
-      .every(
-        i =>
-          saved["cam"+i]
-      );
-
-  const editor =
-    [1,2,3,4,5,6]
-      .every(
-        i =>
-          saved["edit"+i]
-      );
-
-  const analyst =
-    [1,2,3,4]
-      .every(
-        i =>
-          saved["met"+i]
-      );
-
-  const connected =
-    [1,2,3,4,5]
-      .every(
-        i =>
-          saved["sto"+i]
-      );
-
-  const badges = {
-
-    first:
-      done > 0,
-
-    camera,
-
-    editor,
-
-    analyst,
-
-    connected,
-
-    creator:
-      getProgress() === 100
-
-  };
-
-
-  Object.entries(
-    badges
-  ).forEach(
-    ([key,value]) => {
-
-      const badge =
-        document.querySelector(
-          `[data-b="${key}"]`
-        );
-
-      if(!badge) return;
-
-      const wasOn =
-        badge.classList.contains(
-          "on"
-        );
-
-      badge.classList.toggle(
-        "on",
-        value
-      );
-
-      if(value && !wasOn){
-
-        createParticles(
-          badge
-        );
-
-      }
-
-    }
-  );
-
-}
-
-
-/* =====================================================
-   PARTICULAS
-===================================================== */
-
-function createParticles(
-  source
-){
-
-  const rect =
-    source.getBoundingClientRect();
-
-  for(
-    let i = 0;
-    i < 18;
-    i++
-  ){
-
-    const particle =
-      document.createElement(
-        "div"
-      );
-
-    particle.className =
-      "particle";
-
-    particle.style.left =
-      (
-        rect.left +
-        rect.width / 2
-      ) + "px";
-
-    particle.style.top =
-      (
-        rect.top +
-        rect.height / 2
-      ) + "px";
-
-    particle.style.setProperty(
-      "--x",
-      (
-        Math.random() * 240 -
-        120
-      ) + "px"
-    );
-
-    particle.style.setProperty(
-      "--y",
-      (
-        Math.random() * -220 -
-        30
-      ) + "px"
-    );
-
-    particle.style.animationDelay =
-      (
-        Math.random() * 180
-      ) + "ms";
-
-    document.body.appendChild(
-      particle
-    );
-
-    setTimeout(
-      () =>
-        particle.remove(),
-      1200
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   CHECKLIST
-===================================================== */
-
-document.addEventListener(
-  "change",
-  event => {
-
-    const input =
-      event.target;
-
-    if(
-      !input.matches(
-        'input[data-k]'
-      )
-    ){
-
-      return;
-
-    }
-
-    const key =
-      input.dataset.k;
-
-    const previous =
-      !!saved[key];
-
-    saved[key] =
-      input.checked;
-
-    save();
-
-    refresh();
-
-    if(
-      input.checked &&
-      !previous
-    ){
-
-      createParticles(
-        input.closest(".check")
-      );
-
-      celebrateTask(
-        input.closest(".check")
-      );
-
-    }
-
-    if(
-      getProgress() === 100
-    ){
-
-      setTimeout(
-        showCelebration,
-        700
-      );
-
-    }
-
-  }
-);
-
-
-/* =====================================================
-   ANIMAÇÃO DE TAREFA
-===================================================== */
-
-function celebrateTask(
-  element
-){
-
-  if(!element) return;
-
-  element.animate(
-    [
-      {
-        transform:
-          "scale(1)"
-      },
-      {
-        transform:
-          "scale(1.025)"
-      },
-      {
-        transform:
-          "scale(1)"
-      }
-    ],
-    {
-      duration:450,
-      easing:
-        "cubic-bezier(.2,.8,.2,1)"
-    }
-  );
-
-}
 
 
 /* =====================================================
@@ -4179,236 +3844,616 @@ const feedback = {
 
 
 /* =====================================================
-   ESCOLHAS
+   STATE
 ===================================================== */
 
-document
-  .querySelectorAll(".choices")
-  .forEach(group => {
-
-    group
-      .querySelectorAll(".choice")
-      .forEach(button => {
-
-        button.addEventListener(
-          "click",
-          () => {
-
-            group
-              .querySelectorAll(".choice")
-              .forEach(
-                item =>
-                  item.classList.remove(
-                    "active"
-                  )
-              );
-
-            button.classList.add(
-              "active"
-            );
-
-            const type =
-              group.dataset.type;
-
-            let feedbackId;
-
-            if(
-              type === "camera"
-            ){
-
-              feedbackId =
-                "cameraFeedback";
-
-            }else if(
-              type === "metrics"
-            ){
-
-              feedbackId =
-                "metricsFeedback";
-
-            }else{
-
-              feedbackId =
-                "storiesFeedback";
-
-            }
-
-            const box =
-              document.getElementById(
-                feedbackId
-              );
-
-            box.textContent =
-              feedback[type][
-                button.dataset.v
-              ];
-
-            box.classList.add(
-              "show"
-            );
-
-            createParticles(
-              button
-            );
-
-          }
-        );
-
-      });
-
-  });
-
-
-/* =====================================================
-   NAVEGAÇÃO
-===================================================== */
-
-function showPage(
-  pageId,
-  direction = 1
-){
-
-  if(
-    !PAGE_ORDER.includes(
-      pageId
-    )
-  ){
-
-    return;
-
-  }
-
-  const oldPage =
-    document.querySelector(
-      ".page.active"
-    );
-
-  const newPage =
-    document.querySelector(
-      `.page[data-page="${pageId}"]`
-    );
-
-  if(!newPage) return;
-
-  if(oldPage){
-    oldPage.classList.remove(
-      "active"
-    );
-  }
-
-  newPage.classList.add(
-    "active"
+let state =
+  JSON.parse(
+    localStorage.getItem(STORAGE_KEY) || "{}"
   );
 
-  currentPage =
-    pageId;
 
-  saved.currentPage =
-    pageId;
+if(!state.tasks){
+  state.tasks = {};
+}
 
-  save();
+if(!state.choices){
+  state.choices = {};
+}
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+if(!state.started){
+  state.started = false;
+}
 
-  updateDrawer();
 
-  nav.classList.add(
-    "scrolled"
-  );
+function save(){
 
-  setTimeout(
-    () =>
-      nav.classList.remove(
-        "scrolled"
-      ),
-    800
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(state)
   );
 
 }
 
 
 /* =====================================================
-   BOTÕES DE PÁGINA
+   HELPERS
+===================================================== */
+
+function taskDone(key){
+
+  return !!state.tasks[key];
+
+}
+
+
+function chapterComplete(chapter){
+
+  const tasks =
+    chapterTasks[chapter];
+
+  if(!tasks){
+    return true;
+  }
+
+  return tasks.every(
+    task => taskDone(task)
+  );
+
+}
+
+
+function countTasks(){
+
+  const all =
+    Object.values(chapterTasks)
+      .flat();
+
+  return all.length;
+
+}
+
+
+function completedTasks(){
+
+  return Object.values(
+    state.tasks
+  ).filter(Boolean).length;
+
+}
+
+
+function globalProgress(){
+
+  const total =
+    countTasks();
+
+  if(!total){
+    return 0;
+  }
+
+  return Math.round(
+    completedTasks()
+    /
+    total
+    *
+    100
+  );
+
+}
+
+
+/* =====================================================
+   PAGE ACCESS
+===================================================== */
+
+function pageUnlocked(page){
+
+  switch(page){
+
+    case "home":
+    case "intro":
+    case "camera":
+      return true;
+
+    case "edicao":
+      return chapterComplete("camera");
+
+    case "metricas":
+      return (
+        chapterComplete("camera") &&
+        chapterComplete("edicao")
+      );
+
+    case "stories":
+      return (
+        chapterComplete("camera") &&
+        chapterComplete("edicao") &&
+        chapterComplete("metricas")
+      );
+
+    case "passaporte":
+      return (
+        chapterComplete("camera") &&
+        chapterComplete("edicao") &&
+        chapterComplete("metricas") &&
+        chapterComplete("stories")
+      );
+
+    case "final":
+      return (
+        chapterComplete("camera") &&
+        chapterComplete("edicao") &&
+        chapterComplete("metricas") &&
+        chapterComplete("stories")
+      );
+
+    default:
+      return false;
+
+  }
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+let currentPage =
+  state.currentPage || "home";
+
+
+function showPage(page, direction="next"){
+
+  if(!pages.includes(page)){
+    return;
+  }
+
+  if(!pageUnlocked(page)){
+
+    showLockedMessage();
+
+    return;
+  }
+
+
+  const current =
+    document.querySelector(
+      `.page[data-page="${currentPage}"]`
+    );
+
+  const target =
+    document.querySelector(
+      `.page[data-page="${page}"]`
+    );
+
+
+  if(!target){
+    return;
+  }
+
+
+  if(current){
+
+    current.classList.remove(
+      "active"
+    );
+
+    current.classList.add(
+      direction === "prev"
+        ? "prev"
+        : ""
+    );
+
+  }
+
+
+  target.classList.remove(
+    "prev"
+  );
+
+  target.classList.add(
+    "active"
+  );
+
+
+  currentPage = page;
+
+  state.currentPage = page;
+
+  save();
+
+
+  const scroller =
+    target;
+
+  scroller.scrollTo({
+    top:0,
+    behavior:"instant"
+  });
+
+
+  updateUI();
+
+}
+
+
+function nextPage(){
+
+  const index =
+    pages.indexOf(currentPage);
+
+  if(index < 0){
+    return;
+  }
+
+  const next =
+    pages[index + 1];
+
+  if(!next){
+    return;
+  }
+
+  if(
+    currentPage !== "home" &&
+    currentPage !== "intro"
+  ){
+
+    if(
+      currentPage !== "passaporte" &&
+      currentPage !== "final" &&
+      !chapterComplete(currentPage)
+    ){
+
+      showLockedMessage();
+
+      return;
+    }
+
+  }
+
+
+  if(!pageUnlocked(next)){
+
+    showLockedMessage();
+
+    return;
+  }
+
+
+  showPage(
+    next,
+    "next"
+  );
+
+}
+
+
+function previousPage(){
+
+  const index =
+    pages.indexOf(currentPage);
+
+  if(index <= 0){
+    return;
+  }
+
+  showPage(
+    pages[index - 1],
+    "prev"
+  );
+
+}
+
+
+/* =====================================================
+   LOCK MESSAGE
+===================================================== */
+
+function showLockedMessage(){
+
+  const page =
+    document.querySelector(
+      `.page[data-page="${currentPage}"]`
+    );
+
+  if(!page){
+    return;
+  }
+
+
+  let message =
+    page.querySelector(
+      ".unlock-message"
+    );
+
+
+  if(!message){
+    return;
+  }
+
+
+  message.textContent =
+    "🔒 Complete todas as missões desta etapa para desbloquear o próximo capítulo.";
+
+  message.classList.add(
+    "show"
+  );
+
+
+  setTimeout(
+    () => {
+      message.classList.remove(
+        "show"
+      );
+    },
+    2600
+  );
+
+}
+
+
+/* =====================================================
+   START BUTTON
+===================================================== */
+
+const startBtn =
+  document.querySelector(
+    "#startBtn"
+  );
+
+
+function updateStartButton(){
+
+  if(state.started){
+
+    startBtn.textContent =
+      "Continuar missão →";
+
+  }else{
+
+    startBtn.textContent =
+      "Começar missão →";
+
+  }
+
+}
+
+
+startBtn.addEventListener(
+  "click",
+  () => {
+
+    state.started = true;
+
+    save();
+
+    updateStartButton();
+
+    showPage(
+      "intro",
+      "next"
+    );
+
+  }
+);
+
+
+/* =====================================================
+   CHALLENGE BUTTON
+===================================================== */
+
+document
+  .querySelector("#challengeBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      state.started = true;
+
+      save();
+
+      updateStartButton();
+
+      if(
+        pageUnlocked("camera")
+      ){
+
+        showPage(
+          "camera",
+          "next"
+        );
+
+      }else{
+
+        showPage(
+          "intro",
+          "next"
+        );
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   PAGE BUTTONS
+===================================================== */
+
+document
+  .querySelectorAll("[data-next]")
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        nextPage
+      );
+
+    }
+  );
+
+
+document
+  .querySelectorAll("[data-prev]")
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        previousPage
+      );
+
+    }
+  );
+
+
+document
+  .querySelectorAll("[data-page-target]")
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          showPage(
+            button.dataset.pageTarget,
+            "prev"
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+/* =====================================================
+   PILLARS
+===================================================== */
+
+document
+  .querySelectorAll(".pillar")
+  .forEach(
+    pillar => {
+
+      pillar.addEventListener(
+        "click",
+        () => {
+
+          const target =
+            pillar.dataset.target;
+
+          if(
+            !pageUnlocked(target)
+          ){
+
+            showLockedMessage();
+
+            return;
+          }
+
+
+          showPage(
+            target,
+            "next"
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+/* =====================================================
+   CHECKLIST
 ===================================================== */
 
 document.addEventListener(
-  "click",
+  "change",
   event => {
 
-    const target =
-      event.target.closest(
-        "[data-page]"
-      );
+    const input =
+      event.target;
+
 
     if(
-      target &&
-      target.dataset.page
+      !input.matches(
+        'input[data-k]'
+      )
     ){
 
-      closeDrawer();
-
-      showPage(
-        target.dataset.page
-      );
-
       return;
 
     }
 
 
-    const next =
-      event.target.closest(
-        "[data-next]"
-      );
+    const key =
+      input.dataset.k;
 
-    if(next){
 
-      const index =
-        PAGE_ORDER.indexOf(
-          currentPage
-        );
+    const wasDone =
+      !!state.tasks[key];
 
-      const nextIndex =
-        Math.min(
-          index + 1,
-          PAGE_ORDER.length - 1
-        );
 
-      showPage(
-        PAGE_ORDER[nextIndex],
-        1
-      );
+    state.tasks[key] =
+      input.checked;
 
-      return;
+
+    save();
+
+    refreshChecklist();
+
+    updateUI();
+
+
+    if(
+      input.checked &&
+      !wasDone
+    ){
+
+      premiumTaskAnimation();
 
     }
 
 
-    const prev =
-      event.target.closest(
-        "[data-prev]"
-      );
-
-    if(prev){
-
-      const index =
-        PAGE_ORDER.indexOf(
-          currentPage
+    const chapter =
+      Object.keys(chapterTasks)
+        .find(
+          chapter =>
+            chapterTasks[chapter]
+              .includes(key)
         );
 
-      const prevIndex =
-        Math.max(
-          index - 1,
-          0
+
+    if(
+      chapter &&
+      chapterComplete(chapter)
+    ){
+
+      const alreadyCelebrated =
+        state[
+          "celebrated_" + chapter
+        ];
+
+
+      if(!alreadyCelebrated){
+
+        state[
+          "celebrated_" + chapter
+        ] = true;
+
+        save();
+
+        premiumUnlockAnimation(
+          chapter
         );
 
-      showPage(
-        PAGE_ORDER[prevIndex],
-        -1
-      );
+      }
 
     }
 
@@ -4417,12 +4462,881 @@ document.addEventListener(
 
 
 /* =====================================================
+   REFRESH CHECKLIST
+===================================================== */
+
+function refreshChecklist(){
+
+  document
+    .querySelectorAll(
+      'input[data-k]'
+    )
+    .forEach(
+      input => {
+
+        const checked =
+          !!state.tasks[
+            input.dataset.k
+          ];
+
+        input.checked =
+          checked;
+
+
+        const label =
+          input.closest(
+            ".check"
+          );
+
+        if(label){
+
+          label.classList.toggle(
+            "done",
+            checked
+          );
+
+        }
+
+      }
+    );
+
+
+  updateChapterProgress(
+    "camera",
+    "cam",
+    "camcount",
+    "cambar"
+  );
+
+
+  updateChapterProgress(
+    "edicao",
+    "edit",
+    "editcount",
+    "editbar"
+  );
+
+
+  updateChapterProgress(
+    "metricas",
+    "met",
+    "metcount",
+    "metbar"
+  );
+
+
+  updateChapterProgress(
+    "stories",
+    "sto",
+    "stocount",
+    "stobar"
+  );
+
+}
+
+
+/* =====================================================
+   CHAPTER PROGRESS
+===================================================== */
+
+function updateChapterProgress(
+  chapter,
+  prefix,
+  countId,
+  barId
+){
+
+  const tasks =
+    chapterTasks[chapter];
+
+  const done =
+    tasks.filter(
+      task => taskDone(task)
+    ).length;
+
+
+  const percent =
+    tasks.length
+      ? done / tasks.length * 100
+      : 0;
+
+
+  const count =
+    document.getElementById(
+      countId
+    );
+
+  const bar =
+    document.getElementById(
+      barId
+    );
+
+
+  if(count){
+    count.textContent =
+      `${done}/${tasks.length}`;
+  }
+
+
+  if(bar){
+    bar.style.width =
+      percent + "%";
+  }
+
+}
+
+
+/* =====================================================
+   CHOICES
+===================================================== */
+
+document
+  .querySelectorAll(".choices")
+  .forEach(
+    group => {
+
+      group
+        .querySelectorAll(".choice")
+        .forEach(
+          button => {
+
+            button.addEventListener(
+              "click",
+              () => {
+
+                const type =
+                  group.dataset.type;
+
+                const value =
+                  button.dataset.v;
+
+
+                group
+                  .querySelectorAll(
+                    ".choice"
+                  )
+                  .forEach(
+                    item =>
+                      item.classList.remove(
+                        "active"
+                      )
+                  );
+
+
+                button.classList.add(
+                  "active"
+                );
+
+
+                state.choices[type] =
+                  value;
+
+                save();
+
+
+                let feedbackId =
+                  type === "camera"
+                    ? "cameraFeedback"
+                    : type === "metrics"
+                      ? "metricsFeedback"
+                      : "storiesFeedback";
+
+
+                const box =
+                  document.getElementById(
+                    feedbackId
+                  );
+
+
+                box.textContent =
+                  feedback[type][value];
+
+
+                box.classList.remove(
+                  "show"
+                );
+
+
+                requestAnimationFrame(
+                  () => {
+
+                    box.classList.add(
+                      "show"
+                    );
+
+                  }
+                );
+
+              }
+            );
+
+          }
+        );
+
+    }
+  );
+
+
+/* =====================================================
+   RESTORE CHOICES
+===================================================== */
+
+function restoreChoices(){
+
+  document
+    .querySelectorAll(".choices")
+    .forEach(
+      group => {
+
+        const type =
+          group.dataset.type;
+
+        const value =
+          state.choices[type];
+
+        if(!value){
+          return;
+        }
+
+
+        const button =
+          group.querySelector(
+            `[data-v="${value}"]`
+          );
+
+        if(button){
+
+          button.classList.add(
+            "active"
+          );
+
+
+          const feedbackId =
+            type === "camera"
+              ? "cameraFeedback"
+              : type === "metrics"
+                ? "metricsFeedback"
+                : "storiesFeedback";
+
+
+          const box =
+            document.getElementById(
+              feedbackId
+            );
+
+
+          if(box){
+
+            box.textContent =
+              feedback[type][value];
+
+            box.classList.add(
+              "show"
+            );
+
+          }
+
+        }
+
+      }
+    );
+
+}
+
+
+/* =====================================================
+   GLOBAL UI
+===================================================== */
+
+function updateUI(){
+
+  const progress =
+    globalProgress();
+
+
+  document
+    .querySelector("#topbar")
+    .style.width =
+      progress + "%";
+
+
+  document
+    .querySelector("#pct")
+    .textContent =
+      `${progress}% concluído`;
+
+
+  document
+    .querySelector("#homeProgressBar")
+    .style.width =
+      progress + "%";
+
+
+  document
+    .querySelector("#homeProgressNumber")
+    .innerHTML =
+      `${progress}<span>%</span>`;
+
+
+  updateStartButton();
+
+
+  updatePillars();
+
+  updateBadges();
+
+  updateFooterButtons();
+
+  updateDrawer();
+
+}
+
+
+/* =====================================================
+   PILLARS
+===================================================== */
+
+function updatePillars(){
+
+  document
+    .querySelectorAll(
+      ".pillar[data-target]"
+    )
+    .forEach(
+      pillar => {
+
+        const target =
+          pillar.dataset.target;
+
+        const unlocked =
+          pageUnlocked(target);
+
+
+        pillar.classList.toggle(
+          "locked",
+          !unlocked
+        );
+
+
+        const icon =
+          pillar.querySelector(
+            ".lock-icon"
+          );
+
+
+        if(unlocked){
+
+          if(icon){
+            icon.remove();
+          }
+
+        }else{
+
+          if(!icon){
+
+            const lock =
+              document.createElement(
+                "span"
+              );
+
+            lock.className =
+              "lock-icon";
+
+            lock.textContent =
+              "🔒";
+
+            pillar.prepend(
+              lock
+            );
+
+          }
+
+        }
+
+      }
+    );
+
+}
+
+
+/* =====================================================
+   FOOTER BUTTONS
+===================================================== */
+
+function updateFooterButtons(){
+
+  document
+    .querySelectorAll(
+      `.page[data-page="${currentPage}"] [data-next]`
+    )
+    .forEach(
+      button => {
+
+        const locked =
+          currentPage !== "home" &&
+          currentPage !== "intro" &&
+          currentPage !== "passaporte" &&
+          currentPage !== "final" &&
+          !chapterComplete(currentPage);
+
+
+        button.classList.toggle(
+          "locked",
+          locked
+        );
+
+
+        if(locked){
+
+          button.textContent =
+            "🔒 Complete a missão";
+
+        }else{
+
+          button.textContent =
+            "Próximo →";
+
+        }
+
+      }
+    );
+
+}
+
+
+/* =====================================================
+   BADGES
+===================================================== */
+
+function updateBadges(){
+
+  const camera =
+    chapterComplete("camera");
+
+  const editor =
+    chapterComplete("edicao");
+
+  const analyst =
+    chapterComplete("metricas");
+
+  const connected =
+    chapterComplete("stories");
+
+  const creator =
+    camera &&
+    editor &&
+    analyst &&
+    connected;
+
+
+  const badges = {
+
+    first:
+      completedTasks() > 0,
+
+    camera,
+
+    editor,
+
+    analyst,
+
+    connected,
+
+    creator
+
+  };
+
+
+  Object.entries(
+    badges
+  ).forEach(
+    ([key,value]) => {
+
+      const badge =
+        document.querySelector(
+          `[data-b="${key}"]`
+        );
+
+      if(badge){
+
+        badge.classList.toggle(
+          "on",
+          value
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   PREMIUM TASK ANIMATION
+===================================================== */
+
+function premiumTaskAnimation(){
+
+  const celebration =
+    document.querySelector(
+      "#celebration"
+    );
+
+  const card =
+    celebration.querySelector(
+      ".celebration-card"
+    );
+
+
+  card.querySelector(
+    ".celebration-icon"
+  ).textContent =
+    "✓";
+
+
+  card.querySelector(
+    ".celebration-title"
+  ).innerHTML =
+    "MISSÃO<br>REGISTRADA";
+
+
+  card.querySelector(
+    ".celebration-sub"
+  ).textContent =
+    "Continue avançando";
+
+
+  celebration.classList.remove(
+    "show"
+  );
+
+
+  void celebration.offsetWidth;
+
+
+  celebration.classList.add(
+    "show"
+  );
+
+
+  createConfetti(8);
+
+
+  setTimeout(
+    () => {
+      celebration.classList.remove(
+        "show"
+      );
+    },
+    1700
+  );
+
+}
+
+
+/* =====================================================
+   PREMIUM UNLOCK
+===================================================== */
+
+function premiumUnlockAnimation(
+  chapter
+){
+
+  const celebration =
+    document.querySelector(
+      "#celebration"
+    );
+
+
+  const card =
+    celebration.querySelector(
+      ".celebration-card"
+    );
+
+
+  card.querySelector(
+    ".celebration-icon"
+  ).textContent =
+    chapter === "stories"
+      ? "🚀"
+      : "🔥";
+
+
+  card.querySelector(
+    ".celebration-title"
+  ).innerHTML =
+    chapter === "stories"
+      ? "JORNADA<br>CONCLUÍDA"
+      : "CAPÍTULO<br>LIBERADO";
+
+
+  card.querySelector(
+    ".celebration-sub"
+  ).textContent =
+    chapter === "stories"
+      ? "Passaporte Motim desbloqueado"
+      : "O próximo capítulo está disponível";
+
+
+  celebration.classList.remove(
+    "show"
+  );
+
+
+  void celebration.offsetWidth;
+
+
+  celebration.classList.add(
+    "show"
+  );
+
+
+  createConfetti(24);
+
+
+  setTimeout(
+    () => {
+
+      celebration.classList.remove(
+        "show"
+      );
+
+    },
+    2200
+  );
+
+
+  updateUI();
+
+}
+
+
+/* =====================================================
+   CONFETTI
+===================================================== */
+
+function createConfetti(amount){
+
+  for(
+    let i = 0;
+    i < amount;
+    i++
+  ){
+
+    const item =
+      document.createElement(
+        "span"
+      );
+
+
+    item.className =
+      "confetti";
+
+
+    item.style.setProperty(
+      "--x",
+      `${(Math.random()-.5)*650}px`
+    );
+
+
+    item.style.setProperty(
+      "--y",
+      `${(Math.random()-.5)*550}px`
+    );
+
+
+    item.style.transform =
+      `rotate(${Math.random()*360}deg)`;
+
+
+    item.style.background =
+      Math.random() > .5
+        ? "#ff7a00"
+        : "#ffb15c";
+
+
+    document.body.appendChild(
+      item
+    );
+
+
+    setTimeout(
+      () => item.remove(),
+      1500
+    );
+
+  }
+
+}
+
+
+/* =====================================================
    DRAWER
 ===================================================== */
+
+const drawer =
+  document.querySelector(
+    "#drawer"
+  );
+
+const menu =
+  document.querySelector(
+    "#menu"
+  );
+
+const drawerBg =
+  document.querySelector(
+    "#drawerBg"
+  );
+
+const drawerLinks =
+  document.querySelector(
+    "#drawerLinks"
+  );
+
+
+const navigation = [
+
+  ["home","Início"],
+
+  ["intro","Introdução"],
+
+  ["camera","01 · Câmera"],
+
+  ["edicao","02 · Edição"],
+
+  ["metricas","03 · Métricas"],
+
+  ["stories","04 · Stories"],
+
+  ["passaporte","🏅 Passaporte Motim"],
+
+  ["final","Conclusão"]
+
+];
+
+
+function buildDrawer(){
+
+  drawerLinks.innerHTML = "";
+
+
+  navigation.forEach(
+    ([id,label]) => {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.className =
+        "drawer-link";
+
+
+      button.dataset.target =
+        id;
+
+
+      button.innerHTML = `
+        <span>${label}</span>
+        <span class="drawer-status"></span>
+      `;
+
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          if(
+            !pageUnlocked(id)
+          ){
+
+            showLockedMessage();
+
+            return;
+
+          }
+
+
+          closeDrawer();
+
+          showPage(
+            id,
+            pages.indexOf(id) <
+            pages.indexOf(currentPage)
+              ? "prev"
+              : "next"
+          );
+
+        }
+      );
+
+
+      drawerLinks.appendChild(
+        button
+      );
+
+    }
+  );
+
+}
+
+
+function updateDrawer(){
+
+  drawerLinks
+    .querySelectorAll(
+      ".drawer-link"
+    )
+    .forEach(
+      link => {
+
+        const target =
+          link.dataset.target;
+
+        const unlocked =
+          pageUnlocked(target);
+
+        const status =
+          link.querySelector(
+            ".drawer-status"
+          );
+
+
+        link.classList.toggle(
+          "locked",
+          !unlocked
+        );
+
+
+        link.classList.toggle(
+          "current",
+          target === currentPage
+        );
+
+
+        status.textContent =
+          target === currentPage
+            ? "●"
+            : unlocked
+              ? "→"
+              : "🔒";
+
+      }
+    );
+
+}
+
 
 function openDrawer(){
 
   drawer.classList.add(
+    "open"
+  );
+
+  menu.classList.add(
     "open"
   );
 
@@ -4437,9 +5351,14 @@ function openDrawer(){
 
 }
 
+
 function closeDrawer(){
 
   drawer.classList.remove(
+    "open"
+  );
+
+  menu.classList.remove(
     "open"
   );
 
@@ -4454,195 +5373,54 @@ function closeDrawer(){
 
 }
 
+
 menu.addEventListener(
   "click",
-  openDrawer
-);
-
-drawerbg.addEventListener(
-  "click",
-  closeDrawer
-);
-
-document.addEventListener(
-  "keydown",
-  event => {
+  () => {
 
     if(
-      event.key === "Escape"
+      drawer.classList.contains(
+        "open"
+      )
     ){
 
       closeDrawer();
 
-    }
+    }else{
 
-    if(
-      event.key === "ArrowRight"
-    ){
-
-      const index =
-        PAGE_ORDER.indexOf(
-          currentPage
-        );
-
-      if(
-        index <
-        PAGE_ORDER.length - 1
-      ){
-
-        showPage(
-          PAGE_ORDER[index + 1]
-        );
-
-      }
-
-    }
-
-    if(
-      event.key === "ArrowLeft"
-    ){
-
-      const index =
-        PAGE_ORDER.indexOf(
-          currentPage
-        );
-
-      if(index > 0){
-
-        showPage(
-          PAGE_ORDER[index - 1]
-        );
-
-      }
+      openDrawer();
 
     }
 
   }
+);
+
+
+drawerBg.addEventListener(
+  "click",
+  closeDrawer
 );
 
 
 /* =====================================================
-   MENU DINÂMICO
+   BRAND
 ===================================================== */
 
-PAGE_ORDER.forEach(
-  pageId => {
+document
+  .querySelector("#brand")
+  .addEventListener(
+    "click",
+    event => {
 
-    const link =
-      document.createElement(
-        "button"
+      event.preventDefault();
+
+      showPage(
+        "home",
+        "prev"
       );
-
-    link.className =
-      "link";
-
-    link.dataset.page =
-      pageId;
-
-    const name =
-      document.createElement(
-        "span"
-      );
-
-    name.textContent =
-      PAGE_NAMES[pageId];
-
-    const progress =
-      document.createElement(
-        "span"
-      );
-
-    progress.className =
-      "link-progress";
-
-    progress.dataset.linkProgress =
-      pageId;
-
-    link.appendChild(name);
-
-    link.appendChild(progress);
-
-    links.appendChild(link);
-
-  }
-);
-
-
-function getPageProgress(
-  pageId
-){
-
-  const page =
-    document.querySelector(
-      `.page[data-page="${pageId}"]`
-    );
-
-  if(!page) return 0;
-
-  const inputs =
-    [
-      ...page.querySelectorAll(
-        "input[data-k]"
-      )
-    ];
-
-  if(!inputs.length){
-
-    if(pageId === "home"){
-
-      return getProgress();
 
     }
-
-    return 0;
-
-  }
-
-  const done =
-    inputs.filter(
-      input =>
-        saved[input.dataset.k]
-    ).length;
-
-  return Math.round(
-    done / inputs.length * 100
   );
-
-}
-
-
-function updateDrawer(){
-
-  document
-    .querySelectorAll(
-      ".link"
-    )
-    .forEach(link => {
-
-      const id =
-        link.dataset.page;
-
-      link.classList.toggle(
-        "active",
-        id === currentPage
-      );
-
-      const progress =
-        link.querySelector(
-          ".link-progress"
-        );
-
-      if(progress){
-
-        progress.textContent =
-          getPageProgress(id) +
-          "%";
-
-      }
-
-    });
-
-}
 
 
 /* =====================================================
@@ -4657,28 +5435,60 @@ document
 
       const confirmed =
         confirm(
-          "Resetar toda a jornada? Todas as tarefas concluídas serão apagadas."
+          "Tem certeza que deseja apagar todo o progresso?"
         );
 
+
       if(!confirmed){
-
         return;
-
       }
 
-      saved = {
+
+      localStorage.removeItem(
+        STORAGE_KEY
+      );
+
+
+      state = {
+        tasks:{},
+        choices:{},
+        started:false,
         currentPage:"home"
       };
 
-      save();
 
-      refresh();
+      currentPage =
+        "home";
 
-      showPage(
-        "home"
-      );
+
+      document
+        .querySelectorAll(
+          ".page"
+        )
+        .forEach(
+          page =>
+            page.classList.remove(
+              "active"
+            )
+        );
+
+
+      document
+        .querySelector(
+          '[data-page="home"]'
+        )
+        .classList.add(
+          "active"
+        );
+
 
       closeDrawer();
+
+      refreshChecklist();
+
+      restoreChoices();
+
+      updateUI();
 
     }
   );
@@ -4704,11 +5514,14 @@ document
           "#audiotxt"
         );
 
+
       button.textContent =
         "● Reproduzindo...";
 
+
       text.textContent =
         " Dudu estaria falando aqui…";
+
 
       setTimeout(
         () => {
@@ -4728,638 +5541,1093 @@ document
 
 
 /* =====================================================
-   PDF PERSONALIZADO
+   KEYBOARD
 ===================================================== */
 
-document
-  .querySelectorAll(
-    "[data-pdf]"
-  )
-  .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        generatePDF(
-          button.closest(".page")
-        );
-
-      }
-    );
-
-  });
-
-
-function generatePDF(
-  page
-){
-
-  if(!page) return;
-
-  const title =
-    page.dataset.title ||
-    "Motim Book";
-
-  const clone =
-    page.cloneNode(true);
-
-  clone
-    .querySelectorAll(
-      "button"
-    )
-    .forEach(
-      el =>
-        el.remove()
-    );
-
-  clone
-    .querySelectorAll(
-      ".heroimg img"
-    )
-    .forEach(
-      img => {
-
-        if(
-          img.getAttribute(
-            "src"
-          )
-        ){
-
-          img.style.display =
-            "block";
-
-        }
-
-      }
-    );
-
-  const completed =
-    getCompletedCount();
-
-  const progress =
-    getProgress();
-
-  const printWindow =
-    window.open(
-      "",
-      "_blank"
-    );
-
-  if(!printWindow){
-
-    alert(
-      "O navegador bloqueou a janela do PDF. Permita pop-ups para gerar seu PDF."
-    );
-
-    return;
-
-  }
-
-  printWindow.document.write(`
-<!doctype html>
-
-<html lang="pt-BR">
-
-<head>
-
-<meta charset="UTF-8">
-
-<title>${escapeHTML(title)}</title>
-
-<style>
-
-@page{
-  size:A4;
-  margin:18mm;
-}
-
-*{
-  box-sizing:border-box;
-}
-
-body{
-  margin:0;
-
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  color:#171717;
-
-  background:white;
-}
-
-.pdf-header{
-  border-bottom:
-    3px solid
-    #ff7a00;
-
-  padding-bottom:14px;
-
-  margin-bottom:25px;
-}
-
-.pdf-brand{
-  font-size:13px;
-
-  font-weight:900;
-
-  letter-spacing:.15em;
-
-  text-transform:uppercase;
-
-  color:#ff7a00;
-}
-
-.pdf-title{
-  font-size:34px;
-
-  line-height:1;
-
-  margin:
-    10px
-    0
-    0;
-}
-
-.pdf-progress{
-  margin-top:10px;
-
-  color:#666;
-
-  font-size:11px;
-}
-
-.content{
-  line-height:1.65;
-
-  font-size:13px;
-}
-
-.content h2,
-.content h3{
-  color:#171717;
-}
-
-.content .aside{
-  background:#f5f2ee !important;
-
-  min-height:auto !important;
-
-  padding:25px !important;
-
-  color:#171717;
-}
-
-.content .big{
-  color:#ff7a00 !important;
-
-  -webkit-text-stroke:0 !important;
-
-  font-size:75px !important;
-}
-
-.content .body{
-  padding:25px !important;
-}
-
-.content .chapter-card{
-  box-shadow:none !important;
-
-  border:
-    1px solid
-    #ddd !important;
-}
-
-.content .grid{
-  display:block !important;
-}
-
-.content .panel{
-  border:
-    1px solid
-    #ddd !important;
-
-  background:#fafafa !important;
-
-  margin-top:18px;
-}
-
-.content .check{
-  border:
-    1px solid
-    #ddd !important;
-
-  color:#222 !important;
-
-  text-decoration:none !important;
-
-  padding:9px !important;
-
-  margin-bottom:5px;
-}
-
-.content .check input{
-  display:none;
-}
-
-.content .quote{
-  border-left:
-    3px solid
-    #ff7a00;
-
-  padding-left:12px;
-
-  font-weight:800;
-
-  font-size:20px;
-}
-
-.content .metric{
-  border:
-    1px solid
-    #ddd !important;
-
-  background:#fafafa !important;
-}
-
-.content .metrics{
-  display:grid !important;
-
-  grid-template-columns:
-    repeat(4,1fr) !important;
-
-  gap:8px !important;
-}
-
-.content .story-demo{
-  max-width:220px !important;
-}
-
-.study{
-  margin-top:35px;
-
-  border-top:
-    1px solid
-    #ddd;
-
-  padding-top:20px;
-}
-
-.study h3{
-  font-size:18px;
-
-  margin-bottom:8px;
-}
-
-.study-line{
-  height:35px;
-
-  border-bottom:
-    1px solid
-    #bbb;
-
-  margin-bottom:8px;
-}
-
-.footer{
-  margin-top:35px;
-
-  padding-top:12px;
-
-  border-top:
-    1px solid
-    #ddd;
-
-  color:#777;
-
-  font-size:9px;
-
-  display:flex;
-
-  justify-content:space-between;
-}
-
-img{
-  max-width:100% !important;
-
-  max-height:400px !important;
-
-  object-fit:cover;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="pdf-header">
-
-  <div class="pdf-brand">
-    MOTIM BOOK
-  </div>
-
-  <div class="pdf-title">
-    ${escapeHTML(title)}
-  </div>
-
-  <div class="pdf-progress">
-    Progresso geral da jornada:
-    <strong>${progress}%</strong>
-    · ${completed} tarefas concluídas
-  </div>
-
-</div>
-
-<div class="content">
-
-  ${clone.innerHTML}
-
-</div>
-
-<div class="study">
-
-  <h3>
-    Anotações para estudo
-  </h3>
-
-  <div class="study-line"></div>
-  <div class="study-line"></div>
-  <div class="study-line"></div>
-  <div class="study-line"></div>
-  <div class="study-line"></div>
-
-</div>
-
-<div class="footer">
-
-  <span>
-    MOTIM BOOK · DO ZERO AOS 50K
-  </span>
-
-  <span>
-    Dudu Maranhense
-  </span>
-
-</div>
-
-</body>
-
-</html>
-  `);
-
-  printWindow.document.close();
-
-  setTimeout(
-    () => {
-
-      printWindow.focus();
-
-      printWindow.print();
-
-    },
-    700
-  );
-
-}
-
-
-function escapeHTML(
-  value
-){
-
-  return String(value)
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
-}
-
-
-/* =====================================================
-   CELEBRAÇÃO FINAL
-===================================================== */
-
-const celebration =
-  document.querySelector(
-    "#celebration"
-  );
-
-const closeCelebration =
-  document.querySelector(
-    "#closeCelebration"
-  );
-
-
-function showCelebration(){
-
-  if(
-    saved.finalCelebrated
-  ){
-
-    return;
-
-  }
-
-  saved.finalCelebrated =
-    true;
-
-  save();
-
-  celebration.classList.add(
-    "show"
-  );
-
-  createParticles(
-    document.querySelector(
-      ".celebration-card"
-    )
-  );
-
-}
-
-
-closeCelebration.addEventListener(
-  "click",
-  () => {
-
-    celebration.classList.remove(
-      "show"
-    );
-
-    showPage(
-      "passaporte"
-    );
-
-  }
-);
-
-
-/* =====================================================
-   SCROLL NAV
-===================================================== */
-
-window.addEventListener(
-  "scroll",
-  () => {
+document.addEventListener(
+  "keydown",
+  event => {
 
     if(
-      window.scrollY > 20
+      event.key === "Escape"
     ){
 
-      nav.classList.add(
-        "scrolled"
-      );
+      closeDrawer();
 
-    }else{
-
-      nav.classList.remove(
-        "scrolled"
-      );
+      closePdfModal();
 
     }
 
-  },
-  {
-    passive:true
+
+    if(
+      event.key === "ArrowRight" &&
+      !event.ctrlKey &&
+      !event.metaKey
+    ){
+
+      nextPage();
+
+    }
+
+
+    if(
+      event.key === "ArrowLeft" &&
+      !event.ctrlKey &&
+      !event.metaKey
+    ){
+
+      previousPage();
+
+    }
+
   }
 );
+
+
+/* =====================================================
+   PDF SYSTEM
+===================================================== */
+
+const pdfModal =
+  document.querySelector(
+    "#pdfModal"
+  );
+
+const pdfBtn =
+  document.querySelector(
+    "#pdfBtn"
+  );
+
+const cancelPdf =
+  document.querySelector(
+    "#cancelPdf"
+  );
+
+const generatePdf =
+  document.querySelector(
+    "#generatePdf"
+  );
+
+const studentName =
+  document.querySelector(
+    "#studentName"
+  );
+
+
+function openPdfModal(){
+
+  studentName.value =
+    state.studentName || "";
+
+  pdfModal.classList.add(
+    "show"
+  );
+
+  setTimeout(
+    () =>
+      studentName.focus(),
+    100
+  );
+
+}
+
+
+function closePdfModal(){
+
+  pdfModal.classList.remove(
+    "show"
+  );
+
+}
+
+
+pdfBtn.addEventListener(
+  "click",
+  openPdfModal
+);
+
+cancelPdf.addEventListener(
+  "click",
+  closePdfModal
+);
+
+pdfModal.addEventListener(
+  "click",
+  event => {
+
+    if(
+      event.target === pdfModal
+    ){
+
+      closePdfModal();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   PDF CONTENT
+===================================================== */
+
+const pdfData = {
+
+  home:{
+    title:"Do Zero aos 50K",
+    subtitle:"Motim Book",
+    sections:[
+      {
+        title:"A jornada",
+        text:"Uma experiência prática para quem quer começar a criar conteúdo, perder o medo da câmera e construir uma audiência. Sem fórmula mágica. Sem complicação."
+      },
+      {
+        title:"Os quatro pilares",
+        text:"01 — Câmera\n02 — Corte\n03 — Métricas\n04 — Conexão"
+      }
+    ]
+  },
+
+  intro:{
+    title:"Você está pronto?",
+    subtitle:"Antes de começar",
+    sections:[
+      {
+        title:"Introdução",
+        text:"Você não precisa ser famoso, ter uma câmera cara ou saber editar. Precisa começar. O Motim organiza sua jornada em quatro pilares."
+      },
+      {
+        title:"Os quatro pilares",
+        text:"01 — Câmera: treine até falar com a lente como fala com uma pessoa.\n02 — Corte: edite o necessário para a mensagem respirar.\n03 — Métricas: observe os sinais e descubra o que merece ser repetido.\n04 — Conexão: use os Stories para transformar seguidores em audiência."
+      }
+    ]
+  },
+
+  camera:{
+    title:"Perca o medo da câmera",
+    subtitle:"Capítulo 01 · Câmera",
+    sections:[
+      {
+        title:"O conceito",
+        text:"Uma das maiores barreiras para quem quer começar a criar conteúdo é apertar o botão de gravar. Você olha para a câmera e parece que esquece tudo."
+      },
+      {
+        title:"A verdade",
+        text:"Você não precisa perder o medo para começar. Você precisa começar para perder o medo."
+      },
+      {
+        title:"Prática",
+        text:"Grave mesmo que não publique. Fale sobre qualquer assunto. Depois assista. Você provavelmente vai achar estranho — e está tudo bem."
+      },
+      {
+        title:"Frase-chave",
+        text:"O treino vem antes da confiança."
+      }
+    ]
+  },
+
+  edicao:{
+    title:"A mágica da edição básica",
+    subtitle:"Capítulo 02 · Edição",
+    sections:[
+      {
+        title:"O conceito",
+        text:"O objetivo principal da edição é fazer o espectador não perceber as partes que deveriam ter ficado de fora."
+      },
+      {
+        title:"Processo",
+        text:"01 — Gravação\n02 — Cortes\n03 — Texto\n04 — Publicação"
+      },
+      {
+        title:"Frase-chave",
+        text:"Edite para melhorar o conteúdo. Não para mostrar que você sabe editar."
+      }
+    ]
+  },
+
+  metricas:{
+    title:"Decifre as métricas",
+    subtitle:"Capítulo 03 · Métricas",
+    sections:[
+      {
+        title:"O conceito",
+        text:"Você publicou um vídeo. Agora vem uma das partes mais importantes: olhar o que aconteceu."
+      },
+      {
+        title:"O que analisar",
+        text:"Não pense apenas: 'esse viralizou'. Pergunte: o que havia de diferente nele? Era o assunto? A primeira frase? A forma de contar? A identificação?"
+      },
+      {
+        title:"Exercício",
+        text:"Compare três vídeos, escolha o melhor desempenho, anote três diferenças e defina uma hipótese para testar."
+      }
+    ]
+  },
+
+  stories:{
+    title:"O poder dos Stories",
+    subtitle:"Capítulo 04 · Stories",
+    sections:[
+      {
+        title:"O conceito",
+        text:"Reels podem trazer pessoas. Stories podem fazer elas ficarem."
+      },
+      {
+        title:"O que mostrar",
+        text:"Mostre seu dia. Converse. Conte uma história. Faça uma pergunta. Mostre bastidores. Responda alguém."
+      },
+      {
+        title:"Frase-chave",
+        text:"Crescer é importante. Ser lembrado é ainda mais."
+      }
+    ]
+  },
+
+  passaporte:{
+    title:"Passaporte Motim",
+    subtitle:"Sua evolução",
+    sections:[
+      {
+        title:"Conquistas",
+        text:"Primeiro passo\nSem medo\nEditor\nAnalista\nConectado\nCriador"
+      },
+      {
+        title:"Propósito",
+        text:"As conquistas são liberadas conforme você completa as atividades da jornada."
+      }
+    ]
+  },
+
+  final:{
+    title:"Comece. Observe. Repita.",
+    subtitle:"Missão cumprida",
+    sections:[
+      {
+        title:"A mensagem final",
+        text:"Você não precisa descobrir a fórmula perfeita para começar. Cada vídeo é um treino. Cada postagem é um teste. Cada métrica é uma oportunidade de aprender."
+      },
+      {
+        title:"Nos vemos nos 50 mil.",
+        text:"— Dudu Maranhense"
+      }
+    ]
+  }
+
+};
+
+
+/* =====================================================
+   PDF GENERATOR
+===================================================== */
+
+async function generateStudyPDF(){
+
+  const name =
+    studentName.value.trim()
+    || "Aluno Motim";
+
+
+  state.studentName =
+    name;
+
+  save();
+
+
+  const data =
+    pdfData[currentPage]
+    || pdfData.home;
+
+
+  const {
+    jsPDF
+  } =
+    window.jspdf;
+
+
+  const doc =
+    new jsPDF({
+      orientation:"portrait",
+      unit:"mm",
+      format:"a4"
+    });
+
+
+  const pageWidth =
+    210;
+
+  const pageHeight =
+    297;
+
+  const margin =
+    20;
+
+
+  /* --------------------------------
+     BACKGROUND
+  -------------------------------- */
+
+  doc.setFillColor(
+    14,
+    14,
+    14
+  );
+
+  doc.rect(
+    0,
+    0,
+    pageWidth,
+    pageHeight,
+    "F"
+  );
+
+
+  /* --------------------------------
+     ORANGE HEADER
+  -------------------------------- */
+
+  doc.setFillColor(
+    255,
+    122,
+    0
+  );
+
+  doc.rect(
+    0,
+    0,
+    pageWidth,
+    5,
+    "F"
+  );
+
+
+  /* --------------------------------
+     BRAND
+  -------------------------------- */
+
+  doc.setFont(
+    "helvetica",
+    "bold"
+  );
+
+  doc.setFontSize(
+    10
+  );
+
+  doc.setTextColor(
+    255,
+    177,
+    92
+  );
+
+  doc.text(
+    "MOTIM BOOK",
+    margin,
+    20
+  );
+
+
+  doc.setFontSize(
+    8
+  );
+
+  doc.setTextColor(
+    150,
+    145,
+    140
+  );
+
+  doc.text(
+    "DO ZERO AOS 50K",
+    pageWidth - margin,
+    20,
+    {
+      align:"right"
+    }
+  );
+
+
+  /* --------------------------------
+     CHAPTER
+  -------------------------------- */
+
+  doc.setFont(
+    "helvetica",
+    "bold"
+  );
+
+  doc.setFontSize(
+    8
+  );
+
+  doc.setTextColor(
+    255,
+    177,
+    92
+  );
+
+  doc.text(
+    data.subtitle.toUpperCase(),
+    margin,
+    43
+  );
+
+
+  /* --------------------------------
+     TITLE
+  -------------------------------- */
+
+  doc.setFontSize(
+    31
+  );
+
+  doc.setTextColor(
+    247,
+    241,
+    234
+  );
+
+
+  const titleLines =
+    doc.splitTextToSize(
+      data.title,
+      165
+    );
+
+
+  doc.text(
+    titleLines,
+    margin,
+    58
+  );
+
+
+  let y =
+    58 +
+    titleLines.length * 13;
+
+
+  /* --------------------------------
+     STUDENT
+  -------------------------------- */
+
+  doc.setFont(
+    "helvetica",
+    "normal"
+  );
+
+  doc.setFontSize(
+    9
+  );
+
+  doc.setTextColor(
+    160,
+    154,
+    149
+  );
+
+  doc.text(
+    `Material de estudo · ${name}`,
+    margin,
+    y + 3
+  );
+
+
+  y += 17;
+
+
+  /* --------------------------------
+     PROGRESS
+  -------------------------------- */
+
+  const progress =
+    globalProgress();
+
+
+  doc.setFillColor(
+    38,
+    35,
+    32
+  );
+
+  doc.roundedRect(
+    margin,
+    y,
+    170,
+    5,
+    2,
+    2,
+    "F"
+  );
+
+
+  doc.setFillColor(
+    255,
+    122,
+    0
+  );
+
+  doc.roundedRect(
+    margin,
+    y,
+    170 * progress / 100,
+    5,
+    2,
+    2,
+    "F"
+  );
+
+
+  doc.setFontSize(
+    8
+  );
+
+  doc.setTextColor(
+    160,
+    154,
+    149
+  );
+
+  doc.text(
+    `${progress}% da jornada concluída`,
+    margin,
+    y + 12
+  );
+
+
+  y += 27;
+
+
+  /* --------------------------------
+     CONTENT
+  -------------------------------- */
+
+  data.sections.forEach(
+    section => {
+
+      if(y > 250){
+
+        doc.addPage();
+
+        doc.setFillColor(
+          14,
+          14,
+          14
+        );
+
+        doc.rect(
+          0,
+          0,
+          pageWidth,
+          pageHeight,
+          "F"
+        );
+
+        doc.setFillColor(
+          255,
+          122,
+          0
+        );
+
+        doc.rect(
+          0,
+          0,
+          pageWidth,
+          5,
+          "F"
+        );
+
+        y = 25;
+
+      }
+
+
+      doc.setFont(
+        "helvetica",
+        "bold"
+      );
+
+      doc.setFontSize(
+        12
+      );
+
+      doc.setTextColor(
+        255,
+        177,
+        92
+      );
+
+      doc.text(
+        section.title.toUpperCase(),
+        margin,
+        y
+      );
+
+
+      y += 9;
+
+
+      doc.setFont(
+        "helvetica",
+        "normal"
+      );
+
+      doc.setFontSize(
+        10.5
+      );
+
+      doc.setTextColor(
+        218,
+        210,
+        202
+      );
+
+
+      const lines =
+        doc.splitTextToSize(
+          section.text,
+          165
+        );
+
+
+      lines.forEach(
+        line => {
+
+          if(y > 270){
+
+            doc.addPage();
+
+            doc.setFillColor(
+              14,
+              14,
+              14
+            );
+
+            doc.rect(
+              0,
+              0,
+              pageWidth,
+              pageHeight,
+              "F"
+            );
+
+            doc.setFillColor(
+              255,
+              122,
+              0
+            );
+
+            doc.rect(
+              0,
+              0,
+              pageWidth,
+              5,
+              "F"
+            );
+
+            y = 25;
+
+          }
+
+
+          doc.text(
+            line,
+            margin,
+            y
+          );
+
+          y += 6;
+
+        }
+      );
+
+
+      y += 9;
+
+    }
+  );
+
+
+  /* --------------------------------
+     CHECKLIST
+  -------------------------------- */
+
+  if(
+    chapterTasks[currentPage]
+  ){
+
+    if(y > 215){
+
+      doc.addPage();
+
+      doc.setFillColor(
+        14,
+        14,
+        14
+      );
+
+      doc.rect(
+        0,
+        0,
+        pageWidth,
+        pageHeight,
+        "F"
+      );
+
+      doc.setFillColor(
+        255,
+        122,
+        0
+      );
+
+      doc.rect(
+        0,
+        0,
+        pageWidth,
+        5,
+        "F"
+      );
+
+      y = 25;
+
+    }
+
+
+    doc.setFont(
+      "helvetica",
+      "bold"
+    );
+
+    doc.setFontSize(
+      12
+    );
+
+    doc.setTextColor(
+      255,
+      177,
+      92
+    );
+
+    doc.text(
+      "CHECKLIST DA MISSÃO",
+      margin,
+      y
+    );
+
+
+    y += 10;
+
+
+    const taskLabels = {
+
+      cam1:"Dia 01 · gravar 1 vídeo de 1 minuto",
+      cam2:"Dia 02 · gravar 1 vídeo de 1 minuto",
+      cam3:"Dia 03 · gravar 1 vídeo de 1 minuto",
+      cam4:"Dia 04 · gravar 1 vídeo de 1 minuto",
+      cam5:"Dia 05 · gravar 1 vídeo de 1 minuto",
+      cam6:"Dia 06 · gravar 1 vídeo de 1 minuto",
+      cam7:"Dia 07 · gravar 1 vídeo de 1 minuto",
+
+      edit1:"Remover erros",
+      edit2:"Cortar silêncios",
+      edit3:"Tirar repetições",
+      edit4:"Melhorar o ritmo",
+      edit5:"Conferir clareza",
+      edit6:"Adicionar texto quando necessário",
+
+      met1:"Comparar 3 vídeos",
+      met2:"Escolher o melhor desempenho",
+      met3:"Anotar 3 diferenças",
+      met4:"Definir 1 hipótese para testar",
+
+      sto1:"Mostrar um momento do meu dia",
+      sto2:"Fazer uma pergunta",
+      sto3:"Responder alguém",
+      sto4:"Mostrar um bastidor",
+      sto5:"Criar uma enquete"
+
+    };
+
+
+    chapterTasks[currentPage]
+      .forEach(
+        key => {
+
+          doc.setDrawColor(
+            100,
+            95,
+            90
+          );
+
+          doc.rect(
+            margin,
+            y - 4,
+            5,
+            5
+          );
+
+
+          if(
+            state.tasks[key]
+          ){
+
+            doc.setFillColor(
+              255,
+              122,
+              0
+            );
+
+            doc.rect(
+              margin,
+              y - 4,
+              5,
+              5,
+              "F"
+            );
+
+            doc.setTextColor(
+              20,
+              20,
+              20
+            );
+
+            doc.setFontSize(
+              7
+            );
+
+            doc.text(
+              "✓",
+              margin + 1,
+              y
+            );
+
+          }
+
+
+          doc.setFont(
+            "helvetica",
+            "normal"
+          );
+
+          doc.setFontSize(
+            9.5
+          );
+
+          doc.setTextColor(
+            215,
+            207,
+            199
+          );
+
+          doc.text(
+            taskLabels[key] || key,
+            margin + 9,
+            y
+          );
+
+
+          y += 9;
+
+        }
+      );
+
+  }
+
+
+  /* --------------------------------
+     FOOTER
+  -------------------------------- */
+
+  const totalPages =
+    doc.internal.getNumberOfPages();
+
+
+  for(
+    let i = 1;
+    i <= totalPages;
+    i++
+  ){
+
+    doc.setPage(i);
+
+
+    doc.setFont(
+      "helvetica",
+      "normal"
+    );
+
+    doc.setFontSize(
+      7
+    );
+
+    doc.setTextColor(
+      105,
+      100,
+      96
+    );
+
+
+    doc.text(
+      `Motim Book · ${name}`,
+      margin,
+      pageHeight - 12
+    );
+
+
+    doc.text(
+      `${i} / ${totalPages}`,
+      pageWidth - margin,
+      pageHeight - 12,
+      {
+        align:"right"
+      }
+    );
+
+  }
+
+
+  /* --------------------------------
+     DOWNLOAD
+  -------------------------------- */
+
+  const safeName =
+    name
+      .toLowerCase()
+      .replace(
+        /[^a-z0-9áéíóúãõç]+/gi,
+        "-"
+      )
+      .replace(
+        /^-+|-+$/g,
+        ""
+      );
+
+
+  const fileName =
+    `motim-book-${currentPage}-${safeName || "estudo"}.pdf`;
+
+
+  doc.save(
+    fileName
+  );
+
+  closePdfModal();
+
+}
+
+
+/* =====================================================
+   PDF EVENT
+===================================================== */
+
+generatePdf.addEventListener(
+  "click",
+  generateStudyPDF
+);
+
+
+/* =====================================================
+   NAV SCROLL EFFECT
+===================================================== */
+
+document
+  .querySelectorAll(".page")
+  .forEach(
+    page => {
+
+      page.addEventListener(
+        "scroll",
+        () => {
+
+          if(
+            page.scrollTop > 20
+          ){
+
+            document
+              .querySelector("#nav")
+              .classList.add(
+                "scrolled"
+              );
+
+          }else{
+
+            document
+              .querySelector("#nav")
+              .classList.remove(
+                "scrolled"
+              );
+
+          }
+
+        },
+        {
+          passive:true
+        }
+      );
+
+    }
+  );
 
 
 /* =====================================================
    INIT
 ===================================================== */
 
-showPage(
-  currentPage
-);
+buildDrawer();
 
-refresh();
+refreshChecklist();
+
+restoreChoices();
+
+updateUI();
 
 
 /* =====================================================
-   RECARREGAR ESTADO DAS ESCOLHAS
+   RESTORE CURRENT PAGE
 ===================================================== */
 
-function restoreChoices(){
+if(
+  state.currentPage &&
+  pageUnlocked(state.currentPage)
+){
 
   document
-    .querySelectorAll(
-      ".choices"
-    )
-    .forEach(group => {
-
-      const type =
-        group.dataset.type;
-
-      const savedChoice =
-        saved[
-          "choice_" + type
-        ];
-
-      if(!savedChoice){
-
-        return;
-
-      }
-
-      const button =
-        group.querySelector(
-          `[data-v="${savedChoice}"]`
-        );
-
-      if(button){
-
-        button.classList.add(
+    .querySelectorAll(".page")
+    .forEach(
+      page =>
+        page.classList.remove(
           "active"
-        );
+        )
+    );
 
-        const feedbackId =
-          type === "camera"
-            ? "cameraFeedback"
-            : type === "metrics"
-              ? "metricsFeedback"
-              : "storiesFeedback";
 
-        const box =
-          document.getElementById(
-            feedbackId
-          );
+  const restored =
+    document.querySelector(
+      `.page[data-page="${state.currentPage}"]`
+    );
 
-        if(box){
 
-          box.textContent =
-            feedback[type][
-              savedChoice
-            ];
+  if(restored){
 
-          box.classList.add(
-            "show"
-          );
+    restored.classList.add(
+      "active"
+    );
 
-        }
+    currentPage =
+      state.currentPage;
 
-      }
-
-    });
+  }
 
 }
 
 
+updateUI();
+
+
 /* =====================================================
-   SALVAR ESCOLHAS
+   INITIAL START BUTTON
 ===================================================== */
 
-document
-  .querySelectorAll(
-    ".choices .choice"
-  )
-  .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        const group =
-          button.closest(
-            ".choices"
-          );
-
-        saved[
-          "choice_" +
-          group.dataset.type
-        ] =
-          button.dataset.v;
-
-        save();
-
-      }
-    );
-
-  });
-
-
-restoreChoices();
+updateStartButton();
 
 </script>
 
