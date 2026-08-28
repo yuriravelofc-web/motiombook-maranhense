@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <meta name="theme-color" content="#0d0d0d">
 <meta name="description" content="Motim Book — Do Zero aos 50K">
@@ -13,7 +13,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link
+href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap"
+rel="stylesheet"
+>
 
 <!-- PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -22,59 +25,66 @@
 
 :root{
   --bg:#0d0d0d;
-  --bg2:#12100e;
+  --bg2:#11100f;
   --card:#171717;
-  --card2:#201b17;
+  --card2:#1d1916;
 
   --line:#ffffff18;
-  --line2:#ffffff2b;
+  --line2:#ffffff30;
 
-  --text:#f7f1ea;
-  --muted:#a9a19a;
-  --soft:#d9d0c7;
+  --text:#f6f0e9;
+  --muted:#aaa29a;
+  --soft:#d6cec5;
 
   --o:#ff7a00;
   --o2:#ffb15c;
   --sand:#d99c5c;
+  --brown:#8a5a2b;
 
   --disp:"Barlow Condensed",sans-serif;
   --body:"Inter",sans-serif;
 
-  --ease:cubic-bezier(.2,.8,.2,1);
+  --shadow:0 30px 100px rgba(0,0,0,.45);
 
-  --shadow:
-    0 30px 100px rgba(0,0,0,.48);
+  --ease:cubic-bezier(.2,.8,.2,1);
 }
+
+/* =====================================================
+   RESET
+===================================================== */
 
 *{
   box-sizing:border-box;
 }
 
-html,
-body{
+html{
   margin:0;
+  padding:0;
   width:100%;
   min-height:100%;
+  scroll-behavior:auto;
 }
 
 body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100vh;
+
   background:
-    radial-gradient(
-      circle at 80% 10%,
-      #ff7a0008,
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 10% 80%,
-      #d99c5c05,
-      transparent 28%
-    ),
+    radial-gradient(circle at 80% 10%,#ff7a0007,transparent 28%),
+    radial-gradient(circle at 10% 80%,#d99c5c05,transparent 25%),
     var(--bg);
 
   color:var(--text);
   font-family:var(--body);
 
-  overflow:hidden;
+  overflow-x:hidden;
+  overflow-y:auto;
+
+  -webkit-overflow-scrolling:touch;
+
+  overscroll-behavior-y:auto;
 }
 
 body.menu-open{
@@ -82,7 +92,8 @@ body.menu-open{
 }
 
 button,
-input{
+input,
+a{
   font:inherit;
 }
 
@@ -99,7 +110,6 @@ a{
   color:#111;
 }
 
-
 /* =====================================================
    NOISE
 ===================================================== */
@@ -110,16 +120,15 @@ a{
 
   pointer-events:none;
 
-  z-index:9999;
+  z-index:999;
 
   opacity:.035;
 
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-
 /* =====================================================
-   GLOBAL PROGRESS
+   TOP PROGRESS
 ===================================================== */
 
 .top{
@@ -129,11 +138,11 @@ a{
   left:0;
   right:0;
 
+  z-index:500;
+
   height:3px;
 
   background:#ffffff0d;
-
-  z-index:500;
 }
 
 .top i{
@@ -150,13 +159,11 @@ a{
     );
 
   box-shadow:
-    0 0 15px #ff7a00,
-    0 0 35px #ff7a0060;
+    0 0 15px #ff7a0080;
 
   transition:
-    width .9s var(--ease);
+    width .8s var(--ease);
 }
-
 
 /* =====================================================
    NAV
@@ -165,13 +172,13 @@ a{
 .nav{
   position:fixed;
 
+  z-index:450;
+
   top:0;
   left:0;
   right:0;
 
-  height:76px;
-
-  z-index:400;
+  height:72px;
 
   display:flex;
   align-items:center;
@@ -185,7 +192,7 @@ a{
     linear-gradient(
       180deg,
       rgba(13,13,13,.96),
-      rgba(13,13,13,.45),
+      rgba(13,13,13,.55),
       transparent
     );
 
@@ -193,12 +200,12 @@ a{
   -webkit-backdrop-filter:blur(12px);
 
   transition:
-    background .35s ease,
-    border-color .35s ease;
+    background .3s ease,
+    border-color .3s ease;
 }
 
 .nav.scrolled{
-  background:#0d0d0de8;
+  background:rgba(13,13,13,.9);
 
   border-bottom:1px solid var(--line);
 }
@@ -207,9 +214,18 @@ a{
   color:var(--text);
 
   font:
-    800 18px var(--disp);
+    800 17px var(--disp);
 
   letter-spacing:.12em;
+
+  cursor:pointer;
+
+  transition:
+    transform .25s ease;
+}
+
+.brand:hover{
+  transform:translateY(-1px);
 }
 
 .brand b{
@@ -219,214 +235,192 @@ a{
 .navright{
   display:flex;
   align-items:center;
-  gap:15px;
+  gap:10px;
 }
 
 .pct{
-  color:var(--muted);
-
   font-size:11px;
 
-  min-width:100px;
+  color:var(--muted);
+
+  margin-right:8px;
+
+  min-width:92px;
 
   text-align:right;
 }
 
+/* =====================================================
+   MENU BUTTON
+===================================================== */
+
 .menu{
-  width:44px;
-  height:44px;
+  position:relative;
+
+  width:42px;
+  height:42px;
+
+  border:1px solid var(--line);
+
+  background:
+    rgba(255,255,255,.04);
+
+  color:white;
 
   border-radius:50%;
+
+  cursor:pointer;
 
   display:grid;
   place-items:center;
 
-  cursor:pointer;
-
-  color:white;
-
-  background:
-    rgba(255,255,255,.055);
-
-  border:1px solid var(--line2);
-
-  box-shadow:
-    0 8px 30px rgba(0,0,0,.3);
-
   transition:
     transform .3s var(--ease),
-    background .3s ease,
-    border-color .3s ease;
+    border-color .3s ease,
+    background .3s ease;
 }
 
 .menu:hover{
-  transform:scale(1.06) rotate(5deg);
-
-  background:
-    rgba(255,122,0,.12);
+  transform:
+    rotate(8deg)
+    scale(1.05);
 
   border-color:#ff7a0070;
+
+  background:#ff7a0012;
 }
 
 .menu-lines{
-  width:18px;
+  width:17px;
+  height:13px;
 
-  display:grid;
-
-  gap:4px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
 }
 
-.menu-lines i{
-  display:block;
+.menu-lines span{
+  width:100%;
+  height:1.5px;
 
-  height:2px;
+  background:#fff;
 
-  border-radius:10px;
-
-  background:#f4eee8;
+  border-radius:20px;
 
   transition:
     transform .3s ease,
     opacity .3s ease;
 }
 
-.menu.open .menu-lines i:nth-child(1){
-  transform:translateY(6px) rotate(45deg);
+.menu.active .menu-lines span:nth-child(1){
+  transform:
+    translateY(5.5px)
+    rotate(45deg);
 }
 
-.menu.open .menu-lines i:nth-child(2){
+.menu.active .menu-lines span:nth-child(2){
   opacity:0;
 }
 
-.menu.open .menu-lines i:nth-child(3){
-  transform:translateY(-6px) rotate(-45deg);
+.menu.active .menu-lines span:nth-child(3){
+  transform:
+    translateY(-5.5px)
+    rotate(-45deg);
 }
-
 
 /* =====================================================
    APP
 ===================================================== */
 
 #app{
-  position:relative;
-
-  width:100vw;
-  height:100vh;
+  width:100%;
+  min-height:100vh;
 }
-
 
 /* =====================================================
    PAGE SYSTEM
 ===================================================== */
 
 .page{
-  position:absolute;
-
-  inset:0;
+  display:none;
 
   width:100%;
-  height:100%;
+  min-height:100vh;
 
-  padding-top:76px;
+  position:relative;
 
-  overflow-y:auto;
-  overflow-x:hidden;
+  padding-top:72px;
 
   opacity:0;
-  visibility:hidden;
-
-  transform:
-    translateX(35px)
-    scale(.985);
-
-  transition:
-    opacity .5s var(--ease),
-    transform .65s var(--ease),
-    visibility .5s;
-
-  scrollbar-width:thin;
-  scrollbar-color:
-    #ff7a0060
-    transparent;
 }
 
 .page.active{
-  opacity:1;
+  display:block;
 
-  visibility:visible;
-
-  transform:none;
-
-  z-index:10;
+  animation:
+    pageIn .65s var(--ease) forwards;
 }
 
-.page.prev{
-  transform:
-    translateX(-35px)
-    scale(.985);
+@keyframes pageIn{
+
+  from{
+    opacity:0;
+
+    transform:
+      translateY(25px)
+      scale(.985);
+  }
+
+  to{
+    opacity:1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
 }
-
-.page-inner{
-  width:min(1120px,100%);
-
-  min-height:calc(100vh - 76px);
-
-  margin:auto;
-
-  padding:
-    60px
-    clamp(18px,5vw,55px)
-    100px;
-
-  display:flex;
-  flex-direction:column;
-}
-
 
 /* =====================================================
-   HERO / HOME
+   COVER
 ===================================================== */
 
-.home{
-  position:relative;
+.cover{
+  min-height:100vh;
 
   padding:0;
 
+  position:relative;
+
   overflow:hidden;
+
+  display:flex;
+  align-items:flex-end;
+
+  background:#111;
 }
 
-.home-image{
+.cover-image{
   position:absolute;
 
   inset:0;
 
+  z-index:0;
+
   background:
-    linear-gradient(
-      90deg,
-      rgba(13,13,13,.98) 0%,
-      rgba(13,13,13,.82) 35%,
-      rgba(13,13,13,.35) 70%,
-      rgba(13,13,13,.58) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(13,13,13,.05) 15%,
-      rgba(13,13,13,.35) 60%,
-      rgba(13,13,13,.98) 100%
-    ),
-    url("assets/dudu.jpg.PNG");
-
-  background-size:cover;
-
-  background-position:center;
+    url("assets/dudu.jpg.PNG")
+    center center/
+    cover
+    no-repeat;
 
   transform:scale(1.02);
 
   animation:
-    homeImage 14s ease-in-out infinite alternate;
+    coverImage 12s ease-in-out infinite alternate;
 }
 
-@keyframes homeImage{
+@keyframes coverImage{
+
   from{
     transform:scale(1.02);
   }
@@ -434,48 +428,59 @@ a{
   to{
     transform:scale(1.07);
   }
+
 }
 
-.home:after{
+.cover-overlay{
+  position:absolute;
+
+  inset:0;
+
+  z-index:1;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.05) 0%,
+      rgba(0,0,0,.12) 25%,
+      rgba(13,13,13,.5) 52%,
+      rgba(13,13,13,.96) 100%
+    );
+}
+
+.cover-overlay:after{
   content:"";
 
   position:absolute;
 
   inset:0;
 
-  pointer-events:none;
-
   background:
-    radial-gradient(
-      circle at 70% 35%,
-      #ff7a0015,
-      transparent 30%
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.45),
+      transparent 70%
     );
 }
 
-.home-content{
+.cover-content{
   position:relative;
 
-  z-index:5;
+  z-index:3;
 
-  width:min(1150px,100%);
+  width:100%;
 
-  min-height:100vh;
+  max-width:1300px;
 
   margin:auto;
 
   padding:
-    130px
-    clamp(22px,6vw,75px)
-    60px;
-
-  display:flex;
-  flex-direction:column;
-
-  justify-content:center;
+    140px
+    clamp(22px,7vw,90px)
+    65px;
 }
 
-.home-kicker{
+.cover-kicker{
   color:var(--o2);
 
   font-size:11px;
@@ -487,29 +492,28 @@ a{
   text-transform:uppercase;
 
   display:flex;
+
   align-items:center;
 
-  gap:10px;
+  gap:9px;
 }
 
-.home-kicker:before{
-  content:"";
-
-  width:8px;
-  height:8px;
+.cover-dot{
+  width:7px;
+  height:7px;
 
   border-radius:50%;
 
   background:var(--o);
 
   box-shadow:
-    0 0 15px var(--o),
-    0 0 30px #ff7a0070;
+    0 0 15px var(--o);
 
-  animation:pulse 2s infinite;
+  animation:pulseDot 2s infinite;
 }
 
-@keyframes pulse{
+@keyframes pulseDot{
+
   0%,100%{
     transform:scale(1);
   }
@@ -517,104 +521,105 @@ a{
   50%{
     transform:scale(1.35);
   }
+
 }
 
-.home h1{
+.cover h1{
   margin:
-    24px
-    0
-    22px;
+    24px 0
+    24px;
 
-  max-width:800px;
+  max-width:850px;
 
   font:
-    900 clamp(85px,12vw,170px)/.74 var(--disp);
+    900
+    clamp(80px,13vw,185px)
+    /.72
+    var(--disp);
 
   letter-spacing:-.035em;
 
   text-transform:uppercase;
 
   text-shadow:
-    0 15px 60px rgba(0,0,0,.5);
+    0 15px 60px rgba(0,0,0,.6);
 }
 
-.home h1 span{
+.cover h1 span{
   color:var(--o);
 
   display:inline-block;
 }
 
-.home-sub{
-  max-width:600px;
+.cover-sub{
+  max-width:580px;
 
-  color:#d0c8c0;
+  color:#d6cec5;
 
   font-size:15px;
 
   line-height:1.75;
 
-  margin-bottom:25px;
+  text-shadow:
+    0 3px 20px rgba(0,0,0,.6);
 }
 
-.home-sub b{
-  color:white;
-}
+/* =====================================================
+   COVER PROGRESS
+===================================================== */
 
-.home-progress{
+.cover-progress{
   width:min(650px,100%);
 
-  margin-top:5px;
+  margin-top:30px;
 }
 
-.home-progress-top{
+.cover-progress-top{
   display:flex;
 
-  align-items:flex-end;
   justify-content:space-between;
+
+  align-items:end;
 
   margin-bottom:9px;
 }
 
-.home-progress-top span:first-child{
-  color:#ffffffb8;
+.cover-progress-top span:first-child{
+  color:#ffffffaa;
 
   font-size:10px;
 
-  font-weight:800;
-
   letter-spacing:.16em;
+
+  font-weight:800;
 
   text-transform:uppercase;
 }
 
-.home-progress-number{
+.cover-progress-number{
   font:
-    800 38px var(--disp);
+    800 34px var(--disp);
 
   line-height:1;
 }
 
-.home-progress-number b{
+.cover-progress-number b{
   color:var(--o);
 }
 
-.progress-track{
-  position:relative;
-
-  width:100%;
-
+.cover-progress-bar{
   height:7px;
-
-  overflow:hidden;
 
   border-radius:99px;
 
-  background:#ffffff24;
+  overflow:hidden;
 
-  backdrop-filter:blur(5px);
+  background:#ffffff28;
+
+  backdrop-filter:blur(8px);
 }
 
-.progress-track i{
+.cover-progress-bar i{
   display:block;
 
   width:0%;
@@ -628,27 +633,26 @@ a{
       90deg,
       var(--o),
       var(--o2),
-      white
+      #fff
     );
 
   box-shadow:
-    0 0 15px #ff7a00,
-    0 0 35px #ff7a0060;
-
-  transition:
-    width 1s var(--ease);
+    0 0 18px #ff7a00;
 }
 
-.home-actions{
+/* =====================================================
+   COVER ACTIONS
+===================================================== */
+
+.cover-actions{
   display:flex;
 
   gap:10px;
 
   flex-wrap:wrap;
 
-  margin-top:25px;
+  margin-top:22px;
 }
-
 
 /* =====================================================
    BUTTONS
@@ -657,18 +661,9 @@ a{
 .btn{
   position:relative;
 
-  display:inline-flex;
-
-  align-items:center;
-  justify-content:center;
-
-  gap:8px;
-
-  padding:
-    14px
-    21px;
-
   border-radius:999px;
+
+  padding:14px 21px;
 
   cursor:pointer;
 
@@ -687,22 +682,22 @@ a{
   position:absolute;
 
   top:0;
-  left:-120%;
+  left:-100%;
 
-  width:65%;
+  width:60%;
   height:100%;
-
-  transform:skewX(-20deg);
 
   background:
     linear-gradient(
       90deg,
       transparent,
-      #ffffff40,
+      rgba(255,255,255,.25),
       transparent
     );
 
-  transition:left .75s ease;
+  transform:skewX(-20deg);
+
+  transition:left .7s ease;
 }
 
 .btn:hover:before{
@@ -724,40 +719,58 @@ a{
   transform:translateY(-4px);
 
   box-shadow:
-    0 22px 55px #ff7a0045;
+    0 20px 50px #ff7a0045,
+    0 0 0 5px #ff7a0010;
 }
 
 .secondary{
+  color:var(--text);
+
   background:#ffffff08;
 
-  color:white;
-
-  border:1px solid var(--line2);
+  border:1px solid var(--line);
 }
 
 .secondary:hover{
   transform:translateY(-3px);
 
-  background:#ffffff10;
+  background:#ffffff12;
+
+  border-color:#ffffff35;
 }
 
-.btn.locked{
-  opacity:.4;
-
+.btn:disabled{
   cursor:not-allowed;
 
-  pointer-events:none;
+  opacity:.3;
+
+  transform:none !important;
+
+  box-shadow:none !important;
 }
 
-
 /* =====================================================
-   STANDARD HEADER
+   CONTENT
 ===================================================== */
+
+.section,
+.chapter{
+  width:100%;
+
+  max-width:1120px;
+
+  margin:auto;
+
+  padding:
+    95px
+    clamp(20px,5vw,50px)
+    110px;
+}
 
 .kicker{
   color:var(--o2);
 
-  font-size:10px;
+  font-size:11px;
 
   font-weight:800;
 
@@ -766,22 +779,20 @@ a{
   text-transform:uppercase;
 }
 
-.page-title{
-  margin:
-    10px
-    0
-    18px;
-
+.section h2{
   font:
-    900 clamp(60px,8vw,105px)/.8 var(--disp);
+    900
+    clamp(60px,8vw,105px)
+    /.78
+    var(--disp);
 
   text-transform:uppercase;
 
   letter-spacing:-.025em;
-}
 
-.page-title span{
-  color:var(--o);
+  margin:
+    12px 0
+    24px;
 }
 
 .intro{
@@ -794,9 +805,8 @@ a{
   font-size:15px;
 }
 
-
 /* =====================================================
-   INTRO PILLARS
+   PILLARS
 ===================================================== */
 
 .pillars{
@@ -807,7 +817,7 @@ a{
 
   gap:10px;
 
-  margin-top:40px;
+  margin-top:35px;
 }
 
 .pillar{
@@ -815,7 +825,200 @@ a{
 
   min-height:190px;
 
+  border:1px solid var(--line);
+
+  border-radius:22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff09,
+      #ffffff02
+    );
+
   padding:22px;
+
+  color:var(--text);
+
+  overflow:hidden;
+
+  cursor:pointer;
+
+  transition:
+    transform .45s var(--ease),
+    border-color .35s ease,
+    background .35s ease,
+    box-shadow .45s ease;
+}
+
+.pillar:hover{
+  transform:translateY(-8px);
+
+  border-color:#ff7a0070;
+
+  background:#ff7a0010;
+
+  box-shadow:
+    0 25px 50px #0006;
+}
+
+.pillar.locked{
+  opacity:.38;
+
+  cursor:not-allowed;
+}
+
+.pillar .num{
+  font:
+    800 34px var(--disp);
+
+  color:var(--o);
+}
+
+.pillar h3{
+  font:
+    800 29px var(--disp);
+
+  text-transform:uppercase;
+
+  margin:
+    22px 0
+    7px;
+}
+
+.pillar p{
+  color:var(--muted);
+
+  font-size:12px;
+
+  line-height:1.55;
+}
+
+/* =====================================================
+   CHAPTER
+===================================================== */
+
+.chapter-card{
+  position:relative;
+
+  border:1px solid var(--line);
+
+  border-radius:32px;
+
+  overflow:hidden;
+
+  background:#ffffff03;
+
+  box-shadow:
+    0 25px 90px #0006;
+}
+
+.grid{
+  display:grid;
+
+  grid-template-columns:.7fr 1.3fr;
+}
+
+.aside{
+  position:relative;
+
+  padding:38px;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      #ff7a0012,
+      transparent 30%
+    ),
+    linear-gradient(
+      150deg,
+      #ff7a0019,
+      #3a23141f,
+      transparent
+    );
+
+  min-height:510px;
+
+  overflow:hidden;
+}
+
+.big{
+  font:
+    800 120px/.75 var(--disp);
+
+  color:transparent;
+
+  -webkit-text-stroke:
+    1px
+    #ff7a0080;
+}
+
+.aside h3{
+  position:relative;
+
+  z-index:2;
+
+  font:
+    800 55px/.86 var(--disp);
+
+  text-transform:uppercase;
+
+  margin:
+    28px 0
+    15px;
+}
+
+.aside p{
+  position:relative;
+
+  z-index:2;
+
+  color:var(--muted);
+
+  line-height:1.6;
+}
+
+.body{
+  padding:42px;
+}
+
+.body>p{
+  color:#c8c0b8;
+
+  line-height:1.8;
+
+  font-size:15px;
+}
+
+.body b{
+  color:var(--text);
+}
+
+/* =====================================================
+   QUOTE
+===================================================== */
+
+.quote{
+  border-left:3px solid var(--o);
+
+  padding-left:17px;
+
+  margin:27px 0;
+
+  font:
+    700 29px/1 var(--disp);
+
+  text-transform:uppercase;
+
+  color:var(--text);
+}
+
+/* =====================================================
+   PANELS
+===================================================== */
+
+.panel{
+  margin-top:22px;
 
   border:1px solid var(--line);
 
@@ -828,259 +1031,7 @@ a{
       #ffffff02
     );
 
-  color:white;
-
-  overflow:hidden;
-
-  transition:
-    transform .4s var(--ease),
-    border-color .3s ease,
-    background .3s ease;
-}
-
-.pillar:hover{
-  transform:translateY(-7px);
-
-  border-color:#ff7a0060;
-
-  background:#ff7a000b;
-}
-
-.pillar.locked{
-  opacity:.42;
-
-  cursor:not-allowed;
-}
-
-.pillar.locked:hover{
-  transform:none;
-
-  border-color:var(--line);
-}
-
-.num{
-  color:var(--o);
-
-  font:
-    800 34px var(--disp);
-}
-
-.pillar h3{
-  margin:
-    20px
-    0
-    8px;
-
-  font:
-    800 29px var(--disp);
-
-  text-transform:uppercase;
-}
-
-.pillar p{
-  margin:0;
-
-  color:var(--muted);
-
-  font-size:12px;
-
-  line-height:1.55;
-}
-
-.lock-icon{
-  position:absolute;
-
-  right:16px;
-  top:16px;
-
-  font-size:13px;
-}
-
-
-/* =====================================================
-   CHAPTER PAGE
-===================================================== */
-
-.chapter-page .page-inner{
-  max-width:1250px;
-}
-
-.chapter-layout{
-  display:grid;
-
-  grid-template-columns:
-    .68fr
-    1.32fr;
-
-  gap:0;
-
-  margin-top:25px;
-
-  border:1px solid var(--line);
-
-  border-radius:30px;
-
-  overflow:hidden;
-
-  background:#ffffff03;
-
-  box-shadow:
-    0 30px 90px #0007;
-}
-
-.chapter-aside{
-  position:relative;
-
-  min-height:560px;
-
-  padding:38px;
-
-  background:
-    radial-gradient(
-      circle at 20% 15%,
-      #ff7a0016,
-      transparent 35%
-    ),
-    linear-gradient(
-      145deg,
-      #ff7a0015,
-      #3a231410,
-      transparent
-    );
-
-  overflow:hidden;
-}
-
-.chapter-aside:after{
-  content:"";
-
-  position:absolute;
-
-  width:350px;
-  height:350px;
-
-  right:-180px;
-  bottom:-170px;
-
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle,
-      #ff7a0020,
-      transparent 70%
-    );
-
-  animation:
-    floatGlow 6s ease-in-out infinite;
-}
-
-@keyframes floatGlow{
-  0%,100%{
-    transform:translate(0,0);
-  }
-
-  50%{
-    transform:translate(-20px,-15px);
-  }
-}
-
-.big{
-  font:
-    900 150px/.7 var(--disp);
-
-  color:transparent;
-
-  -webkit-text-stroke:
-    1px
-    #ff7a0080;
-
-  position:relative;
-
-  z-index:2;
-}
-
-.chapter-aside h2{
-  position:relative;
-
-  z-index:2;
-
-  margin:
-    28px
-    0
-    15px;
-
-  max-width:370px;
-
-  font:
-    900 58px/.84 var(--disp);
-
-  text-transform:uppercase;
-}
-
-.chapter-aside p{
-  position:relative;
-
-  z-index:2;
-
-  color:var(--muted);
-
-  line-height:1.6;
-
-  max-width:340px;
-}
-
-.chapter-body{
-  padding:42px;
-}
-
-.chapter-body p{
-  color:#c8c0b8;
-
-  font-size:15px;
-
-  line-height:1.8;
-}
-
-.chapter-body p b{
-  color:white;
-}
-
-.quote{
-  position:relative;
-
-  margin:
-    30px
-    0;
-
-  padding-left:17px;
-
-  border-left:
-    3px solid var(--o);
-
-  color:white;
-
-  font:
-    800 29px/1 var(--disp);
-
-  text-transform:uppercase;
-}
-
-.panel{
-  margin-top:22px;
-
   padding:22px;
-
-  border:1px solid var(--line);
-
-  border-radius:20px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #ffffff08,
-      #ffffff02
-    );
 }
 
 .paneltitle{
@@ -1096,7 +1047,6 @@ a{
 
   margin-bottom:15px;
 }
-
 
 /* =====================================================
    CHOICES
@@ -1114,7 +1064,7 @@ a{
 .choice{
   position:relative;
 
-  padding:14px;
+  padding:13px;
 
   border:1px solid var(--line);
 
@@ -1122,7 +1072,7 @@ a{
 
   background:#ffffff06;
 
-  color:white;
+  color:var(--text);
 
   text-align:left;
 
@@ -1137,12 +1087,14 @@ a{
 .choice:hover{
   transform:translateY(-3px);
 
-  border-color:#ff7a0060;
+  border-color:#ff7a0070;
 
   background:#ff7a000c;
 }
 
 .choice.active{
+  transform:translateY(-2px);
+
   border-color:var(--o);
 
   background:#ff7a0014;
@@ -1163,7 +1115,6 @@ a{
 
   font-weight:900;
 }
-
 
 /* =====================================================
    FEEDBACK
@@ -1197,17 +1148,20 @@ a{
 }
 
 @keyframes feedbackIn{
+
   from{
     opacity:0;
+
     transform:translateY(8px);
   }
 
   to{
     opacity:1;
+
     transform:none;
   }
-}
 
+}
 
 /* =====================================================
    CHECKLIST
@@ -1222,9 +1176,9 @@ a{
 .check{
   display:flex;
 
-  align-items:center;
-
   gap:11px;
+
+  align-items:center;
 
   padding:11px;
 
@@ -1266,10 +1220,7 @@ a{
   flex:0 0 auto;
 
   display:grid;
-
   place-items:center;
-
-  cursor:pointer;
 
   transition:
     background .25s ease,
@@ -1297,58 +1248,43 @@ a{
 }
 
 @keyframes checkPop{
+
   from{
-    transform:scale(.4);
+    transform:scale(.5);
   }
 
   to{
     transform:scale(1);
   }
+
 }
 
 .check.done{
-  opacity:.5;
+  opacity:.55;
 
   text-decoration:line-through;
 }
 
-
 /* =====================================================
-   CHAPTER PROGRESS
+   PROGRESS
 ===================================================== */
 
-.chapter-progress{
-  margin-top:18px;
-}
-
-.chapter-progress-head{
-  display:flex;
-
-  justify-content:space-between;
-
-  color:var(--muted);
-
-  font-size:10px;
-
-  text-transform:uppercase;
-}
-
-.chapter-progress-bar{
+.bar{
   height:7px;
-
-  margin-top:9px;
 
   background:#292522;
 
   border-radius:99px;
 
   overflow:hidden;
+
+  margin-top:13px;
 }
 
-.chapter-progress-bar i{
+.bar i{
   display:block;
 
-  width:0%;
+  width:0;
 
   height:100%;
 
@@ -1360,12 +1296,25 @@ a{
     );
 
   box-shadow:
-    0 0 15px #ff7a0060;
+    0 0 15px #ff7a0050;
 
   transition:
     width .7s var(--ease);
 }
 
+.barlabel{
+  display:flex;
+
+  justify-content:space-between;
+
+  margin-top:7px;
+
+  color:var(--muted);
+
+  font-size:10px;
+
+  text-transform:uppercase;
+}
 
 /* =====================================================
    METRICS
@@ -1379,15 +1328,15 @@ a{
 
   gap:8px;
 
-  margin:20px 0;
+  margin:18px 0;
 }
 
 .metric{
-  padding:14px;
-
   border:1px solid var(--line);
 
   border-radius:15px;
+
+  padding:14px;
 
   background:#ffffff05;
 
@@ -1419,21 +1368,18 @@ a{
   margin-top:3px;
 }
 
-
 /* =====================================================
    STORY
 ===================================================== */
 
 .story-demo{
-  min-height:380px;
+  max-width:330px;
 
-  position:relative;
+  margin:
+    0 auto
+    22px;
 
-  display:flex;
-
-  align-items:flex-end;
-
-  overflow:hidden;
+  aspect-ratio:9/14;
 
   background:
     linear-gradient(
@@ -1441,6 +1387,14 @@ a{
       #8a5a2b,
       #1a100b
     );
+
+  display:flex;
+
+  align-items:flex-end;
+
+  overflow:hidden;
+
+  position:relative;
 }
 
 .story-demo:before{
@@ -1462,6 +1416,7 @@ a{
 }
 
 @keyframes storyGlow{
+
   0%,100%{
     opacity:.6;
     transform:scale(1);
@@ -1471,6 +1426,7 @@ a{
     opacity:1;
     transform:scale(1.15);
   }
+
 }
 
 .story-text{
@@ -1478,87 +1434,16 @@ a{
 
   z-index:2;
 
-  padding:28px;
+  padding:25px;
 
   font:
-    800 42px/.9 var(--disp);
+    800 36px/.9 var(--disp);
 
   text-transform:uppercase;
 }
 
-
 /* =====================================================
-   PAGE FOOTER NAV
-===================================================== */
-
-.page-footer{
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  gap:12px;
-
-  margin-top:auto;
-
-  padding-top:45px;
-}
-
-.page-footer .center{
-  color:#625d58;
-
-  font-size:10px;
-
-  letter-spacing:.15em;
-
-  text-transform:uppercase;
-
-  text-align:center;
-}
-
-.nav-btn{
-  min-width:145px;
-}
-
-.nav-btn.locked{
-  filter:grayscale(1);
-
-  opacity:.3;
-
-  cursor:not-allowed;
-
-  pointer-events:none;
-}
-
-.unlock-message{
-  margin-top:15px;
-
-  padding:12px 14px;
-
-  border-radius:12px;
-
-  background:#ff7a0009;
-
-  border:1px solid #ff7a0020;
-
-  color:#a9a19a;
-
-  font-size:11px;
-
-  display:none;
-}
-
-.unlock-message.show{
-  display:block;
-
-  animation:
-    feedbackIn .4s ease;
-}
-
-
-/* =====================================================
-   PASSAPORTE
+   BADGES
 ===================================================== */
 
 .badges{
@@ -1569,11 +1454,11 @@ a{
 
   gap:9px;
 
-  margin-top:35px;
+  margin-top:25px;
 }
 
 .badge{
-  padding:18px 8px;
+  padding:17px 8px;
 
   border:1px solid var(--line);
 
@@ -1581,7 +1466,7 @@ a{
 
   text-align:center;
 
-  color:#625d58;
+  color:#655f59;
 
   transition:
     transform .4s var(--ease),
@@ -1607,17 +1492,19 @@ a{
 }
 
 @keyframes badgeUnlock{
+
   0%{
-    transform:scale(.85) rotate(-4deg);
+    transform:scale(.92);
   }
 
   60%{
-    transform:scale(1.08) rotate(2deg);
+    transform:scale(1.06);
   }
 
   100%{
-    transform:scale(1) rotate(0);
+    transform:scale(1);
   }
+
 }
 
 .badge div{
@@ -1632,20 +1519,47 @@ a{
   text-transform:uppercase;
 }
 
+/* =====================================================
+   AUDIO
+===================================================== */
+
+#audiotxt{
+  display:inline-block;
+
+  color:var(--muted);
+
+  font-size:12px;
+
+  margin-left:10px;
+}
 
 /* =====================================================
    FINAL
 ===================================================== */
 
-.final-page{
+.final{
+  min-height:
+    calc(100vh - 72px);
+
   text-align:center;
+
+  padding:
+    130px 20px;
 
   position:relative;
 
   overflow:hidden;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  justify-content:center;
 }
 
-.final-page:before{
+.final:before{
   content:"";
 
   position:absolute;
@@ -1656,7 +1570,8 @@ a{
   left:50%;
   top:50%;
 
-  transform:translate(-50%,-50%);
+  transform:
+    translate(-50%,-50%);
 
   background:
     radial-gradient(
@@ -1665,49 +1580,51 @@ a{
       transparent 65%
     );
 
+  pointer-events:none;
+
   animation:
     finalGlow 8s ease-in-out infinite;
-
-  pointer-events:none;
 }
 
 @keyframes finalGlow{
+
   0%,100%{
-    transform:translate(-50%,-50%) scale(1);
+    transform:
+      translate(-50%,-50%)
+      scale(1);
   }
 
   50%{
-    transform:translate(-50%,-50%) scale(1.2);
+    transform:
+      translate(-50%,-50%)
+      scale(1.2);
   }
+
 }
 
-.final-content{
+.final h2{
   position:relative;
 
-  z-index:2;
-
-  margin:auto;
-
-  max-width:900px;
-}
-
-.final-title{
-  margin:
-    20px
-    0
-    25px;
-
   font:
-    900 clamp(75px,12vw,165px)/.73 var(--disp);
+    900
+    clamp(75px,12vw,165px)
+    /.72
+    var(--disp);
 
   text-transform:uppercase;
+
+  margin:
+    15px 0
+    25px;
 }
 
-.final-title span{
+.final h2 span{
   color:var(--o);
 }
 
-.final-content p{
+.final p{
+  position:relative;
+
   max-width:620px;
 
   margin:auto;
@@ -1717,21 +1634,127 @@ a{
   line-height:1.75;
 }
 
-.signature{
-  margin-top:35px !important;
+/* =====================================================
+   PAGE CONTROLS
+===================================================== */
 
-  color:white !important;
+.page-controls{
+  width:100%;
 
-  font:
-    700 27px var(--disp) !important;
+  max-width:1120px;
+
+  margin:auto;
+
+  padding:
+    0
+    clamp(20px,5vw,50px)
+    70px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:12px;
+}
+
+.page-counter{
+  color:#756e67;
+
+  font-size:10px;
+
+  font-weight:800;
+
+  letter-spacing:.16em;
 
   text-transform:uppercase;
+
+  text-align:center;
+
+  flex:1;
 }
 
-.signature span{
-  color:var(--o);
+.page-control{
+  min-width:120px;
 }
 
+.next-wrap{
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+}
+
+.lock-message{
+  display:none;
+
+  color:#756e67;
+
+  font-size:10px;
+
+  max-width:150px;
+
+  text-align:right;
+
+  line-height:1.4;
+}
+
+.lock-message.show{
+  display:block;
+}
+
+/* =====================================================
+   PDF BUTTON
+===================================================== */
+
+.pdf-action{
+  display:flex;
+
+  justify-content:flex-end;
+
+  margin-bottom:20px;
+}
+
+.pdf-btn{
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:
+    10px 15px;
+
+  border-radius:999px;
+
+  background:#ffffff06;
+
+  border:1px solid var(--line);
+
+  color:#c9c1b9;
+
+  font-size:11px;
+
+  cursor:pointer;
+
+  transition:
+    transform .25s ease,
+    border-color .25s ease,
+    background .25s ease,
+    color .25s ease;
+}
+
+.pdf-btn:hover{
+  transform:translateY(-2px);
+
+  color:#fff;
+
+  border-color:#ff7a0070;
+
+  background:#ff7a000b;
+}
 
 /* =====================================================
    DRAWER
@@ -1742,12 +1765,12 @@ a{
 
   inset:0;
 
-  z-index:800;
+  z-index:600;
 
   pointer-events:none;
 }
 
-.drawer-bg{
+.drawerbg{
   position:absolute;
 
   inset:0;
@@ -1759,72 +1782,68 @@ a{
   transition:opacity .35s ease;
 }
 
-.drawer-panel{
+.drawerpanel{
   position:absolute;
 
-  top:0;
   right:0;
-
-  width:min(410px,92vw);
+  top:0;
 
   height:100%;
 
-  padding:
-    100px
-    28px
-    28px;
+  width:min(390px,92vw);
 
   background:
     radial-gradient(
       circle at 20% 10%,
-      #ff7a000b,
+      #ff7a0008,
       transparent 35%
     ),
     #111;
 
-  border-left:1px solid var(--line2);
+  padding:
+    95px 25px
+    25px;
 
   transform:translateX(100%);
 
   transition:
-    transform .55s var(--ease);
+    transform .5s var(--ease);
+
+  border-left:1px solid var(--line);
 
   overflow-y:auto;
 
-  box-shadow:
-    -30px 0 100px #0008;
+  -webkit-overflow-scrolling:touch;
 }
 
 .drawer.open{
   pointer-events:auto;
 }
 
-.drawer.open .drawer-bg{
+.drawer.open .drawerbg{
   opacity:1;
 }
 
-.drawer.open .drawer-panel{
+.drawer.open .drawerpanel{
   transform:none;
 }
 
 .drawer-title{
-  margin:
-    10px
-    0
-    25px;
-
   font:
-    900 53px/.8 var(--disp);
+    800 48px var(--disp);
 
   text-transform:uppercase;
+
+  margin:
+    10px 0
+    25px;
 }
 
-.drawer-link{
-  width:100%;
-
+.link{
   display:flex;
 
   align-items:center;
+
   justify-content:space-between;
 
   padding:16px 0;
@@ -1833,159 +1852,131 @@ a{
 
   color:#c9c1b9;
 
-  background:none;
-
-  text-align:left;
-
   cursor:pointer;
 
   transition:
     color .25s ease,
-    padding-left .25s ease;
+    padding-left .25s ease,
+    opacity .25s ease;
 }
 
-.drawer-link:hover:not(.locked){
+.link:after{
+  content:"→";
+
+  color:var(--o);
+
+  opacity:0;
+
+  transform:translateX(-5px);
+
+  transition:
+    opacity .25s ease,
+    transform .25s ease;
+}
+
+.link:hover{
   color:var(--o);
 
   padding-left:5px;
 }
 
-.drawer-link.locked{
-  color:#4e4945;
+.link:hover:after{
+  opacity:1;
+
+  transform:none;
+}
+
+.link.locked{
+  opacity:.28;
 
   cursor:not-allowed;
 }
 
-.drawer-link.current{
-  color:var(--o);
+.link.locked:after{
+  content:"🔒";
+
+  opacity:1;
+
+  transform:none;
+
+  color:#777;
 }
-
-.drawer-status{
-  font-size:10px;
-
-  color:inherit;
-}
-
-.drawer-reset{
-  margin-top:25px;
-}
-
 
 /* =====================================================
-   PREMIUM CELEBRATION
+   TOAST / PREMIUM COMPLETION
 ===================================================== */
 
-.celebration{
+.toast{
   position:fixed;
 
-  inset:0;
+  left:50%;
 
-  z-index:2000;
+  bottom:30px;
+
+  z-index:1000;
+
+  min-width:min(360px,90vw);
+
+  padding:17px 20px;
+
+  border:1px solid #ff7a0060;
+
+  border-radius:18px;
+
+  background:
+    rgba(20,17,14,.92);
+
+  backdrop-filter:blur(18px);
+
+  box-shadow:
+    0 25px 70px #0009,
+    0 0 40px #ff7a0015;
+
+  transform:
+    translate(-50%,30px)
+    scale(.95);
+
+  opacity:0;
 
   pointer-events:none;
 
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  opacity:0;
-}
-
-.celebration.show{
-  animation:
-    celebrationFade 1.7s ease forwards;
-}
-
-.celebration-card{
-  min-width:270px;
-
-  padding:30px;
-
   text-align:center;
 
-  border:1px solid #ff7a0070;
-
-  border-radius:25px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #20150eeb,
-      #111111f5
-    );
-
-  box-shadow:
-    0 30px 100px #000b,
-    0 0 60px #ff7a0025;
-
-  transform:scale(.75);
-
-  animation:
-    celebrationPop .7s var(--ease) forwards;
+  transition:
+    opacity .4s var(--ease),
+    transform .5s var(--ease);
 }
 
-.celebration-icon{
-  font-size:42px;
+.toast.show{
+  opacity:1;
 
-  margin-bottom:8px;
+  transform:
+    translate(-50%,0)
+    scale(1);
 }
 
-.celebration-title{
+.toast-icon{
+  font-size:28px;
+
+  margin-bottom:4px;
+}
+
+.toast-title{
   font:
-    900 42px/.85 var(--disp);
-
-  color:white;
+    800 22px var(--disp);
 
   text-transform:uppercase;
-}
-
-.celebration-sub{
-  margin-top:8px;
 
   color:var(--o2);
+}
+
+.toast-text{
+  color:#aaa29a;
 
   font-size:11px;
 
-  font-weight:800;
-
-  letter-spacing:.15em;
-
-  text-transform:uppercase;
+  margin-top:3px;
 }
-
-@keyframes celebrationPop{
-  0%{
-    transform:scale(.75) translateY(20px);
-  }
-
-  65%{
-    transform:scale(1.04) translateY(0);
-  }
-
-  100%{
-    transform:scale(1);
-  }
-}
-
-@keyframes celebrationFade{
-  0%{
-    opacity:0;
-  }
-
-  15%{
-    opacity:1;
-  }
-
-  75%{
-    opacity:1;
-  }
-
-  100%{
-    opacity:0;
-  }
-}
-
 
 /* =====================================================
    CONFETTI
@@ -1994,26 +1985,24 @@ a{
 .confetti{
   position:fixed;
 
+  z-index:1001;
+
   width:7px;
-  height:12px;
-
-  top:50%;
-  left:50%;
-
-  z-index:2100;
+  height:14px;
 
   pointer-events:none;
 
   animation:
-    confettiFall 1.4s ease-out forwards;
+    confettiFall 1.2s ease-out forwards;
 }
 
 @keyframes confettiFall{
+
   0%{
     opacity:1;
 
     transform:
-      translate(-50%,-50%)
+      translate(0,0)
       rotate(0);
   }
 
@@ -2022,182 +2011,25 @@ a{
 
     transform:
       translate(
-        calc(-50% + var(--x)),
-        calc(-50% + var(--y))
+        var(--x),
+        var(--y)
       )
       rotate(720deg);
   }
-}
 
+}
 
 /* =====================================================
-   PDF BUTTON
-===================================================== */
-
-.pdf-btn{
-  position:fixed;
-
-  right:25px;
-  bottom:25px;
-
-  z-index:350;
-
-  width:48px;
-  height:48px;
-
-  border-radius:50%;
-
-  color:white;
-
-  background:
-    #171717e8;
-
-  border:1px solid var(--line2);
-
-  box-shadow:
-    0 15px 40px #0008;
-
-  cursor:pointer;
-
-  transition:
-    transform .3s var(--ease),
-    border-color .3s ease;
-}
-
-.pdf-btn:hover{
-  transform:
-    translateY(-4px)
-    scale(1.05);
-
-  border-color:#ff7a0070;
-}
-
-.pdf-btn span{
-  font-size:15px;
-}
-
-
-/* =====================================================
-   PDF MODAL
-===================================================== */
-
-.pdf-modal{
-  position:fixed;
-
-  inset:0;
-
-  z-index:1500;
-
-  display:none;
-
-  align-items:center;
-  justify-content:center;
-
-  padding:20px;
-
-  background:#000b;
-
-  backdrop-filter:blur(8px);
-}
-
-.pdf-modal.show{
-  display:flex;
-}
-
-.pdf-card{
-  width:min(500px,100%);
-
-  padding:30px;
-
-  border-radius:26px;
-
-  border:1px solid var(--line2);
-
-  background:#151515;
-
-  box-shadow:
-    0 40px 120px #000b;
-}
-
-.pdf-card h3{
-  margin:0 0 8px;
-
-  font:
-    900 42px var(--disp);
-
-  text-transform:uppercase;
-}
-
-.pdf-card p{
-  color:var(--muted);
-
-  font-size:13px;
-
-  line-height:1.6;
-}
-
-.pdf-input{
-  width:100%;
-
-  padding:14px 16px;
-
-  margin:
-    15px
-    0;
-
-  border-radius:13px;
-
-  border:1px solid var(--line2);
-
-  background:#ffffff08;
-
-  color:white;
-
-  outline:none;
-}
-
-.pdf-input:focus{
-  border-color:#ff7a0070;
-}
-
-.pdf-actions{
-  display:flex;
-
-  gap:8px;
-
-  justify-content:flex-end;
-
-  margin-top:15px;
-}
-
-
-/* =====================================================
-   RESPONSIVE
+   MOBILE
 ===================================================== */
 
 @media(max-width:900px){
 
-  .home-content{
+  .cover-content{
     padding:
-      115px
-      22px
-      40px;
-  }
-
-  .home-image{
-    background-position:
-      62% center;
-
-    background:
-      linear-gradient(
-        180deg,
-        rgba(13,13,13,.3),
-        rgba(13,13,13,.72) 55%,
-        rgba(13,13,13,.98) 100%
-      ),
-      url("assets/dudu.jpg.PNG");
-
-    background-size:cover;
+      120px
+      25px
+      45px;
   }
 
   .pillars{
@@ -2205,11 +2037,11 @@ a{
       repeat(2,1fr);
   }
 
-  .chapter-layout{
+  .grid{
     grid-template-columns:1fr;
   }
 
-  .chapter-aside{
+  .aside{
     min-height:auto;
   }
 
@@ -2218,77 +2050,134 @@ a{
       repeat(3,1fr);
   }
 
-  .metrics{
-    grid-template-columns:
-      repeat(2,1fr);
-  }
-
 }
 
 @media(max-width:600px){
 
+  body{
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  body.menu-open{
+    overflow:hidden !important;
+  }
+
   .nav{
-    height:64px;
+    height:62px;
+
+    padding:
+      0 16px;
   }
 
   .pct{
     display:none;
   }
 
+  .brand{
+    font-size:15px;
+  }
+
+  .menu{
+    width:40px;
+    height:40px;
+  }
+
   .page{
-    padding-top:64px;
+    padding-top:62px;
+
+    min-height:100svh;
   }
 
-  .page-inner{
-    min-height:calc(100vh - 64px);
+  .cover{
+    min-height:100svh;
 
+    align-items:flex-end;
+  }
+
+  .cover-image{
+    background-position:
+      center top;
+  }
+
+  .cover-overlay{
+    background:
+      linear-gradient(
+        180deg,
+        rgba(0,0,0,.05),
+        rgba(13,13,13,.35) 35%,
+        rgba(13,13,13,.98) 100%
+      );
+  }
+
+  .cover-content{
     padding:
-      55px
+      100px
       18px
-      90px;
+      32px;
   }
 
-  .home-content{
-    min-height:100vh;
+  .cover h1{
+    font-size:
+      clamp(70px,23vw,105px);
 
-    padding:
-      95px
-      18px
-      40px;
+    line-height:.72;
 
-    justify-content:flex-end;
+    margin:
+      20px 0;
   }
 
-  .home h1{
-    font-size:82px;
-  }
-
-  .home-sub{
+  .cover-sub{
     font-size:13px;
   }
 
-  .home-progress-number{
-    font-size:32px;
+  .cover-progress{
+    margin-top:22px;
+  }
+
+  .cover-progress-number{
+    font-size:30px;
+  }
+
+  .cover-actions{
+    display:grid;
+
+    grid-template-columns:1fr;
+
+    margin-top:18px;
+  }
+
+  .cover-actions .btn{
+    width:100%;
+  }
+
+  .section,
+  .chapter{
+    padding:
+      65px
+      18px
+      75px;
+  }
+
+  .section h2{
+    font-size:
+      clamp(55px,17vw,85px);
   }
 
   .pillars{
     grid-template-columns:1fr;
   }
 
-  .page-title{
-    font-size:62px;
+  .chapter-card{
+    border-radius:24px;
   }
 
-  .chapter-layout{
-    border-radius:22px;
-  }
-
-  .chapter-aside,
-  .chapter-body{
+  .aside,
+  .body{
     padding:25px;
   }
 
-  .chapter-aside h2{
+  .aside h3{
     font-size:47px;
   }
 
@@ -2306,26 +2195,74 @@ a{
       repeat(2,1fr);
   }
 
-  .page-footer{
+  .page-controls{
+    padding:
+      0
+      18px
+      45px;
+
     flex-wrap:wrap;
   }
 
-  .page-footer .center{
+  .page-counter{
+    order:-1;
+
     width:100%;
 
-    order:-1;
+    flex:0 0 100%;
+
+    margin-bottom:5px;
   }
 
-  .nav-btn{
+  .page-control{
+    min-width:0;
+
     flex:1;
   }
 
-  .pdf-btn{
-    right:15px;
-    bottom:15px;
+  .next-wrap{
+    flex:1;
+  }
+
+  .next-wrap .page-control{
+    width:100%;
+  }
+
+  .lock-message{
+    display:none !important;
+  }
+
+  .final{
+    min-height:
+      calc(100svh - 62px);
+
+    padding:
+      100px
+      18px;
+  }
+
+  .final h2{
+    font-size:
+      clamp(70px,21vw,100px);
+  }
+
+  .story-text{
+    font-size:31px;
+  }
+
+  .drawerpanel{
+    width:92vw;
+
+    padding:
+      85px 20px
+      25px;
   }
 
 }
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
 
 @media(prefers-reduced-motion:reduce){
 
@@ -2337,6 +2274,8 @@ a{
     animation-iteration-count:1 !important;
 
     transition-duration:.01ms !important;
+
+    scroll-behavior:auto !important;
   }
 
 }
@@ -2344,29 +2283,32 @@ a{
 </style>
 </head>
 
-
 <body>
 
 <div class="noise"></div>
 
+<!-- PROGRESSO GLOBAL -->
 <div class="top">
   <i id="topbar"></i>
 </div>
 
-
-<!-- =====================================================
-     NAV
-===================================================== -->
-
+<!-- NAV -->
 <nav class="nav" id="nav">
 
-  <a class="brand" href="#" id="brand">
+  <a
+    class="brand"
+    href="#"
+    id="brandHome"
+  >
     MOTIM <b>BOOK</b>
   </a>
 
   <div class="navright">
 
-    <span class="pct" id="pct">
+    <span
+      class="pct"
+      id="pct"
+    >
       0% concluído
     </span>
 
@@ -2377,9 +2319,9 @@ a{
       aria-expanded="false"
     >
       <span class="menu-lines">
-        <i></i>
-        <i></i>
-        <i></i>
+        <span></span>
+        <span></span>
+        <span></span>
       </span>
     </button>
 
@@ -2392,11 +2334,17 @@ a{
      DRAWER
 ===================================================== -->
 
-<div class="drawer" id="drawer">
+<div
+  class="drawer"
+  id="drawer"
+>
 
-  <div class="drawer-bg" id="drawerBg"></div>
+  <div
+    class="drawerbg"
+    id="drawerbg"
+  ></div>
 
-  <aside class="drawer-panel">
+  <aside class="drawerpanel">
 
     <div class="kicker">
       Sua jornada
@@ -2406,13 +2354,14 @@ a{
       Navegue pelo Motim.
     </h2>
 
-    <div id="drawerLinks"></div>
+    <div id="links"></div>
 
     <button
-      class="btn secondary drawer-reset"
+      class="btn secondary"
       id="reset"
+      style="margin-top:25px"
     >
-      Resetar minha jornada
+      Resetar progresso
     </button>
 
   </aside>
@@ -2428,74 +2377,92 @@ a{
 
 
 <!-- =====================================================
-     HOME
+     CAPA
 ===================================================== -->
 
 <section
-  class="page home active"
-  data-page="home"
+  class="page active"
+  id="page-cover"
+  data-page="cover"
 >
 
-  <div class="home-image"></div>
+  <div class="cover">
 
-  <div class="home-content">
+    <div class="cover-image"></div>
 
-    <div class="home-kicker">
-      Dudu Maranhense · experiência real
-    </div>
+    <div class="cover-overlay"></div>
 
-    <h1>
-      DO ZERO
-      <br>
-      <span>AOS 50K</span>
-    </h1>
+    <div class="cover-content">
 
-    <p class="home-sub">
-      Uma experiência prática para quem quer começar a criar
-      conteúdo, perder o medo da câmera e construir uma audiência.
-      <b>Sem fórmula mágica. Sem complicação.</b>
-    </p>
+      <div class="cover-kicker">
+
+        <span class="cover-dot"></span>
+
+        Dudu Maranhense · experiência real
+
+      </div>
+
+      <h1>
+        DO ZERO
+        <br>
+        <span>AOS 50K</span>
+      </h1>
+
+      <p class="cover-sub">
+
+        Uma experiência simples e prática para quem quer
+        começar a criar conteúdo, perder o medo da câmera
+        e construir uma audiência.
+
+        <strong>
+          Sem fórmula mágica. Sem complicação.
+        </strong>
+
+      </p>
 
 
-    <div class="home-progress">
+      <!-- PROGRESSO DA JORNADA -->
 
-      <div class="home-progress-top">
+      <div class="cover-progress">
 
-        <span>
-          Progresso da jornada
-        </span>
+        <div class="cover-progress-top">
 
-        <div
-          class="home-progress-number"
-          id="homeProgressNumber"
-        >
-          0<span>%</span>
+          <span>
+            Progresso da jornada
+          </span>
+
+          <div class="cover-progress-number">
+            <span id="coverPercent">0</span><b>%</b>
+          </div>
+
+        </div>
+
+        <div class="cover-progress-bar">
+          <i id="coverProgressBar"></i>
         </div>
 
       </div>
 
-      <div class="progress-track">
-        <i id="homeProgressBar"></i>
+
+      <!-- BOTÕES -->
+
+      <div class="cover-actions">
+
+        <button
+          class="btn primary"
+          id="startMission"
+        >
+          Começar missão →
+        </button>
+
+        <button
+          class="btn secondary"
+          id="coverChallenges"
+        >
+          Ver desafios
+        </button>
+
       </div>
-
-    </div>
-
-
-    <div class="home-actions">
-
-      <button
-        class="btn primary"
-        id="startBtn"
-      >
-        Começar missão →
-      </button>
-
-      <button
-        class="btn secondary"
-        id="challengeBtn"
-      >
-        Ver desafios
-      </button>
 
     </div>
 
@@ -2505,36 +2472,53 @@ a{
 
 
 <!-- =====================================================
-     INTRO
+     INTRODUÇÃO
 ===================================================== -->
 
 <section
   class="page"
+  id="page-intro"
   data-page="intro"
 >
 
-  <div class="page-inner">
+  <section class="section">
+
+    <div class="pdf-action">
+
+      <button
+        class="pdf-btn"
+        data-pdf="intro"
+      >
+        📄 Baixar PDF desta página
+      </button>
+
+    </div>
 
     <div class="kicker">
       Antes de começar
     </div>
 
-    <h1 class="page-title">
+    <h2>
       Você está
       <br>
-      <span>pronto?</span>
-    </h1>
+      pronto?
+    </h2>
 
     <p class="intro">
-      Você não precisa ser famoso, ter uma câmera cara ou saber
-      editar. Precisa começar. O Motim organiza sua jornada em
-      quatro pilares.
+
+      Você não precisa ser famoso, ter uma câmera cara
+      ou saber editar.
+
+      Precisa começar.
+
+      O Motim organiza sua jornada em quatro pilares:
+
     </p>
 
 
     <div class="pillars">
 
-      <button
+      <div
         class="pillar"
         data-target="camera"
       >
@@ -2545,17 +2529,16 @@ a{
         </h3>
 
         <p>
-          Treine até falar com a lente como fala com uma pessoa.
+          Treine até falar com a lente como fala
+          com uma pessoa.
         </p>
-      </button>
+      </div>
 
 
-      <button
-        class="pillar locked"
+      <div
+        class="pillar"
         data-target="edicao"
       >
-        <span class="lock-icon">🔒</span>
-
         <div class="num">02</div>
 
         <h3>
@@ -2565,15 +2548,13 @@ a{
         <p>
           Edite o necessário para a mensagem respirar.
         </p>
-      </button>
+      </div>
 
 
-      <button
-        class="pillar locked"
+      <div
+        class="pillar"
         data-target="metricas"
       >
-        <span class="lock-icon">🔒</span>
-
         <div class="num">03</div>
 
         <h3>
@@ -2581,17 +2562,16 @@ a{
         </h3>
 
         <p>
-          Observe os sinais e descubra o que merece ser repetido.
+          Observe os sinais e descubra o que merece
+          ser repetido.
         </p>
-      </button>
+      </div>
 
 
-      <button
-        class="pillar locked"
+      <div
+        class="pillar"
         data-target="stories"
       >
-        <span class="lock-icon">🔒</span>
-
         <div class="num">04</div>
 
         <h3>
@@ -2599,28 +2579,33 @@ a{
         </h3>
 
         <p>
-          Use os Stories para transformar seguidores em audiência.
+          Use os Stories para transformar seguidores
+          em audiência.
         </p>
-      </button>
+      </div>
 
     </div>
 
+  </section>
 
-    <div class="page-footer">
+
+  <div class="page-controls">
+
+    <button
+      class="btn secondary page-control"
+      disabled
+    >
+      ← Anterior
+    </button>
+
+    <div class="page-counter">
+      Página 1 de 7
+    </div>
+
+    <div class="next-wrap">
 
       <button
-        class="btn secondary nav-btn"
-        data-prev
-      >
-        ← Anterior
-      </button>
-
-      <div class="center">
-        Introdução · Motim Book
-      </div>
-
-      <button
-        class="btn primary nav-btn"
+        class="btn primary page-control"
         data-next
       >
         Próximo →
@@ -2638,173 +2623,199 @@ a{
 ===================================================== -->
 
 <section
-  class="page chapter-page"
+  class="page"
+  id="page-camera"
   data-page="camera"
-  data-chapter="1"
 >
 
-  <div class="page-inner">
+  <section class="chapter">
 
-    <div class="kicker">
-      Capítulo 01 · Câmera
+    <div class="pdf-action">
+
+      <button
+        class="pdf-btn"
+        data-pdf="camera"
+      >
+        📄 Baixar PDF desta página
+      </button>
+
     </div>
 
+    <div class="chapter-card">
 
-    <div class="chapter-layout">
+      <div class="grid">
 
-      <div class="chapter-aside">
+        <div class="aside">
 
-        <div class="big">
-          01
-        </div>
-
-        <div class="kicker">
-          Primeiro desafio
-        </div>
-
-        <h2>
-          Perca o medo da câmera
-        </h2>
-
-        <p>
-          O segredo não é nascer desinibido.
-          É treinar.
-        </p>
-
-      </div>
-
-
-      <div class="chapter-body">
-
-        <p>
-          Uma das maiores barreiras para quem quer começar
-          a criar conteúdo é apertar o botão de gravar.
-          Você olha para a câmera e parece que esquece tudo.
-        </p>
-
-        <p>
-          Mas existe uma verdade simples:
-          <b>
-            você não precisa perder o medo para começar.
-            Você precisa começar para perder o medo.
-          </b>
-        </p>
-
-        <p>
-          Grave mesmo que não publique.
-          Fale sobre qualquer assunto.
-          Depois assista.
-          Você provavelmente vai achar estranho —
-          e está tudo bem.
-        </p>
-
-        <div class="quote">
-          O treino vem antes da confiança.
-        </div>
-
-
-        <div class="panel">
-
-          <div class="paneltitle">
-            Você tem vergonha de aparecer?
+          <div class="big">
+            01
           </div>
 
-          <div
-            class="choices"
-            data-type="camera"
-          >
+          <div class="kicker">
+            Capítulo 01
+          </div>
 
-            <button
-              class="choice"
-              data-v="sim"
+          <h3>
+            Perca o medo
+            da câmera
+          </h3>
+
+          <p>
+            O segredo não é nascer desinibido.
+            É treinar.
+          </p>
+
+        </div>
+
+
+        <div class="body">
+
+          <p>
+            Uma das maiores barreiras para quem quer
+            começar a criar conteúdo é apertar o botão
+            de gravar.
+
+            Você olha para a câmera e parece que
+            esquece tudo.
+          </p>
+
+          <p>
+            Mas existe uma verdade simples:
+
+            <b>
+              você não precisa perder o medo para começar.
+              Você precisa começar para perder o medo.
+            </b>
+          </p>
+
+          <p>
+            Grave mesmo que não publique.
+            Fale sobre qualquer assunto.
+            Depois assista.
+
+            Você provavelmente vai achar estranho —
+            e está tudo bem.
+          </p>
+
+          <div class="quote">
+            O treino vem antes da confiança.
+          </div>
+
+
+          <div class="panel">
+
+            <div class="paneltitle">
+              Você tem vergonha de aparecer?
+            </div>
+
+            <div
+              class="choices"
+              data-type="camera"
             >
-              😰 Sim
-            </button>
 
-            <button
-              class="choice"
-              data-v="pouco"
-            >
-              😐 Um pouco
-            </button>
+              <button
+                class="choice"
+                data-v="sim"
+              >
+                😰 Sim
+              </button>
 
-            <button
-              class="choice"
-              data-v="nao"
-            >
-              😎 Não
-            </button>
+              <button
+                class="choice"
+                data-v="pouco"
+              >
+                😐 Um pouco
+              </button>
 
-          </div>
-
-          <div
-            class="feedback"
-            id="cameraFeedback"
-          ></div>
-
-        </div>
-
-
-        <div class="panel">
-
-          <div class="paneltitle">
-            Desafio dos 7 dias
-          </div>
-
-          <div class="checks">
-
-            <label class="check">
-              <input type="checkbox" data-k="cam1">
-              Dia 01 · gravar 1 vídeo de 1 minuto
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="cam2">
-              Dia 02 · gravar 1 vídeo de 1 minuto
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="cam3">
-              Dia 03 · gravar 1 vídeo de 1 minuto
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="cam4">
-              Dia 04 · gravar 1 vídeo de 1 minuto
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="cam5">
-              Dia 05 · gravar 1 vídeo de 1 minuto
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="cam6">
-              Dia 06 · gravar 1 vídeo de 1 minuto
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="cam7">
-              Dia 07 · gravar 1 vídeo de 1 minuto
-            </label>
-
-          </div>
-
-          <div class="chapter-progress">
-
-            <div class="chapter-progress-head">
-
-              <span>
-                Progresso
-              </span>
-
-              <span id="camcount">
-                0/7
-              </span>
+              <button
+                class="choice"
+                data-v="nao"
+              >
+                😎 Não
+              </button>
 
             </div>
 
-            <div class="chapter-progress-bar">
+            <div
+              class="feedback"
+              id="cameraFeedback"
+            ></div>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="paneltitle">
+              Desafio dos 7 dias
+            </div>
+
+            <div class="checks">
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="cam1"
+                >
+                Dia 01 · gravar 1 vídeo de 1 minuto
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="cam2"
+                >
+                Dia 02 · gravar 1 vídeo de 1 minuto
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="cam3"
+                >
+                Dia 03 · gravar 1 vídeo de 1 minuto
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="cam4"
+                >
+                Dia 04 · gravar 1 vídeo de 1 minuto
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="cam5"
+                >
+                Dia 05 · gravar 1 vídeo de 1 minuto
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="cam6"
+                >
+                Dia 06 · gravar 1 vídeo de 1 minuto
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="cam7"
+                >
+                Dia 07 · gravar 1 vídeo de 1 minuto
+              </label>
+
+            </div>
+
+            <div class="barlabel">
+              <span>Progresso</span>
+              <span id="camcount">0/7</span>
+            </div>
+
+            <div class="bar">
               <i id="cambar"></i>
             </div>
 
@@ -2812,34 +2823,37 @@ a{
 
         </div>
 
-
-        <div
-          class="unlock-message"
-          id="cameraUnlock"
-        >
-          🔥 Missão concluída. O próximo capítulo foi desbloqueado.
-        </div>
-
       </div>
 
     </div>
 
+  </section>
 
-    <div class="page-footer">
 
-      <button
-        class="btn secondary nav-btn"
-        data-prev
+  <div class="page-controls">
+
+    <button
+      class="btn secondary page-control"
+      data-prev
+    >
+      ← Anterior
+    </button>
+
+    <div class="page-counter">
+      Página 2 de 7
+    </div>
+
+    <div class="next-wrap">
+
+      <span
+        class="lock-message"
+        data-lock-message
       >
-        ← Anterior
-      </button>
-
-      <div class="center">
-        Capítulo 01 · Câmera
-      </div>
+        Complete todas as missões para continuar.
+      </span>
 
       <button
-        class="btn primary nav-btn"
+        class="btn primary page-control"
         data-next
       >
         Próximo →
@@ -2857,172 +2871,186 @@ a{
 ===================================================== -->
 
 <section
-  class="page chapter-page"
+  class="page"
+  id="page-edicao"
   data-page="edicao"
-  data-chapter="2"
 >
 
-  <div class="page-inner">
+  <section class="chapter">
 
-    <div class="kicker">
-      Capítulo 02 · Edição
-    </div>
-
-    <div class="chapter-layout">
-
-      <div class="chapter-aside">
-
-        <div class="big">
-          02
-        </div>
-
-        <div class="kicker">
-          Segundo desafio
-        </div>
-
-        <h2>
-          A mágica da edição básica
-        </h2>
-
-        <p>
-          Você não precisa ser editor profissional.
-        </p>
-
-      </div>
-
-
-      <div class="chapter-body">
-
-        <p>
-          O objetivo principal da edição é fazer o espectador
-          <b>
-            não perceber as partes que deveriam ter ficado de fora.
-          </b>
-        </p>
-
-
-        <div class="metrics">
-
-          <div class="metric">
-            <strong>01</strong>
-            <small>Gravação</small>
-          </div>
-
-          <div class="metric">
-            <strong>02</strong>
-            <small>Cortes</small>
-          </div>
-
-          <div class="metric">
-            <strong>03</strong>
-            <small>Texto</small>
-          </div>
-
-          <div class="metric">
-            <strong>04</strong>
-            <small>Publicação</small>
-          </div>
-
-        </div>
-
-
-        <div class="quote">
-          Edite para melhorar o conteúdo.
-          Não para mostrar que você sabe editar.
-        </div>
-
-
-        <div class="panel">
-
-          <div class="paneltitle">
-            Checklist da edição
-          </div>
-
-          <div class="checks">
-
-            <label class="check">
-              <input type="checkbox" data-k="edit1">
-              Remover erros
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="edit2">
-              Cortar silêncios
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="edit3">
-              Tirar repetições
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="edit4">
-              Melhorar o ritmo
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="edit5">
-              Conferir clareza
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="edit6">
-              Adicionar texto quando necessário
-            </label>
-
-          </div>
-
-        </div>
-
-
-        <div class="chapter-progress">
-
-          <div class="chapter-progress-head">
-
-            <span>
-              Progresso
-            </span>
-
-            <span id="editcount">
-              0/6
-            </span>
-
-          </div>
-
-          <div class="chapter-progress-bar">
-            <i id="editbar"></i>
-          </div>
-
-        </div>
-
-
-        <div
-          class="unlock-message"
-          id="editUnlock"
-        >
-          🔥 Missão concluída. O próximo capítulo foi desbloqueado.
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="page-footer">
+    <div class="pdf-action">
 
       <button
-        class="btn secondary nav-btn"
-        data-prev
+        class="pdf-btn"
+        data-pdf="edicao"
       >
-        ← Anterior
+        📄 Baixar PDF desta página
       </button>
 
-      <div class="center">
-        Capítulo 02 · Edição
+    </div>
+
+    <div class="chapter-card">
+
+      <div class="grid">
+
+        <div class="aside">
+
+          <div class="big">
+            02
+          </div>
+
+          <div class="kicker">
+            Capítulo 02
+          </div>
+
+          <h3>
+            A mágica da
+            edição básica
+          </h3>
+
+          <p>
+            Você não precisa ser editor profissional.
+          </p>
+
+        </div>
+
+
+        <div class="body">
+
+          <p>
+            O objetivo principal da edição é fazer
+            o espectador
+            <b>
+              não perceber as partes que deveriam
+              ter ficado de fora.
+            </b>
+          </p>
+
+
+          <div class="metrics">
+
+            <div class="metric">
+              <strong>01</strong>
+              <small>Gravação</small>
+            </div>
+
+            <div class="metric">
+              <strong>02</strong>
+              <small>Cortes</small>
+            </div>
+
+            <div class="metric">
+              <strong>03</strong>
+              <small>Texto</small>
+            </div>
+
+            <div class="metric">
+              <strong>04</strong>
+              <small>Publicação</small>
+            </div>
+
+          </div>
+
+
+          <div class="quote">
+            Edite para melhorar o conteúdo.
+            Não para mostrar que você sabe editar.
+          </div>
+
+
+          <div class="panel">
+
+            <div class="paneltitle">
+              Checklist da edição
+            </div>
+
+            <div class="checks">
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="edit1"
+                >
+                Remover erros
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="edit2"
+                >
+                Cortar silêncios
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="edit3"
+                >
+                Tirar repetições
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="edit4"
+                >
+                Melhorar o ritmo
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="edit5"
+                >
+                Conferir clareza
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="edit6"
+                >
+                Adicionar texto quando necessário
+              </label>
+
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
 
+    </div>
+
+  </section>
+
+
+  <div class="page-controls">
+
+    <button
+      class="btn secondary page-control"
+      data-prev
+    >
+      ← Anterior
+    </button>
+
+    <div class="page-counter">
+      Página 3 de 7
+    </div>
+
+    <div class="next-wrap">
+
+      <span
+        class="lock-message"
+        data-lock-message
+      >
+        Complete todas as missões para continuar.
+      </span>
+
       <button
-        class="btn primary nav-btn"
+        class="btn primary page-control"
         data-next
       >
         Próximo →
@@ -3040,213 +3068,227 @@ a{
 ===================================================== -->
 
 <section
-  class="page chapter-page"
+  class="page"
+  id="page-metricas"
   data-page="metricas"
-  data-chapter="3"
 >
 
-  <div class="page-inner">
+  <section class="chapter">
 
-    <div class="kicker">
-      Capítulo 03 · Métricas
-    </div>
-
-    <div class="chapter-layout">
-
-      <div class="chapter-aside">
-
-        <div class="big">
-          03
-        </div>
-
-        <div class="kicker">
-          Terceiro desafio
-        </div>
-
-        <h2>
-          Decifre as métricas
-        </h2>
-
-        <p>
-          Não poste e simplesmente vá embora.
-        </p>
-
-      </div>
-
-
-      <div class="chapter-body">
-
-        <p>
-          Você publicou um vídeo.
-          Agora vem uma das partes mais importantes:
-          <b>
-            olhar o que aconteceu.
-          </b>
-        </p>
-
-
-        <div class="metrics">
-
-          <div class="metric">
-            <strong>12.4K</strong>
-            <small>Visualizações</small>
-          </div>
-
-          <div class="metric">
-            <strong>734</strong>
-            <small>Curtidas</small>
-          </div>
-
-          <div class="metric">
-            <strong>83</strong>
-            <small>Comentários</small>
-          </div>
-
-          <div class="metric">
-            <strong>241</strong>
-            <small>Compartilhamentos</small>
-          </div>
-
-        </div>
-
-
-        <p>
-          Não pense apenas:
-          <b>“esse viralizou”.</b>
-
-          Pergunte:
-          <b>o que havia de diferente nele?</b>
-
-          Era o assunto?
-          A primeira frase?
-          A forma de contar?
-          A identificação?
-        </p>
-
-
-        <div class="panel">
-
-          <div class="paneltitle">
-            Atividade · qual vídeo funcionou melhor?
-          </div>
-
-          <div
-            class="choices"
-            data-type="metrics"
-          >
-
-            <button
-              class="choice"
-              data-v="a"
-            >
-              Vídeo A · 800 views
-            </button>
-
-            <button
-              class="choice"
-              data-v="b"
-            >
-              Vídeo B · 2K views
-            </button>
-
-            <button
-              class="choice"
-              data-v="c"
-            >
-              Vídeo C · 20K views
-            </button>
-
-          </div>
-
-          <div
-            class="feedback"
-            id="metricsFeedback"
-          ></div>
-
-        </div>
-
-
-        <div class="panel">
-
-          <div class="paneltitle">
-            Depois da análise
-          </div>
-
-          <div class="checks">
-
-            <label class="check">
-              <input type="checkbox" data-k="met1">
-              Comparar 3 vídeos
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="met2">
-              Escolher o melhor desempenho
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="met3">
-              Anotar 3 diferenças
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="met4">
-              Definir 1 hipótese para testar
-            </label>
-
-          </div>
-
-        </div>
-
-
-        <div class="chapter-progress">
-
-          <div class="chapter-progress-head">
-
-            <span>
-              Progresso
-            </span>
-
-            <span id="metcount">
-              0/4
-            </span>
-
-          </div>
-
-          <div class="chapter-progress-bar">
-            <i id="metbar"></i>
-          </div>
-
-        </div>
-
-
-        <div
-          class="unlock-message"
-          id="metUnlock"
-        >
-          🔥 Missão concluída. O próximo capítulo foi desbloqueado.
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="page-footer">
+    <div class="pdf-action">
 
       <button
-        class="btn secondary nav-btn"
-        data-prev
+        class="pdf-btn"
+        data-pdf="metricas"
       >
-        ← Anterior
+        📄 Baixar PDF desta página
       </button>
 
-      <div class="center">
-        Capítulo 03 · Métricas
+    </div>
+
+    <div class="chapter-card">
+
+      <div class="grid">
+
+        <div class="aside">
+
+          <div class="big">
+            03
+          </div>
+
+          <div class="kicker">
+            Capítulo 03
+          </div>
+
+          <h3>
+            Decifre as
+            métricas
+          </h3>
+
+          <p>
+            Não poste e simplesmente vá embora.
+          </p>
+
+        </div>
+
+
+        <div class="body">
+
+          <p>
+            Você publicou um vídeo.
+
+            Agora vem uma das partes mais importantes:
+
+            <b>
+              olhar o que aconteceu.
+            </b>
+          </p>
+
+
+          <div class="metrics">
+
+            <div class="metric">
+              <strong>12.4K</strong>
+              <small>Visualizações</small>
+            </div>
+
+            <div class="metric">
+              <strong>734</strong>
+              <small>Curtidas</small>
+            </div>
+
+            <div class="metric">
+              <strong>83</strong>
+              <small>Comentários</small>
+            </div>
+
+            <div class="metric">
+              <strong>241</strong>
+              <small>Compartilhamentos</small>
+            </div>
+
+          </div>
+
+
+          <p>
+            Não pense apenas:
+
+            <b>
+              “esse viralizou”.
+            </b>
+
+            Pergunte:
+
+            <b>
+              o que havia de diferente nele?
+            </b>
+
+            Era o assunto?
+            A primeira frase?
+            A forma de contar?
+            A identificação?
+          </p>
+
+
+          <div class="panel">
+
+            <div class="paneltitle">
+              Atividade · qual vídeo funcionou melhor?
+            </div>
+
+            <div
+              class="choices"
+              data-type="metrics"
+            >
+
+              <button
+                class="choice"
+                data-v="a"
+              >
+                Vídeo A · 800 views
+              </button>
+
+              <button
+                class="choice"
+                data-v="b"
+              >
+                Vídeo B · 2K views
+              </button>
+
+              <button
+                class="choice"
+                data-v="c"
+              >
+                Vídeo C · 20K views
+              </button>
+
+            </div>
+
+            <div
+              class="feedback"
+              id="metricsFeedback"
+            ></div>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="paneltitle">
+              Depois da análise
+            </div>
+
+            <div class="checks">
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="met1"
+                >
+                Comparar 3 vídeos
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="met2"
+                >
+                Escolher o melhor desempenho
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="met3"
+                >
+                Anotar 3 diferenças
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="met4"
+                >
+                Definir 1 hipótese para testar
+              </label>
+
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
 
+    </div>
+
+  </section>
+
+
+  <div class="page-controls">
+
+    <button
+      class="btn secondary page-control"
+      data-prev
+    >
+      ← Anterior
+    </button>
+
+    <div class="page-counter">
+      Página 4 de 7
+    </div>
+
+    <div class="next-wrap">
+
+      <span
+        class="lock-message"
+        data-lock-message
+      >
+        Complete todas as missões para continuar.
+      </span>
+
       <button
-        class="btn primary nav-btn"
+        class="btn primary page-control"
         data-next
       >
         Próximo →
@@ -3264,217 +3306,224 @@ a{
 ===================================================== -->
 
 <section
-  class="page chapter-page"
+  class="page"
+  id="page-stories"
   data-page="stories"
-  data-chapter="4"
 >
 
-  <div class="page-inner">
+  <section class="chapter">
 
-    <div class="kicker">
-      Capítulo 04 · Stories
-    </div>
-
-    <div class="chapter-layout">
-
-      <div class="chapter-aside">
-
-        <div class="big">
-          04
-        </div>
-
-        <div class="kicker">
-          Quarto desafio
-        </div>
-
-        <h2>
-          O poder dos Stories
-        </h2>
-
-        <p>
-          Reels podem trazer pessoas.
-          Stories podem fazer elas ficarem.
-        </p>
-
-      </div>
-
-
-      <div class="chapter-body">
-
-        <div class="panel story-demo">
-
-          <div class="story-text">
-            Mostre o que acontece quando ninguém está olhando.
-          </div>
-
-        </div>
-
-
-        <p>
-          Mostre seu dia.
-          Converse.
-          Conte uma história.
-          Faça uma pergunta.
-          Mostre bastidores.
-          Responda alguém.
-        </p>
-
-
-        <div class="quote">
-          Crescer é importante.
-          Ser lembrado é ainda mais.
-        </div>
-
-
-        <div class="panel">
-
-          <div class="paneltitle">
-            O que você postaria hoje?
-          </div>
-
-          <div
-            class="choices"
-            data-type="stories"
-          >
-
-            <button
-              class="choice"
-              data-v="momento"
-            >
-              ☕ Momento do dia
-            </button>
-
-            <button
-              class="choice"
-              data-v="bastidor"
-            >
-              🎬 Bastidor
-            </button>
-
-            <button
-              class="choice"
-              data-v="pergunta"
-            >
-              💬 Pergunta
-            </button>
-
-          </div>
-
-          <div
-            class="feedback"
-            id="storiesFeedback"
-          ></div>
-
-        </div>
-
-
-        <div class="panel">
-
-          <div class="paneltitle">
-            Missão Stories
-          </div>
-
-          <div class="checks">
-
-            <label class="check">
-              <input type="checkbox" data-k="sto1">
-              Mostrar um momento do meu dia
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="sto2">
-              Fazer uma pergunta
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="sto3">
-              Responder alguém
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="sto4">
-              Mostrar um bastidor
-            </label>
-
-            <label class="check">
-              <input type="checkbox" data-k="sto5">
-              Criar uma enquete
-            </label>
-
-          </div>
-
-        </div>
-
-
-        <div class="panel">
-
-          <div class="paneltitle">
-            Dudu te conta · demonstração
-          </div>
-
-          <button
-            class="btn primary"
-            id="audio"
-          >
-            ▶ Reproduzir áudio
-          </button>
-
-          <span
-            id="audiotxt"
-            style="color:var(--muted);font-size:12px;margin-left:10px;"
-          ></span>
-
-        </div>
-
-
-        <div class="chapter-progress">
-
-          <div class="chapter-progress-head">
-
-            <span>
-              Progresso
-            </span>
-
-            <span id="stocount">
-              0/5
-            </span>
-
-          </div>
-
-          <div class="chapter-progress-bar">
-            <i id="stobar"></i>
-          </div>
-
-        </div>
-
-
-        <div
-          class="unlock-message"
-          id="stoUnlock"
-        >
-          🚀 Jornada concluída. Você desbloqueou o Passaporte Motim.
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="page-footer">
+    <div class="pdf-action">
 
       <button
-        class="btn secondary nav-btn"
-        data-prev
+        class="pdf-btn"
+        data-pdf="stories"
       >
-        ← Anterior
+        📄 Baixar PDF desta página
       </button>
 
-      <div class="center">
-        Capítulo 04 · Stories
+    </div>
+
+    <div class="chapter-card">
+
+      <div class="grid">
+
+        <div class="aside">
+
+          <div class="big">
+            04
+          </div>
+
+          <div class="kicker">
+            Capítulo 04
+          </div>
+
+          <h3>
+            O poder dos
+            Stories
+          </h3>
+
+          <p>
+            Reels podem trazer pessoas.
+            Stories podem fazer elas ficarem.
+          </p>
+
+        </div>
+
+
+        <div class="body">
+
+          <div class="panel story-demo">
+
+            <div class="story-text">
+              Mostre o que acontece
+              quando ninguém está olhando.
+            </div>
+
+          </div>
+
+
+          <p>
+            Mostre seu dia.
+            Converse.
+            Conte uma história.
+            Faça uma pergunta.
+            Mostre bastidores.
+            Responda alguém.
+          </p>
+
+
+          <div class="quote">
+            Crescer é importante.
+            Ser lembrado é ainda mais.
+          </div>
+
+
+          <div class="panel">
+
+            <div class="paneltitle">
+              O que você postaria hoje?
+            </div>
+
+            <div
+              class="choices"
+              data-type="stories"
+            >
+
+              <button
+                class="choice"
+                data-v="momento"
+              >
+                ☕ Momento do dia
+              </button>
+
+              <button
+                class="choice"
+                data-v="bastidor"
+              >
+                🎬 Bastidor
+              </button>
+
+              <button
+                class="choice"
+                data-v="pergunta"
+              >
+                💬 Pergunta
+              </button>
+
+            </div>
+
+            <div
+              class="feedback"
+              id="storiesFeedback"
+            ></div>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="paneltitle">
+              Missão Stories
+            </div>
+
+            <div class="checks">
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="sto1"
+                >
+                Mostrar um momento do meu dia
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="sto2"
+                >
+                Fazer uma pergunta
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="sto3"
+                >
+                Responder alguém
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="sto4"
+                >
+                Mostrar um bastidor
+              </label>
+
+              <label class="check">
+                <input
+                  type="checkbox"
+                  data-k="sto5"
+                >
+                Criar uma enquete
+              </label>
+
+            </div>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="paneltitle">
+              Dudu te conta · demonstração
+            </div>
+
+            <button
+              class="btn primary"
+              id="audio"
+            >
+              ▶ Reproduzir áudio
+            </button>
+
+            <span id="audiotxt"></span>
+
+          </div>
+
+        </div>
+
       </div>
 
+    </div>
+
+  </section>
+
+
+  <div class="page-controls">
+
+    <button
+      class="btn secondary page-control"
+      data-prev
+    >
+      ← Anterior
+    </button>
+
+    <div class="page-counter">
+      Página 5 de 7
+    </div>
+
+    <div class="next-wrap">
+
+      <span
+        class="lock-message"
+        data-lock-message
+      >
+        Complete todas as missões para continuar.
+      </span>
+
       <button
-        class="btn primary nav-btn"
+        class="btn primary page-control"
         data-next
       >
         Próximo →
@@ -3493,77 +3542,118 @@ a{
 
 <section
   class="page"
+  id="page-passaporte"
   data-page="passaporte"
 >
 
-  <div class="page-inner">
+  <section class="section">
+
+    <div class="pdf-action">
+
+      <button
+        class="pdf-btn"
+        data-pdf="passaporte"
+      >
+        📄 Baixar PDF desta página
+      </button>
+
+    </div>
 
     <div class="kicker">
       Passaporte Motim
     </div>
 
-    <h1 class="page-title">
+    <h2>
       Desbloqueie
       <br>
-      sua <span>jornada.</span>
-    </h1>
+      sua jornada.
+    </h2>
 
     <p class="intro">
-      As conquistas são liberadas conforme você completa
-      as atividades.
+      As conquistas são liberadas conforme você
+      completa as atividades.
     </p>
 
 
     <div class="badges">
 
-      <div class="badge" data-b="first">
+      <div
+        class="badge"
+        data-b="first"
+      >
         <div>⚡</div>
         <small>Primeiro passo</small>
       </div>
 
-      <div class="badge" data-b="camera">
+      <div
+        class="badge"
+        data-b="camera"
+      >
         <div>🎥</div>
         <small>Sem medo</small>
       </div>
 
-      <div class="badge" data-b="editor">
+      <div
+        class="badge"
+        data-b="editor"
+      >
         <div>✂️</div>
         <small>Editor</small>
       </div>
 
-      <div class="badge" data-b="analyst">
+      <div
+        class="badge"
+        data-b="analyst"
+      >
         <div>📊</div>
         <small>Analista</small>
       </div>
 
-      <div class="badge" data-b="connected">
+      <div
+        class="badge"
+        data-b="connected"
+      >
         <div>📲</div>
         <small>Conectado</small>
       </div>
 
-      <div class="badge" data-b="creator">
+      <div
+        class="badge"
+        data-b="creator"
+      >
         <div>🚀</div>
         <small>Criador</small>
       </div>
 
     </div>
 
+  </section>
 
-    <div class="page-footer">
 
-      <button
-        class="btn secondary nav-btn"
-        data-prev
+  <div class="page-controls">
+
+    <button
+      class="btn secondary page-control"
+      data-prev
+    >
+      ← Anterior
+    </button>
+
+    <div class="page-counter">
+      Página 6 de 7
+    </div>
+
+    <div class="next-wrap">
+
+      <span
+        class="lock-message"
+        data-lock-message
       >
-        ← Anterior
-      </button>
-
-      <div class="center">
-        Passaporte Motim
-      </div>
+        Complete todas as missões para continuar.
+      </span>
 
       <button
-        class="btn primary nav-btn"
+        class="btn primary page-control"
         data-next
       >
         Próximo →
@@ -3581,157 +3671,108 @@ a{
 ===================================================== -->
 
 <section
-  class="page final-page"
+  class="page"
+  id="page-final"
   data-page="final"
 >
 
-  <div class="page-inner">
-
-    <div class="final-content">
-
-      <div class="kicker">
-        Missão cumprida
-      </div>
-
-      <h1 class="final-title">
-        COMECE.
-        <br>
-        <span>OBSERVE.</span>
-        <br>
-        REPITA.
-      </h1>
-
-      <p>
-        Você não precisa descobrir a fórmula perfeita para começar.
-        Cada vídeo é um treino.
-        Cada postagem é um teste.
-        Cada métrica é uma oportunidade de aprender.
-      </p>
-
-      <div
-        class="home-actions"
-        style="justify-content:center"
-      >
-
-        <button
-          class="btn primary"
-          data-page-target="home"
-        >
-          Voltar ao início ↑
-        </button>
-
-      </div>
-
-      <p class="signature">
-        Nos vemos nos 50 mil. 🚀
-        <br>
-        <span>— Dudu Maranhense</span>
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-</main>
-
-
-<!-- =====================================================
-     PDF BUTTON
-===================================================== -->
-
-<button
-  class="pdf-btn"
-  id="pdfBtn"
-  title="Baixar PDF desta página"
->
-  <span>PDF</span>
-</button>
-
-
-<!-- =====================================================
-     PDF MODAL
-===================================================== -->
-
-<div
-  class="pdf-modal"
-  id="pdfModal"
->
-
-  <div class="pdf-card">
+  <section class="final">
 
     <div class="kicker">
-      Material de estudo
+      Missão cumprida
     </div>
 
-    <h3>
-      Baixar página
-    </h3>
+    <h2>
+      COMECE.
+      <br>
+      <span>OBSERVE.</span>
+      <br>
+      REPITA.
+    </h2>
 
     <p>
-      O Motim vai criar um PDF personalizado desta etapa,
-      com o conteúdo, exercícios, checklist e seu progresso.
+      Você não precisa descobrir a fórmula perfeita
+      para começar.
+
+      Cada vídeo é um treino.
+      Cada postagem é um teste.
+      Cada métrica é uma oportunidade de aprender.
     </p>
 
-    <input
-      class="pdf-input"
-      id="studentName"
-      placeholder="Seu nome"
-      autocomplete="name"
+    <div
+      class="actions"
+      style="
+        justify-content:center;
+        margin-top:28px;
+        position:relative;
+      "
     >
-
-    <div class="pdf-actions">
 
       <button
         class="btn secondary"
-        id="cancelPdf"
+        data-prev
       >
-        Cancelar
+        ← Voltar
       </button>
 
       <button
         class="btn primary"
-        id="generatePdf"
+        id="backHome"
       >
-        Gerar PDF →
+        Voltar ao início ↑
       </button>
 
     </div>
 
-  </div>
+    <p
+      style="
+        margin-top:35px;
+        color:#eee;
+        font:700 27px var(--disp);
+        text-transform:uppercase;
+        position:relative;
+      "
+    >
 
-</div>
+      Nos vemos nos 50 mil. 🚀
 
-
-<!-- =====================================================
-     CELEBRATION
-===================================================== -->
-
-<div
-  class="celebration"
-  id="celebration"
->
-
-  <div class="celebration-card">
-
-    <div class="celebration-icon">
-      🔥
-    </div>
-
-    <div class="celebration-title">
-      MISSÃO
       <br>
-      CONCLUÍDA
-    </div>
 
-    <div class="celebration-sub">
-      Novo capítulo desbloqueado
-    </div>
+      <span style="color:var(--o)">
+        — Dudu Maranhense
+      </span>
 
+    </p>
+
+  </section>
+
+</section>
+
+</main>
+
+
+<!-- TOAST -->
+<div
+  class="toast"
+  id="toast"
+>
+  <div class="toast-icon" id="toastIcon">
+    ✓
   </div>
 
+  <div
+    class="toast-title"
+    id="toastTitle"
+  >
+    Missão concluída
+  </div>
+
+  <div
+    class="toast-text"
+    id="toastText"
+  >
+    Continue avançando.
+  </div>
 </div>
 
 
@@ -3741,11 +3782,10 @@ a{
    CONFIGURAÇÃO
 ===================================================== */
 
-const STORAGE_KEY = "motim_book_v2";
-
+const STORAGE_KEY = "motim-book-v3";
 
 const pages = [
-  "home",
+  "cover",
   "intro",
   "camera",
   "edicao",
@@ -3756,9 +3796,22 @@ const pages = [
 ];
 
 
+/*
+  IMPORTANTE:
+
+  Cada capítulo possui uma lista própria
+  de missões.
+
+  O próximo capítulo só libera quando
+  TODAS as missões daquele capítulo
+  forem concluídas.
+*/
+
 const chapterTasks = {
 
-  camera:[
+  intro: [],
+
+  camera: [
     "cam1",
     "cam2",
     "cam3",
@@ -3768,7 +3821,7 @@ const chapterTasks = {
     "cam7"
   ],
 
-  edicao:[
+  edicao: [
     "edit1",
     "edit2",
     "edit3",
@@ -3777,499 +3830,260 @@ const chapterTasks = {
     "edit6"
   ],
 
-  metricas:[
+  metricas: [
     "met1",
     "met2",
     "met3",
     "met4"
   ],
 
-  stories:[
+  stories: [
     "sto1",
     "sto2",
     "sto3",
     "sto4",
     "sto5"
-  ]
+  ],
+
+  passaporte: [],
+
+  final: []
 
 };
 
 
 /* =====================================================
-   FEEDBACK
+   ESTADO
 ===================================================== */
 
-const feedback = {
+let saved = {};
 
-  camera:{
+try{
 
-    sim:
-      "É exatamente por isso que o desafio existe: confiança vem depois da prática. Grave sem publicar e observe sua evolução.",
+  saved =
+    JSON.parse(
+      localStorage.getItem(STORAGE_KEY) || "{}"
+    );
 
-    pouco:
-      "Você já está no caminho. Transforme esse 'um pouco' em naturalidade com repetição.",
+}
+catch(error){
 
-    nao:
-      "Ótimo. Use essa confiança para testar formatos, assuntos e maneiras diferentes de contar histórias."
+  saved = {};
 
-  },
-
-  metrics:{
-
-    a:
-      "O A teve o menor alcance. Compare assunto, gancho, retenção e contexto.",
-
-    b:
-      "O B mostrou um sinal melhor. Compare com o A e procure o padrão que pode ser repetido.",
-
-    c:
-      "O C teve mais alcance. Agora descubra o que fez as pessoas continuarem assistindo e compartilharem."
-
-  },
-
-  stories:{
-
-    momento:
-      "Um momento simples pode humanizar seu perfil. O importante é transformar rotina em conversa.",
-
-    bastidor:
-      "Bastidores aproximam porque mostram o processo, não apenas o resultado.",
-
-    pergunta:
-      "Perguntas criam oportunidade de resposta e fazem o público participar da sua história."
-
-  }
-
-};
+}
 
 
 /* =====================================================
-   STATE
+   ELEMENTOS
 ===================================================== */
 
-let state =
-  JSON.parse(
-    localStorage.getItem(STORAGE_KEY) || "{}"
-  );
+const topbar =
+  document.querySelector("#topbar");
+
+const pct =
+  document.querySelector("#pct");
+
+const coverPercent =
+  document.querySelector("#coverPercent");
+
+const coverProgressBar =
+  document.querySelector("#coverProgressBar");
+
+const nav =
+  document.querySelector("#nav");
+
+const toast =
+  document.querySelector("#toast");
+
+const toastIcon =
+  document.querySelector("#toastIcon");
+
+const toastTitle =
+  document.querySelector("#toastTitle");
+
+const toastText =
+  document.querySelector("#toastText");
 
 
-if(!state.tasks){
-  state.tasks = {};
-}
-
-if(!state.choices){
-  state.choices = {};
-}
-
-if(!state.started){
-  state.started = false;
-}
-
+/* =====================================================
+   SALVAR
+===================================================== */
 
 function save(){
 
   localStorage.setItem(
     STORAGE_KEY,
-    JSON.stringify(state)
+    JSON.stringify(saved)
   );
 
 }
 
 
 /* =====================================================
-   HELPERS
+   TODAS AS TAREFAS
 ===================================================== */
 
-function taskDone(key){
+function getAllTaskInputs(){
 
-  return !!state.tasks[key];
-
-}
-
-
-function chapterComplete(chapter){
-
-  const tasks =
-    chapterTasks[chapter];
-
-  if(!tasks){
-    return true;
-  }
-
-  return tasks.every(
-    task => taskDone(task)
-  );
+  return [
+    ...document.querySelectorAll(
+      'input[data-k]'
+    )
+  ];
 
 }
 
 
-function countTasks(){
+function getTotalTasks(){
 
-  const all =
-    Object.values(chapterTasks)
-      .flat();
-
-  return all.length;
+  return getAllTaskInputs().length;
 
 }
 
 
-function completedTasks(){
+function getCompletedTasks(){
 
-  return Object.values(
-    state.tasks
-  ).filter(Boolean).length;
+  return getAllTaskInputs()
+    .filter(
+      input =>
+        saved[input.dataset.k] === true
+    )
+    .length;
 
 }
 
 
-function globalProgress(){
+/* =====================================================
+   PROGRESSO GLOBAL
+===================================================== */
+
+function getGlobalProgress(){
 
   const total =
-    countTasks();
+    getTotalTasks();
+
+  const done =
+    getCompletedTasks();
 
   if(!total){
     return 0;
   }
 
   return Math.round(
-    completedTasks()
-    /
-    total
-    *
-    100
+    done / total * 100
   );
 
 }
 
 
 /* =====================================================
-   PAGE ACCESS
+   CAPÍTULO COMPLETO?
 ===================================================== */
 
-function pageUnlocked(page){
+function isChapterComplete(page){
 
-  switch(page){
+  const tasks =
+    chapterTasks[page] || [];
 
-    case "home":
-    case "intro":
-    case "camera":
-      return true;
+  /*
+    Páginas sem tarefas são consideradas
+    completas para fins de navegação.
+  */
 
-    case "edicao":
-      return chapterComplete("camera");
-
-    case "metricas":
-      return (
-        chapterComplete("camera") &&
-        chapterComplete("edicao")
-      );
-
-    case "stories":
-      return (
-        chapterComplete("camera") &&
-        chapterComplete("edicao") &&
-        chapterComplete("metricas")
-      );
-
-    case "passaporte":
-      return (
-        chapterComplete("camera") &&
-        chapterComplete("edicao") &&
-        chapterComplete("metricas") &&
-        chapterComplete("stories")
-      );
-
-    case "final":
-      return (
-        chapterComplete("camera") &&
-        chapterComplete("edicao") &&
-        chapterComplete("metricas") &&
-        chapterComplete("stories")
-      );
-
-    default:
-      return false;
-
+  if(tasks.length === 0){
+    return true;
   }
+
+  return tasks.every(
+    key =>
+      saved[key] === true
+  );
 
 }
 
 
 /* =====================================================
-   NAVIGATION
+   PRÓXIMA PÁGINA LIBERADA?
 ===================================================== */
 
-let currentPage =
-  state.currentPage || "home";
-
-
-function showPage(page, direction="next"){
-
-  if(!pages.includes(page)){
-    return;
-  }
-
-  if(!pageUnlocked(page)){
-
-    showLockedMessage();
-
-    return;
-  }
-
-
-  const current =
-    document.querySelector(
-      `.page[data-page="${currentPage}"]`
-    );
-
-  const target =
-    document.querySelector(
-      `.page[data-page="${page}"]`
-    );
-
-
-  if(!target){
-    return;
-  }
-
-
-  if(current){
-
-    current.classList.remove(
-      "active"
-    );
-
-    current.classList.add(
-      direction === "prev"
-        ? "prev"
-        : ""
-    );
-
-  }
-
-
-  target.classList.remove(
-    "prev"
-  );
-
-  target.classList.add(
-    "active"
-  );
-
-
-  currentPage = page;
-
-  state.currentPage = page;
-
-  save();
-
-
-  const scroller =
-    target;
-
-  scroller.scrollTo({
-    top:0,
-    behavior:"instant"
-  });
-
-
-  updateUI();
-
-}
-
-
-function nextPage(){
+function canGoNext(){
 
   const index =
     pages.indexOf(currentPage);
 
   if(index < 0){
-    return;
+    return false;
   }
 
-  const next =
-    pages[index + 1];
+  /*
+    Capa → Introdução
+    sempre permitido.
+  */
 
-  if(!next){
-    return;
+  if(currentPage === "cover"){
+    return true;
   }
 
-  if(
-    currentPage !== "home" &&
-    currentPage !== "intro"
-  ){
+  /*
+    Final não possui próxima.
+  */
 
-    if(
-      currentPage !== "passaporte" &&
-      currentPage !== "final" &&
-      !chapterComplete(currentPage)
-    ){
-
-      showLockedMessage();
-
-      return;
-    }
-
+  if(index >= pages.length - 1){
+    return false;
   }
 
+  /*
+    A página atual precisa estar completa.
+  */
 
-  if(!pageUnlocked(next)){
-
-    showLockedMessage();
-
-    return;
-  }
-
-
-  showPage(
-    next,
-    "next"
-  );
-
-}
-
-
-function previousPage(){
-
-  const index =
-    pages.indexOf(currentPage);
-
-  if(index <= 0){
-    return;
-  }
-
-  showPage(
-    pages[index - 1],
-    "prev"
-  );
+  return isChapterComplete(currentPage);
 
 }
 
 
 /* =====================================================
-   LOCK MESSAGE
+   REFRESH PROGRESSO
 ===================================================== */
 
-function showLockedMessage(){
+function refreshProgress(){
 
-  const page =
-    document.querySelector(
-      `.page[data-page="${currentPage}"]`
-    );
+  const progress =
+    getGlobalProgress();
 
-  if(!page){
-    return;
-  }
+  topbar.style.width =
+    progress + "%";
 
+  pct.textContent =
+    progress + "% concluído";
 
-  let message =
-    page.querySelector(
-      ".unlock-message"
-    );
+  coverPercent.textContent =
+    progress;
 
-
-  if(!message){
-    return;
-  }
+  coverProgressBar.style.width =
+    progress + "%";
 
 
-  message.textContent =
-    "🔒 Complete todas as missões desta etapa para desbloquear o próximo capítulo.";
+  /*
+    Atualiza checkboxes
+  */
 
-  message.classList.add(
-    "show"
-  );
+  getAllTaskInputs().forEach(
+    input => {
 
+      const checked =
+        saved[input.dataset.k] === true;
 
-  setTimeout(
-    () => {
-      message.classList.remove(
-        "show"
-      );
-    },
-    2600
-  );
+      input.checked =
+        checked;
 
-}
+      const label =
+        input.closest(".check");
 
+      if(label){
 
-/* =====================================================
-   START BUTTON
-===================================================== */
-
-const startBtn =
-  document.querySelector(
-    "#startBtn"
-  );
-
-
-function updateStartButton(){
-
-  if(state.started){
-
-    startBtn.textContent =
-      "Continuar missão →";
-
-  }else{
-
-    startBtn.textContent =
-      "Começar missão →";
-
-  }
-
-}
-
-
-startBtn.addEventListener(
-  "click",
-  () => {
-
-    state.started = true;
-
-    save();
-
-    updateStartButton();
-
-    showPage(
-      "intro",
-      "next"
-    );
-
-  }
-);
-
-
-/* =====================================================
-   CHALLENGE BUTTON
-===================================================== */
-
-document
-  .querySelector("#challengeBtn")
-  .addEventListener(
-    "click",
-    () => {
-
-      state.started = true;
-
-      save();
-
-      updateStartButton();
-
-      if(
-        pageUnlocked("camera")
-      ){
-
-        showPage(
-          "camera",
-          "next"
-        );
-
-      }else{
-
-        showPage(
-          "intro",
-          "next"
+        label.classList.toggle(
+          "done",
+          checked
         );
 
       }
@@ -4278,8 +4092,687 @@ document
   );
 
 
+  /*
+    CÂMERA
+  */
+
+  const cameraInputs =
+    getAllTaskInputs()
+      .filter(
+        input =>
+          input.dataset.k.startsWith("cam")
+      );
+
+  const cameraDone =
+    cameraInputs
+      .filter(
+        input => input.checked
+      )
+      .length;
+
+  const camcount =
+    document.querySelector("#camcount");
+
+  const cambar =
+    document.querySelector("#cambar");
+
+  if(camcount){
+
+    camcount.textContent =
+      cameraDone + "/7";
+
+  }
+
+  if(cambar){
+
+    cambar.style.width =
+      (cameraDone / 7 * 100) + "%";
+
+  }
+
+
+  /*
+    BADGES
+  */
+
+  const badges = {
+
+    first:
+      getCompletedTasks() > 0,
+
+    camera:
+      isChapterComplete("camera"),
+
+    editor:
+      isChapterComplete("edicao"),
+
+    analyst:
+      isChapterComplete("metricas"),
+
+    connected:
+      isChapterComplete("stories"),
+
+    creator:
+      getGlobalProgress() === 100
+
+  };
+
+
+  Object.entries(badges)
+    .forEach(
+      ([key,value]) => {
+
+        const badge =
+          document.querySelector(
+            `[data-b="${key}"]`
+          );
+
+        if(badge){
+
+          const wasOn =
+            badge.classList.contains("on");
+
+          badge.classList.toggle(
+            "on",
+            value
+          );
+
+          /*
+            Animação extra quando desbloqueia.
+          */
+
+          if(value && !wasOn){
+
+            badge.animate(
+              [
+                {
+                  transform:"scale(.7)",
+                  opacity:.3
+                },
+                {
+                  transform:"scale(1.18)",
+                  opacity:1
+                },
+                {
+                  transform:"scale(1)",
+                  opacity:1
+                }
+              ],
+              {
+                duration:800,
+                easing:"cubic-bezier(.2,.8,.2,1)"
+              }
+            );
+
+          }
+
+        }
+
+      }
+    );
+
+
+  updateNavigationState();
+
+}
+
+
 /* =====================================================
-   PAGE BUTTONS
+   ESTADO DOS BOTÕES
+===================================================== */
+
+function updateNavigationState(){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(
+      page => {
+
+        const key =
+          page.dataset.page;
+
+        const complete =
+          isChapterComplete(key);
+
+        /*
+          Cards da introdução.
+        */
+
+        page
+          .querySelectorAll(
+            ".pillar"
+          )
+          .forEach(
+            pillar => {
+
+              const target =
+                pillar.dataset.target;
+
+              if(
+                target &&
+                target !== "camera" &&
+                target !== "intro"
+              ){
+
+                const previous =
+                  pages[
+                    pages.indexOf(target) - 1
+                  ];
+
+                /*
+                  Só libera se o capítulo
+                  imediatamente anterior
+                  estiver completo.
+                */
+
+                if(
+                  previous &&
+                  chapterTasks[previous] &&
+                  !isChapterComplete(previous)
+                ){
+
+                  pillar.classList.add(
+                    "locked"
+                  );
+
+                }
+                else{
+
+                  pillar.classList.remove(
+                    "locked"
+                  );
+
+                }
+
+              }
+
+            }
+          );
+
+      }
+    );
+
+
+  /*
+    Botões NEXT
+  */
+
+  document
+    .querySelectorAll("[data-next]")
+    .forEach(
+      button => {
+
+        const allowed =
+          canGoNext();
+
+        button.disabled =
+          !allowed;
+
+        const wrap =
+          button.closest(".next-wrap");
+
+        const message =
+          wrap
+            ? wrap.querySelector(
+                "[data-lock-message]"
+              )
+            : null;
+
+        if(message){
+
+          message.classList.toggle(
+            "show",
+            !allowed
+          );
+
+        }
+
+      }
+    );
+
+
+  /*
+    DRAWER
+  */
+
+  updateDrawer();
+
+}
+
+
+/* =====================================================
+   DRAWER
+===================================================== */
+
+const drawer =
+  document.querySelector("#drawer");
+
+const menu =
+  document.querySelector("#menu");
+
+const drawerbg =
+  document.querySelector("#drawerbg");
+
+const links =
+  document.querySelector("#links");
+
+
+function openDrawer(){
+
+  drawer.classList.add("open");
+
+  menu.classList.add("active");
+
+  document.body.classList.add("menu-open");
+
+  menu.setAttribute(
+    "aria-expanded",
+    "true"
+  );
+
+}
+
+
+function closeDrawer(){
+
+  drawer.classList.remove("open");
+
+  menu.classList.remove("active");
+
+  document.body.classList.remove("menu-open");
+
+  menu.setAttribute(
+    "aria-expanded",
+    "false"
+  );
+
+}
+
+
+menu.addEventListener(
+  "click",
+  () => {
+
+    if(
+      drawer.classList.contains("open")
+    ){
+
+      closeDrawer();
+
+    }
+    else{
+
+      openDrawer();
+
+    }
+
+  }
+);
+
+
+drawerbg.addEventListener(
+  "click",
+  closeDrawer
+);
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(event.key === "Escape"){
+
+      closeDrawer();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   CONSTRUIR MENU
+===================================================== */
+
+const navigation = [
+
+  ["cover","Capa"],
+
+  ["intro","Introdução"],
+
+  ["camera","01 · Câmera"],
+
+  ["edicao","02 · Edição"],
+
+  ["metricas","03 · Métricas"],
+
+  ["stories","04 · Stories"],
+
+  ["passaporte","🏅 Passaporte Motim"],
+
+  ["final","Conclusão"]
+
+];
+
+
+function buildDrawer(){
+
+  links.innerHTML = "";
+
+  navigation.forEach(
+    ([id,label]) => {
+
+      const link =
+        document.createElement("div");
+
+      link.className =
+        "link";
+
+      link.dataset.page =
+        id;
+
+      link.textContent =
+        label;
+
+      link.addEventListener(
+        "click",
+        () => {
+
+          /*
+            Capa e introdução sempre livres.
+          */
+
+          if(
+            id === "cover" ||
+            id === "intro"
+          ){
+
+            navigateTo(id);
+
+            closeDrawer();
+
+            return;
+
+          }
+
+
+          /*
+            Final só pode ser acessado
+            se Stories e Passaporte
+            estiverem completos.
+          */
+
+          const index =
+            pages.indexOf(id);
+
+          let allowed = true;
+
+          if(index > 1){
+
+            /*
+              Todas as páginas anteriores
+              de conteúdo precisam estar completas.
+            */
+
+            for(
+              let i = 1;
+              i < index;
+              i++
+            ){
+
+              if(
+                !isChapterComplete(
+                  pages[i]
+                )
+              ){
+
+                allowed = false;
+
+                break;
+
+              }
+
+            }
+
+          }
+
+
+          if(!allowed){
+
+            showToast(
+              "🔒",
+              "Página bloqueada",
+              "Complete as missões anteriores para continuar."
+            );
+
+            return;
+
+          }
+
+          navigateTo(id);
+
+          closeDrawer();
+
+        }
+      );
+
+      links.appendChild(link);
+
+    }
+  );
+
+}
+
+
+function updateDrawer(){
+
+  document
+    .querySelectorAll(
+      ".link[data-page]"
+    )
+    .forEach(
+      link => {
+
+        const id =
+          link.dataset.page;
+
+        let allowed = true;
+
+        const index =
+          pages.indexOf(id);
+
+        if(index > 1){
+
+          for(
+            let i=1;
+            i<index;
+            i++
+          ){
+
+            if(
+              !isChapterComplete(
+                pages[i]
+              )
+            ){
+
+              allowed = false;
+
+              break;
+
+            }
+
+          }
+
+        }
+
+        link.classList.toggle(
+          "locked",
+          !allowed
+        );
+
+      }
+    );
+
+}
+
+
+/* =====================================================
+   NAVEGAÇÃO
+===================================================== */
+
+let currentPage =
+  "cover";
+
+
+function navigateTo(
+  pageName
+){
+
+  const targetIndex =
+    pages.indexOf(pageName);
+
+  if(targetIndex === -1){
+    return;
+  }
+
+
+  /*
+    Validação de bloqueio
+  */
+
+  if(
+    pageName !== "cover" &&
+    pageName !== "intro"
+  ){
+
+    for(
+      let i=1;
+      i<targetIndex;
+      i++
+    ){
+
+      if(
+        !isChapterComplete(
+          pages[i]
+        )
+      ){
+
+        showToast(
+          "🔒",
+          "Ainda não",
+          "Complete o capítulo anterior para desbloquear esta página."
+        );
+
+        return;
+
+      }
+
+    }
+
+  }
+
+
+  /*
+    Remove página atual
+  */
+
+  document
+    .querySelectorAll(".page")
+    .forEach(
+      page => {
+
+        page.classList.remove(
+          "active"
+        );
+
+      }
+    );
+
+
+  const target =
+    document.querySelector(
+      `.page[data-page="${pageName}"]`
+    );
+
+  if(!target){
+    return;
+  }
+
+
+  currentPage =
+    pageName;
+
+
+  target.classList.add(
+    "active"
+  );
+
+
+  /*
+    Volta para o topo da página.
+
+    O comportamento instantâneo é proposital:
+    evita o bug de "ir para o próximo,
+    mas continuar vendo a página antiga".
+  */
+
+  window.scrollTo({
+    top:0,
+    left:0,
+    behavior:"instant"
+  });
+
+
+  /*
+    No Safari/iOS, behavior instant pode
+    não existir em versões antigas.
+  */
+
+  setTimeout(
+    () => {
+
+      window.scrollTo(
+        0,
+        0
+      );
+
+    },
+    20
+  );
+
+
+  /*
+    Atualiza navegação
+  */
+
+  updateNavigationState();
+
+
+  /*
+    Fecha menu
+  */
+
+  closeDrawer();
+
+
+  /*
+    Estado visual da nav
+  */
+
+  nav.classList.remove(
+    "scrolled"
+  );
+
+
+  /*
+    Se for a capa, não mostrar botão PDF.
+  */
+
+}
+
+
+/* =====================================================
+   NEXT
 ===================================================== */
 
 document
@@ -4289,12 +4782,55 @@ document
 
       button.addEventListener(
         "click",
-        nextPage
+        () => {
+
+          if(!canGoNext()){
+
+            showToast(
+              "🔒",
+              "Missão incompleta",
+              "Complete todas as tarefas desta página antes de avançar."
+            );
+
+            return;
+
+          }
+
+
+          const index =
+            pages.indexOf(
+              currentPage
+            );
+
+          if(
+            index < pages.length - 1
+          ){
+
+            const nextPage =
+              pages[index + 1];
+
+            /*
+              Se a próxima for final,
+              também exige que todas
+              as anteriores estejam concluídas.
+            */
+
+            navigateTo(
+              nextPage
+            );
+
+          }
+
+        }
       );
 
     }
   );
 
+
+/* =====================================================
+   PREVIOUS
+===================================================== */
 
 document
   .querySelectorAll("[data-prev]")
@@ -4303,7 +4839,40 @@ document
 
       button.addEventListener(
         "click",
-        previousPage
+        () => {
+
+          const index =
+            pages.indexOf(
+              currentPage
+            );
+
+          if(index > 0){
+
+            navigateTo(
+              pages[index - 1]
+            );
+
+          }
+
+        }
+      );
+
+    }
+  );
+
+
+/* =====================================================
+   CAPA
+===================================================== */
+
+document
+  .querySelector("#startMission")
+  .addEventListener(
+    "click",
+    () => {
+
+      navigateTo(
+        "intro"
       );
 
     }
@@ -4311,20 +4880,43 @@ document
 
 
 document
-  .querySelectorAll("[data-page-target]")
-  .forEach(
-    button => {
+  .querySelector("#coverChallenges")
+  .addEventListener(
+    "click",
+    () => {
 
-      button.addEventListener(
-        "click",
-        () => {
+      navigateTo(
+        "intro"
+      );
 
-          showPage(
-            button.dataset.pageTarget,
-            "prev"
-          );
+    }
+  );
 
-        }
+
+document
+  .querySelector("#brandHome")
+  .addEventListener(
+    "click",
+    event => {
+
+      event.preventDefault();
+
+      navigateTo(
+        "cover"
+      );
+
+    }
+  );
+
+
+document
+  .querySelector("#backHome")
+  .addEventListener(
+    "click",
+    () => {
+
+      navigateTo(
+        "cover"
       );
 
     }
@@ -4347,20 +4939,58 @@ document
           const target =
             pillar.dataset.target;
 
-          if(
-            !pageUnlocked(target)
-          ){
-
-            showLockedMessage();
-
+          if(!target){
             return;
           }
 
+          /*
+            Verifica se o capítulo anterior
+            está concluído.
+          */
 
-          showPage(
-            target,
-            "next"
-          );
+          const targetIndex =
+            pages.indexOf(target);
+
+          let allowed = true;
+
+          if(targetIndex > 1){
+
+            for(
+              let i=1;
+              i<targetIndex;
+              i++
+            ){
+
+              if(
+                !isChapterComplete(
+                  pages[i]
+                )
+              ){
+
+                allowed = false;
+
+                break;
+
+              }
+
+            }
+
+          }
+
+
+          if(!allowed){
+
+            showToast(
+              "🔒",
+              "Ainda bloqueado",
+              "Complete os desafios anteriores primeiro."
+            );
+
+            return;
+
+          }
+
+          navigateTo(target);
 
         }
       );
@@ -4370,7 +5000,7 @@ document
 
 
 /* =====================================================
-   CHECKLIST
+   CHECKLIST EVENTS
 ===================================================== */
 
 document.addEventListener(
@@ -4379,7 +5009,6 @@ document.addEventListener(
 
     const input =
       event.target;
-
 
     if(
       !input.matches(
@@ -4395,65 +5024,32 @@ document.addEventListener(
     const key =
       input.dataset.k;
 
+    const previous =
+      saved[key] === true;
 
-    const wasDone =
-      !!state.tasks[key];
 
-
-    state.tasks[key] =
+    saved[key] =
       input.checked;
 
 
     save();
 
-    refreshChecklist();
+    refreshProgress();
 
-    updateUI();
 
+    /*
+      Só anima quando marcou,
+      não quando desmarca.
+    */
 
     if(
       input.checked &&
-      !wasDone
+      !previous
     ){
 
-      premiumTaskAnimation();
-
-    }
-
-
-    const chapter =
-      Object.keys(chapterTasks)
-        .find(
-          chapter =>
-            chapterTasks[chapter]
-              .includes(key)
-        );
-
-
-    if(
-      chapter &&
-      chapterComplete(chapter)
-    ){
-
-      const alreadyCelebrated =
-        state[
-          "celebrated_" + chapter
-        ];
-
-
-      if(!alreadyCelebrated){
-
-        state[
-          "celebrated_" + chapter
-        ] = true;
-
-        save();
-
-        premiumUnlockAnimation(
-          chapter
-        );
-
-      }
+      showCompletion(
+        key
+      );
 
     }
 
@@ -4462,128 +5058,289 @@ document.addEventListener(
 
 
 /* =====================================================
-   REFRESH CHECKLIST
+   COMPLETION PREMIUM
 ===================================================== */
 
-function refreshChecklist(){
+function showCompletion(
+  key
+){
 
-  document
-    .querySelectorAll(
-      'input[data-k]'
-    )
-    .forEach(
-      input => {
-
-        const checked =
-          !!state.tasks[
-            input.dataset.k
-          ];
-
-        input.checked =
-          checked;
+  const label =
+    document.querySelector(
+      `input[data-k="${key}"]`
+    )?.closest(".check");
 
 
-        const label =
-          input.closest(
-            ".check"
-          );
+  if(label){
 
-        if(label){
-
-          label.classList.toggle(
-            "done",
-            checked
-          );
-
+    label.animate(
+      [
+        {
+          transform:"scale(1)"
+        },
+        {
+          transform:"scale(1.025)",
+          borderColor:"#ff7a00"
+        },
+        {
+          transform:"scale(1)"
         }
-
+      ],
+      {
+        duration:550,
+        easing:"cubic-bezier(.2,.8,.2,1)"
       }
     );
 
-
-  updateChapterProgress(
-    "camera",
-    "cam",
-    "camcount",
-    "cambar"
-  );
+  }
 
 
-  updateChapterProgress(
-    "edicao",
-    "edit",
-    "editcount",
-    "editbar"
-  );
+  /*
+    Confetes
+  */
+
+  createConfetti();
 
 
-  updateChapterProgress(
-    "metricas",
-    "met",
-    "metcount",
-    "metbar"
-  );
+  /*
+    Verifica se completou
+    o capítulo inteiro.
+  */
+
+  const page =
+    findPageByTask(key);
 
 
-  updateChapterProgress(
-    "stories",
-    "sto",
-    "stocount",
-    "stobar"
-  );
+  if(
+    page &&
+    isChapterComplete(page)
+  ){
+
+    setTimeout(
+      () => {
+
+        showToast(
+          "🚀",
+          "Capítulo concluído!",
+          "Sua próxima etapa foi desbloqueada."
+        );
+
+      },
+      250
+    );
+
+  }
+  else{
+
+    showToast(
+      "✓",
+      "Missão concluída",
+      "Mais um passo na sua jornada."
+    );
+
+  }
+
+}
+
+
+function findPageByTask(
+  key
+){
+
+  for(
+    const [page,tasks]
+    of Object.entries(
+      chapterTasks
+    )
+  ){
+
+    if(
+      tasks.includes(key)
+    ){
+
+      return page;
+
+    }
+
+  }
+
+  return null;
 
 }
 
 
 /* =====================================================
-   CHAPTER PROGRESS
+   CONFETTI
 ===================================================== */
 
-function updateChapterProgress(
-  chapter,
-  prefix,
-  countId,
-  barId
-){
+function createConfetti(){
 
-  const tasks =
-    chapterTasks[chapter];
+  const amount =
+    22;
 
-  const done =
-    tasks.filter(
-      task => taskDone(task)
-    ).length;
+  for(
+    let i=0;
+    i<amount;
+    i++
+  ){
 
+    const piece =
+      document.createElement(
+        "div"
+      );
 
-  const percent =
-    tasks.length
-      ? done / tasks.length * 100
-      : 0;
+    piece.className =
+      "confetti";
 
+    const startX =
+      window.innerWidth / 2;
 
-  const count =
-    document.getElementById(
-      countId
+    const startY =
+      window.innerHeight / 2;
+
+    piece.style.left =
+      startX + "px";
+
+    piece.style.top =
+      startY + "px";
+
+    piece.style.setProperty(
+      "--x",
+      (
+        Math.random() * 300 - 150
+      ) + "px"
     );
 
-  const bar =
-    document.getElementById(
-      barId
+    piece.style.setProperty(
+      "--y",
+      (
+        Math.random() * 280 + 120
+      ) + "px"
     );
 
+    /*
+      Não definimos cor fixa:
+      o browser alterna entre
+      as cores disponíveis via filter.
+    */
 
-  if(count){
-    count.textContent =
-      `${done}/${tasks.length}`;
-  }
+    piece.style.background =
+      Math.random() > .5
+        ? "var(--o)"
+        : "var(--o2)";
 
+    piece.style.transform =
+      `rotate(${Math.random()*360}deg)`;
 
-  if(bar){
-    bar.style.width =
-      percent + "%";
+    document.body.appendChild(
+      piece
+    );
+
+    setTimeout(
+      () => piece.remove(),
+      1300
+    );
+
   }
 
 }
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+let toastTimer = null;
+
+
+function showToast(
+  icon,
+  title,
+  text
+){
+
+  toastIcon.textContent =
+    icon;
+
+  toastTitle.textContent =
+    title;
+
+  toastText.textContent =
+    text;
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    toastTimer
+  );
+
+
+  toastTimer =
+    setTimeout(
+      () => {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      2800
+    );
+
+}
+
+
+/* =====================================================
+   FEEDBACK
+===================================================== */
+
+const feedback = {
+
+  camera: {
+
+    sim:
+      "É exatamente por isso que o desafio existe: confiança vem depois da prática. Grave sem publicar e observe sua evolução.",
+
+    pouco:
+      "Você já está no caminho. Transforme esse 'um pouco' em naturalidade com repetição.",
+
+    nao:
+      "Ótimo. Use essa confiança para testar formatos, assuntos e maneiras diferentes de contar histórias."
+
+  },
+
+
+  metrics: {
+
+    a:
+      "O A teve o menor alcance. Compare assunto, gancho, retenção e contexto.",
+
+    b:
+      "O B mostrou um sinal melhor. Compare com o A e procure o padrão que pode ser repetido.",
+
+    c:
+      "O C teve mais alcance. Agora descubra o que fez as pessoas continuarem assistindo e compartilharem."
+
+  },
+
+
+  stories: {
+
+    momento:
+      "Um momento simples pode humanizar seu perfil. O importante é transformar rotina em conversa.",
+
+    bastidor:
+      "Bastidores aproximam porque mostram o processo, não apenas o resultado.",
+
+    pergunta:
+      "Perguntas criam oportunidade de resposta e fazem o público participar da sua história."
+
+  }
+
+};
 
 
 /* =====================================================
@@ -4604,17 +5361,8 @@ document
               "click",
               () => {
 
-                const type =
-                  group.dataset.type;
-
-                const value =
-                  button.dataset.v;
-
-
                 group
-                  .querySelectorAll(
-                    ".choice"
-                  )
+                  .querySelectorAll(".choice")
                   .forEach(
                     item =>
                       item.classList.remove(
@@ -4622,19 +5370,16 @@ document
                       )
                   );
 
-
                 button.classList.add(
                   "active"
                 );
 
 
-                state.choices[type] =
-                  value;
-
-                save();
+                const type =
+                  group.dataset.type;
 
 
-                let feedbackId =
+                const feedbackId =
                   type === "camera"
                     ? "cameraFeedback"
                     : type === "metrics"
@@ -4649,7 +5394,9 @@ document
 
 
                 box.textContent =
-                  feedback[type][value];
+                  feedback[type][
+                    button.dataset.v
+                  ];
 
 
                 box.classList.remove(
@@ -4672,823 +5419,6 @@ document
 
           }
         );
-
-    }
-  );
-
-
-/* =====================================================
-   RESTORE CHOICES
-===================================================== */
-
-function restoreChoices(){
-
-  document
-    .querySelectorAll(".choices")
-    .forEach(
-      group => {
-
-        const type =
-          group.dataset.type;
-
-        const value =
-          state.choices[type];
-
-        if(!value){
-          return;
-        }
-
-
-        const button =
-          group.querySelector(
-            `[data-v="${value}"]`
-          );
-
-        if(button){
-
-          button.classList.add(
-            "active"
-          );
-
-
-          const feedbackId =
-            type === "camera"
-              ? "cameraFeedback"
-              : type === "metrics"
-                ? "metricsFeedback"
-                : "storiesFeedback";
-
-
-          const box =
-            document.getElementById(
-              feedbackId
-            );
-
-
-          if(box){
-
-            box.textContent =
-              feedback[type][value];
-
-            box.classList.add(
-              "show"
-            );
-
-          }
-
-        }
-
-      }
-    );
-
-}
-
-
-/* =====================================================
-   GLOBAL UI
-===================================================== */
-
-function updateUI(){
-
-  const progress =
-    globalProgress();
-
-
-  document
-    .querySelector("#topbar")
-    .style.width =
-      progress + "%";
-
-
-  document
-    .querySelector("#pct")
-    .textContent =
-      `${progress}% concluído`;
-
-
-  document
-    .querySelector("#homeProgressBar")
-    .style.width =
-      progress + "%";
-
-
-  document
-    .querySelector("#homeProgressNumber")
-    .innerHTML =
-      `${progress}<span>%</span>`;
-
-
-  updateStartButton();
-
-
-  updatePillars();
-
-  updateBadges();
-
-  updateFooterButtons();
-
-  updateDrawer();
-
-}
-
-
-/* =====================================================
-   PILLARS
-===================================================== */
-
-function updatePillars(){
-
-  document
-    .querySelectorAll(
-      ".pillar[data-target]"
-    )
-    .forEach(
-      pillar => {
-
-        const target =
-          pillar.dataset.target;
-
-        const unlocked =
-          pageUnlocked(target);
-
-
-        pillar.classList.toggle(
-          "locked",
-          !unlocked
-        );
-
-
-        const icon =
-          pillar.querySelector(
-            ".lock-icon"
-          );
-
-
-        if(unlocked){
-
-          if(icon){
-            icon.remove();
-          }
-
-        }else{
-
-          if(!icon){
-
-            const lock =
-              document.createElement(
-                "span"
-              );
-
-            lock.className =
-              "lock-icon";
-
-            lock.textContent =
-              "🔒";
-
-            pillar.prepend(
-              lock
-            );
-
-          }
-
-        }
-
-      }
-    );
-
-}
-
-
-/* =====================================================
-   FOOTER BUTTONS
-===================================================== */
-
-function updateFooterButtons(){
-
-  document
-    .querySelectorAll(
-      `.page[data-page="${currentPage}"] [data-next]`
-    )
-    .forEach(
-      button => {
-
-        const locked =
-          currentPage !== "home" &&
-          currentPage !== "intro" &&
-          currentPage !== "passaporte" &&
-          currentPage !== "final" &&
-          !chapterComplete(currentPage);
-
-
-        button.classList.toggle(
-          "locked",
-          locked
-        );
-
-
-        if(locked){
-
-          button.textContent =
-            "🔒 Complete a missão";
-
-        }else{
-
-          button.textContent =
-            "Próximo →";
-
-        }
-
-      }
-    );
-
-}
-
-
-/* =====================================================
-   BADGES
-===================================================== */
-
-function updateBadges(){
-
-  const camera =
-    chapterComplete("camera");
-
-  const editor =
-    chapterComplete("edicao");
-
-  const analyst =
-    chapterComplete("metricas");
-
-  const connected =
-    chapterComplete("stories");
-
-  const creator =
-    camera &&
-    editor &&
-    analyst &&
-    connected;
-
-
-  const badges = {
-
-    first:
-      completedTasks() > 0,
-
-    camera,
-
-    editor,
-
-    analyst,
-
-    connected,
-
-    creator
-
-  };
-
-
-  Object.entries(
-    badges
-  ).forEach(
-    ([key,value]) => {
-
-      const badge =
-        document.querySelector(
-          `[data-b="${key}"]`
-        );
-
-      if(badge){
-
-        badge.classList.toggle(
-          "on",
-          value
-        );
-
-      }
-
-    }
-  );
-
-}
-
-
-/* =====================================================
-   PREMIUM TASK ANIMATION
-===================================================== */
-
-function premiumTaskAnimation(){
-
-  const celebration =
-    document.querySelector(
-      "#celebration"
-    );
-
-  const card =
-    celebration.querySelector(
-      ".celebration-card"
-    );
-
-
-  card.querySelector(
-    ".celebration-icon"
-  ).textContent =
-    "✓";
-
-
-  card.querySelector(
-    ".celebration-title"
-  ).innerHTML =
-    "MISSÃO<br>REGISTRADA";
-
-
-  card.querySelector(
-    ".celebration-sub"
-  ).textContent =
-    "Continue avançando";
-
-
-  celebration.classList.remove(
-    "show"
-  );
-
-
-  void celebration.offsetWidth;
-
-
-  celebration.classList.add(
-    "show"
-  );
-
-
-  createConfetti(8);
-
-
-  setTimeout(
-    () => {
-      celebration.classList.remove(
-        "show"
-      );
-    },
-    1700
-  );
-
-}
-
-
-/* =====================================================
-   PREMIUM UNLOCK
-===================================================== */
-
-function premiumUnlockAnimation(
-  chapter
-){
-
-  const celebration =
-    document.querySelector(
-      "#celebration"
-    );
-
-
-  const card =
-    celebration.querySelector(
-      ".celebration-card"
-    );
-
-
-  card.querySelector(
-    ".celebration-icon"
-  ).textContent =
-    chapter === "stories"
-      ? "🚀"
-      : "🔥";
-
-
-  card.querySelector(
-    ".celebration-title"
-  ).innerHTML =
-    chapter === "stories"
-      ? "JORNADA<br>CONCLUÍDA"
-      : "CAPÍTULO<br>LIBERADO";
-
-
-  card.querySelector(
-    ".celebration-sub"
-  ).textContent =
-    chapter === "stories"
-      ? "Passaporte Motim desbloqueado"
-      : "O próximo capítulo está disponível";
-
-
-  celebration.classList.remove(
-    "show"
-  );
-
-
-  void celebration.offsetWidth;
-
-
-  celebration.classList.add(
-    "show"
-  );
-
-
-  createConfetti(24);
-
-
-  setTimeout(
-    () => {
-
-      celebration.classList.remove(
-        "show"
-      );
-
-    },
-    2200
-  );
-
-
-  updateUI();
-
-}
-
-
-/* =====================================================
-   CONFETTI
-===================================================== */
-
-function createConfetti(amount){
-
-  for(
-    let i = 0;
-    i < amount;
-    i++
-  ){
-
-    const item =
-      document.createElement(
-        "span"
-      );
-
-
-    item.className =
-      "confetti";
-
-
-    item.style.setProperty(
-      "--x",
-      `${(Math.random()-.5)*650}px`
-    );
-
-
-    item.style.setProperty(
-      "--y",
-      `${(Math.random()-.5)*550}px`
-    );
-
-
-    item.style.transform =
-      `rotate(${Math.random()*360}deg)`;
-
-
-    item.style.background =
-      Math.random() > .5
-        ? "#ff7a00"
-        : "#ffb15c";
-
-
-    document.body.appendChild(
-      item
-    );
-
-
-    setTimeout(
-      () => item.remove(),
-      1500
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   DRAWER
-===================================================== */
-
-const drawer =
-  document.querySelector(
-    "#drawer"
-  );
-
-const menu =
-  document.querySelector(
-    "#menu"
-  );
-
-const drawerBg =
-  document.querySelector(
-    "#drawerBg"
-  );
-
-const drawerLinks =
-  document.querySelector(
-    "#drawerLinks"
-  );
-
-
-const navigation = [
-
-  ["home","Início"],
-
-  ["intro","Introdução"],
-
-  ["camera","01 · Câmera"],
-
-  ["edicao","02 · Edição"],
-
-  ["metricas","03 · Métricas"],
-
-  ["stories","04 · Stories"],
-
-  ["passaporte","🏅 Passaporte Motim"],
-
-  ["final","Conclusão"]
-
-];
-
-
-function buildDrawer(){
-
-  drawerLinks.innerHTML = "";
-
-
-  navigation.forEach(
-    ([id,label]) => {
-
-      const button =
-        document.createElement(
-          "button"
-        );
-
-
-      button.className =
-        "drawer-link";
-
-
-      button.dataset.target =
-        id;
-
-
-      button.innerHTML = `
-        <span>${label}</span>
-        <span class="drawer-status"></span>
-      `;
-
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          if(
-            !pageUnlocked(id)
-          ){
-
-            showLockedMessage();
-
-            return;
-
-          }
-
-
-          closeDrawer();
-
-          showPage(
-            id,
-            pages.indexOf(id) <
-            pages.indexOf(currentPage)
-              ? "prev"
-              : "next"
-          );
-
-        }
-      );
-
-
-      drawerLinks.appendChild(
-        button
-      );
-
-    }
-  );
-
-}
-
-
-function updateDrawer(){
-
-  drawerLinks
-    .querySelectorAll(
-      ".drawer-link"
-    )
-    .forEach(
-      link => {
-
-        const target =
-          link.dataset.target;
-
-        const unlocked =
-          pageUnlocked(target);
-
-        const status =
-          link.querySelector(
-            ".drawer-status"
-          );
-
-
-        link.classList.toggle(
-          "locked",
-          !unlocked
-        );
-
-
-        link.classList.toggle(
-          "current",
-          target === currentPage
-        );
-
-
-        status.textContent =
-          target === currentPage
-            ? "●"
-            : unlocked
-              ? "→"
-              : "🔒";
-
-      }
-    );
-
-}
-
-
-function openDrawer(){
-
-  drawer.classList.add(
-    "open"
-  );
-
-  menu.classList.add(
-    "open"
-  );
-
-  document.body.classList.add(
-    "menu-open"
-  );
-
-  menu.setAttribute(
-    "aria-expanded",
-    "true"
-  );
-
-}
-
-
-function closeDrawer(){
-
-  drawer.classList.remove(
-    "open"
-  );
-
-  menu.classList.remove(
-    "open"
-  );
-
-  document.body.classList.remove(
-    "menu-open"
-  );
-
-  menu.setAttribute(
-    "aria-expanded",
-    "false"
-  );
-
-}
-
-
-menu.addEventListener(
-  "click",
-  () => {
-
-    if(
-      drawer.classList.contains(
-        "open"
-      )
-    ){
-
-      closeDrawer();
-
-    }else{
-
-      openDrawer();
-
-    }
-
-  }
-);
-
-
-drawerBg.addEventListener(
-  "click",
-  closeDrawer
-);
-
-
-/* =====================================================
-   BRAND
-===================================================== */
-
-document
-  .querySelector("#brand")
-  .addEventListener(
-    "click",
-    event => {
-
-      event.preventDefault();
-
-      showPage(
-        "home",
-        "prev"
-      );
-
-    }
-  );
-
-
-/* =====================================================
-   RESET
-===================================================== */
-
-document
-  .querySelector("#reset")
-  .addEventListener(
-    "click",
-    () => {
-
-      const confirmed =
-        confirm(
-          "Tem certeza que deseja apagar todo o progresso?"
-        );
-
-
-      if(!confirmed){
-        return;
-      }
-
-
-      localStorage.removeItem(
-        STORAGE_KEY
-      );
-
-
-      state = {
-        tasks:{},
-        choices:{},
-        started:false,
-        currentPage:"home"
-      };
-
-
-      currentPage =
-        "home";
-
-
-      document
-        .querySelectorAll(
-          ".page"
-        )
-        .forEach(
-          page =>
-            page.classList.remove(
-              "active"
-            )
-        );
-
-
-      document
-        .querySelector(
-          '[data-page="home"]'
-        )
-        .classList.add(
-          "active"
-        );
-
-
-      closeDrawer();
-
-      refreshChecklist();
-
-      restoreChoices();
-
-      updateUI();
 
     }
   );
@@ -5518,7 +5448,6 @@ document
       button.textContent =
         "● Reproduzindo...";
 
-
       text.textContent =
         " Dudu estaria falando aqui…";
 
@@ -5541,301 +5470,251 @@ document
 
 
 /* =====================================================
-   KEYBOARD
+   PDF
 ===================================================== */
 
-document.addEventListener(
-  "keydown",
-  event => {
+const pdfContent = {
 
-    if(
-      event.key === "Escape"
-    ){
+  intro: {
 
-      closeDrawer();
+    number:"",
+    title:"VOCÊ ESTÁ PRONTO?",
+    kicker:"INTRODUÇÃO",
 
-      closePdfModal();
+    intro:
+      "Você não precisa ser famoso, ter uma câmera cara ou saber editar. Precisa começar. O Motim organiza a jornada em quatro pilares.",
 
-    }
+    quote:
+      "Você não precisa descobrir tudo antes de começar.",
 
+    points:[
+      "Câmera — treinar para falar com naturalidade.",
+      "Corte — editar apenas o que melhora a mensagem.",
+      "Métricas — observar o que funciona.",
+      "Conexão — transformar seguidores em audiência."
+    ],
 
-    if(
-      event.key === "ArrowRight" &&
-      !event.ctrlKey &&
-      !event.metaKey
-    ){
+    tasks:[]
 
-      nextPage();
-
-    }
-
-
-    if(
-      event.key === "ArrowLeft" &&
-      !event.ctrlKey &&
-      !event.metaKey
-    ){
-
-      previousPage();
-
-    }
-
-  }
-);
-
-
-/* =====================================================
-   PDF SYSTEM
-===================================================== */
-
-const pdfModal =
-  document.querySelector(
-    "#pdfModal"
-  );
-
-const pdfBtn =
-  document.querySelector(
-    "#pdfBtn"
-  );
-
-const cancelPdf =
-  document.querySelector(
-    "#cancelPdf"
-  );
-
-const generatePdf =
-  document.querySelector(
-    "#generatePdf"
-  );
-
-const studentName =
-  document.querySelector(
-    "#studentName"
-  );
-
-
-function openPdfModal(){
-
-  studentName.value =
-    state.studentName || "";
-
-  pdfModal.classList.add(
-    "show"
-  );
-
-  setTimeout(
-    () =>
-      studentName.focus(),
-    100
-  );
-
-}
-
-
-function closePdfModal(){
-
-  pdfModal.classList.remove(
-    "show"
-  );
-
-}
-
-
-pdfBtn.addEventListener(
-  "click",
-  openPdfModal
-);
-
-cancelPdf.addEventListener(
-  "click",
-  closePdfModal
-);
-
-pdfModal.addEventListener(
-  "click",
-  event => {
-
-    if(
-      event.target === pdfModal
-    ){
-
-      closePdfModal();
-
-    }
-
-  }
-);
-
-
-/* =====================================================
-   PDF CONTENT
-===================================================== */
-
-const pdfData = {
-
-  home:{
-    title:"Do Zero aos 50K",
-    subtitle:"Motim Book",
-    sections:[
-      {
-        title:"A jornada",
-        text:"Uma experiência prática para quem quer começar a criar conteúdo, perder o medo da câmera e construir uma audiência. Sem fórmula mágica. Sem complicação."
-      },
-      {
-        title:"Os quatro pilares",
-        text:"01 — Câmera\n02 — Corte\n03 — Métricas\n04 — Conexão"
-      }
-    ]
   },
 
-  intro:{
-    title:"Você está pronto?",
-    subtitle:"Antes de começar",
-    sections:[
-      {
-        title:"Introdução",
-        text:"Você não precisa ser famoso, ter uma câmera cara ou saber editar. Precisa começar. O Motim organiza sua jornada em quatro pilares."
-      },
-      {
-        title:"Os quatro pilares",
-        text:"01 — Câmera: treine até falar com a lente como fala com uma pessoa.\n02 — Corte: edite o necessário para a mensagem respirar.\n03 — Métricas: observe os sinais e descubra o que merece ser repetido.\n04 — Conexão: use os Stories para transformar seguidores em audiência."
-      }
+
+  camera: {
+
+    number:"01",
+    title:"PERCA O MEDO DA CÂMERA",
+    kicker:"CAPÍTULO 01",
+
+    intro:
+      "Uma das maiores barreiras para quem quer começar a criar conteúdo é apertar o botão de gravar. Você não precisa perder o medo para começar. Precisa começar para perder o medo.",
+
+    quote:
+      "O treino vem antes da confiança.",
+
+    points:[
+      "Grave mesmo que não publique.",
+      "Fale sobre qualquer assunto.",
+      "Assista às suas próprias gravações.",
+      "Repita o processo durante sete dias."
+    ],
+
+    tasks:[
+      "Dia 01 · gravar 1 vídeo de 1 minuto",
+      "Dia 02 · gravar 1 vídeo de 1 minuto",
+      "Dia 03 · gravar 1 vídeo de 1 minuto",
+      "Dia 04 · gravar 1 vídeo de 1 minuto",
+      "Dia 05 · gravar 1 vídeo de 1 minuto",
+      "Dia 06 · gravar 1 vídeo de 1 minuto",
+      "Dia 07 · gravar 1 vídeo de 1 minuto"
     ]
+
   },
 
-  camera:{
-    title:"Perca o medo da câmera",
-    subtitle:"Capítulo 01 · Câmera",
-    sections:[
-      {
-        title:"O conceito",
-        text:"Uma das maiores barreiras para quem quer começar a criar conteúdo é apertar o botão de gravar. Você olha para a câmera e parece que esquece tudo."
-      },
-      {
-        title:"A verdade",
-        text:"Você não precisa perder o medo para começar. Você precisa começar para perder o medo."
-      },
-      {
-        title:"Prática",
-        text:"Grave mesmo que não publique. Fale sobre qualquer assunto. Depois assista. Você provavelmente vai achar estranho — e está tudo bem."
-      },
-      {
-        title:"Frase-chave",
-        text:"O treino vem antes da confiança."
-      }
+
+  edicao: {
+
+    number:"02",
+    title:"A MÁGICA DA EDIÇÃO BÁSICA",
+    kicker:"CAPÍTULO 02",
+
+    intro:
+      "O objetivo principal da edição é fazer o espectador não perceber as partes que deveriam ter ficado de fora.",
+
+    quote:
+      "Edite para melhorar o conteúdo. Não para mostrar que você sabe editar.",
+
+    points:[
+      "Remover erros.",
+      "Cortar silêncios.",
+      "Tirar repetições.",
+      "Melhorar o ritmo.",
+      "Conferir clareza.",
+      "Adicionar texto quando necessário."
+    ],
+
+    tasks:[
+      "Remover erros",
+      "Cortar silêncios",
+      "Tirar repetições",
+      "Melhorar o ritmo",
+      "Conferir clareza",
+      "Adicionar texto quando necessário"
     ]
+
   },
 
-  edicao:{
-    title:"A mágica da edição básica",
-    subtitle:"Capítulo 02 · Edição",
-    sections:[
-      {
-        title:"O conceito",
-        text:"O objetivo principal da edição é fazer o espectador não perceber as partes que deveriam ter ficado de fora."
-      },
-      {
-        title:"Processo",
-        text:"01 — Gravação\n02 — Cortes\n03 — Texto\n04 — Publicação"
-      },
-      {
-        title:"Frase-chave",
-        text:"Edite para melhorar o conteúdo. Não para mostrar que você sabe editar."
-      }
+
+  metricas: {
+
+    number:"03",
+    title:"DECIFRE AS MÉTRICAS",
+    kicker:"CAPÍTULO 03",
+
+    intro:
+      "Você publicou um vídeo. Agora vem uma das partes mais importantes: olhar o que aconteceu.",
+
+    quote:
+      "Não pense apenas: esse viralizou. Pergunte: o que havia de diferente nele?",
+
+    points:[
+      "Compare vídeos.",
+      "Observe alcance.",
+      "Observe retenção.",
+      "Observe comentários.",
+      "Observe compartilhamentos.",
+      "Crie hipóteses para novos testes."
+    ],
+
+    tasks:[
+      "Comparar 3 vídeos",
+      "Escolher o melhor desempenho",
+      "Anotar 3 diferenças",
+      "Definir 1 hipótese para testar"
     ]
+
   },
 
-  metricas:{
-    title:"Decifre as métricas",
-    subtitle:"Capítulo 03 · Métricas",
-    sections:[
-      {
-        title:"O conceito",
-        text:"Você publicou um vídeo. Agora vem uma das partes mais importantes: olhar o que aconteceu."
-      },
-      {
-        title:"O que analisar",
-        text:"Não pense apenas: 'esse viralizou'. Pergunte: o que havia de diferente nele? Era o assunto? A primeira frase? A forma de contar? A identificação?"
-      },
-      {
-        title:"Exercício",
-        text:"Compare três vídeos, escolha o melhor desempenho, anote três diferenças e defina uma hipótese para testar."
-      }
+
+  stories: {
+
+    number:"04",
+    title:"O PODER DOS STORIES",
+    kicker:"CAPÍTULO 04",
+
+    intro:
+      "Reels podem trazer pessoas. Stories podem fazer elas ficarem. Mostre seu dia, converse, conte uma história, faça uma pergunta e mostre bastidores.",
+
+    quote:
+      "Crescer é importante. Ser lembrado é ainda mais.",
+
+    points:[
+      "Mostrar um momento do dia.",
+      "Fazer uma pergunta.",
+      "Responder alguém.",
+      "Mostrar um bastidor.",
+      "Criar uma enquete."
+    ],
+
+    tasks:[
+      "Mostrar um momento do meu dia",
+      "Fazer uma pergunta",
+      "Responder alguém",
+      "Mostrar um bastidor",
+      "Criar uma enquete"
     ]
+
   },
 
-  stories:{
-    title:"O poder dos Stories",
-    subtitle:"Capítulo 04 · Stories",
-    sections:[
-      {
-        title:"O conceito",
-        text:"Reels podem trazer pessoas. Stories podem fazer elas ficarem."
-      },
-      {
-        title:"O que mostrar",
-        text:"Mostre seu dia. Converse. Conte uma história. Faça uma pergunta. Mostre bastidores. Responda alguém."
-      },
-      {
-        title:"Frase-chave",
-        text:"Crescer é importante. Ser lembrado é ainda mais."
-      }
-    ]
-  },
 
-  passaporte:{
-    title:"Passaporte Motim",
-    subtitle:"Sua evolução",
-    sections:[
-      {
-        title:"Conquistas",
-        text:"Primeiro passo\nSem medo\nEditor\nAnalista\nConectado\nCriador"
-      },
-      {
-        title:"Propósito",
-        text:"As conquistas são liberadas conforme você completa as atividades da jornada."
-      }
-    ]
-  },
+  passaporte: {
 
-  final:{
-    title:"Comece. Observe. Repita.",
-    subtitle:"Missão cumprida",
-    sections:[
-      {
-        title:"A mensagem final",
-        text:"Você não precisa descobrir a fórmula perfeita para começar. Cada vídeo é um treino. Cada postagem é um teste. Cada métrica é uma oportunidade de aprender."
-      },
-      {
-        title:"Nos vemos nos 50 mil.",
-        text:"— Dudu Maranhense"
-      }
-    ]
+    number:"",
+    title:"DESBLOQUEIE SUA JORNADA",
+    kicker:"PASSAPORTE MOTIM",
+
+    intro:
+      "As conquistas são liberadas conforme você completa as atividades da jornada.",
+
+    quote:
+      "Cada missão concluída é uma prova de que você está avançando.",
+
+    points:[
+      "Primeiro passo",
+      "Sem medo",
+      "Editor",
+      "Analista",
+      "Conectado",
+      "Criador"
+    ],
+
+    tasks:[]
+
   }
 
 };
 
 
 /* =====================================================
-   PDF GENERATOR
+   QUEBRA DE TEXTO PDF
 ===================================================== */
 
-async function generateStudyPDF(){
+function pdfText(
+  doc,
+  text,
+  x,
+  y,
+  maxWidth,
+  lineHeight=6
+){
 
-  const name =
-    studentName.value.trim()
-    || "Aluno Motim";
+  const lines =
+    doc.splitTextToSize(
+      text,
+      maxWidth
+    );
+
+  doc.text(
+    lines,
+    x,
+    y
+  );
+
+  return y +
+    lines.length *
+    lineHeight;
+
+}
 
 
-  state.studentName =
-    name;
+/* =====================================================
+   GERAR PDF
+===================================================== */
 
-  save();
+async function generatePDF(
+  pageKey
+){
+
+  if(
+    !window.jspdf ||
+    !window.jspdf.jsPDF
+  ){
+
+    alert(
+      "Não foi possível carregar o gerador de PDF. Verifique sua conexão e tente novamente."
+    );
+
+    return;
+
+  }
 
 
   const data =
-    pdfData[currentPage]
-    || pdfData.home;
+    pdfContent[pageKey];
+
+
+  if(!data){
+    return;
+  }
 
 
   const {
@@ -5852,38 +5731,41 @@ async function generateStudyPDF(){
     });
 
 
-  const pageWidth =
+  const W =
     210;
 
-  const pageHeight =
+  const H =
     297;
 
   const margin =
-    20;
+    18;
+
+  const contentWidth =
+    W - margin * 2;
 
 
-  /* --------------------------------
-     BACKGROUND
-  -------------------------------- */
+  /*
+    FUNDO
+  */
 
   doc.setFillColor(
-    14,
-    14,
-    14
+    13,
+    13,
+    13
   );
 
   doc.rect(
     0,
     0,
-    pageWidth,
-    pageHeight,
+    W,
+    H,
     "F"
   );
 
 
-  /* --------------------------------
-     ORANGE HEADER
-  -------------------------------- */
+  /*
+    BARRA LATERAL
+  */
 
   doc.setFillColor(
     255,
@@ -5894,24 +5776,22 @@ async function generateStudyPDF(){
   doc.rect(
     0,
     0,
-    pageWidth,
-    5,
+    4,
+    H,
     "F"
   );
 
 
-  /* --------------------------------
-     BRAND
-  -------------------------------- */
+  /*
+    TOPO
+  */
 
   doc.setFont(
     "helvetica",
     "bold"
   );
 
-  doc.setFontSize(
-    10
-  );
+  doc.setFontSize(9);
 
   doc.setTextColor(
     255,
@@ -5922,42 +5802,66 @@ async function generateStudyPDF(){
   doc.text(
     "MOTIM BOOK",
     margin,
-    20
+    18
   );
 
-
-  doc.setFontSize(
-    8
-  );
 
   doc.setTextColor(
-    150,
-    145,
-    140
+    130,
+    125,
+    120
   );
+
+  doc.setFontSize(7);
 
   doc.text(
     "DO ZERO AOS 50K",
-    pageWidth - margin,
-    20,
+    W - margin,
+    18,
     {
       align:"right"
     }
   );
 
 
-  /* --------------------------------
-     CHAPTER
-  -------------------------------- */
+  /*
+    NÚMERO
+  */
+
+  if(data.number){
+
+    doc.setFont(
+      "helvetica",
+      "bold"
+    );
+
+    doc.setFontSize(60);
+
+    doc.setTextColor(
+      38,
+      34,
+      31
+    );
+
+    doc.text(
+      data.number,
+      margin,
+      53
+    );
+
+  }
+
+
+  /*
+    KICKER
+  */
 
   doc.setFont(
     "helvetica",
     "bold"
   );
 
-  doc.setFontSize(
-    8
-  );
+  doc.setFontSize(8);
 
   doc.setTextColor(
     255,
@@ -5966,96 +5870,136 @@ async function generateStudyPDF(){
   );
 
   doc.text(
-    data.subtitle.toUpperCase(),
+    data.kicker,
     margin,
-    43
+    data.number ? 49 : 55
   );
 
 
-  /* --------------------------------
-     TITLE
-  -------------------------------- */
+  /*
+    TÍTULO
+  */
+
+  let y =
+    data.number
+      ? 65
+      : 65;
+
+  doc.setFont(
+    "helvetica",
+    "bold"
+  );
 
   doc.setFontSize(
-    31
+    data.title.length > 24
+      ? 26
+      : 31
   );
 
   doc.setTextColor(
-    247,
-    241,
-    234
+    246,
+    240,
+    233
   );
-
 
   const titleLines =
     doc.splitTextToSize(
       data.title,
-      165
+      contentWidth
     );
-
 
   doc.text(
     titleLines,
     margin,
-    58
+    y
   );
 
+  y +=
+    titleLines.length *
+    11;
 
-  let y =
-    58 +
-    titleLines.length * 13;
+
+  /*
+    LINHA LARANJA
+  */
+
+  doc.setFillColor(
+    255,
+    122,
+    0
+  );
+
+  doc.rect(
+    margin,
+    y + 4,
+    34,
+    1.5,
+    "F"
+  );
+
+  y += 17;
 
 
-  /* --------------------------------
-     STUDENT
-  -------------------------------- */
+  /*
+    INTRO
+  */
 
   doc.setFont(
     "helvetica",
     "normal"
   );
 
-  doc.setFontSize(
-    9
-  );
+  doc.setFontSize(10);
 
   doc.setTextColor(
-    160,
-    154,
-    149
+    205,
+    198,
+    190
   );
 
-  doc.text(
-    `Material de estudo · ${name}`,
-    margin,
-    y + 3
-  );
+  y =
+    pdfText(
+      doc,
+      data.intro,
+      margin,
+      y,
+      contentWidth,
+      5.8
+    );
 
 
-  y += 17;
+  y += 9;
 
 
-  /* --------------------------------
-     PROGRESS
-  -------------------------------- */
+  /*
+    QUOTE BOX
+  */
 
-  const progress =
-    globalProgress();
+  const quoteLines =
+    doc.splitTextToSize(
+      data.quote,
+      contentWidth - 16
+    );
+
+  const quoteHeight =
+    quoteLines.length *
+    6 +
+    16;
 
 
   doc.setFillColor(
-    38,
-    35,
-    32
+    28,
+    22,
+    18
   );
 
   doc.roundedRect(
     margin,
     y,
-    170,
-    5,
-    2,
-    2,
+    contentWidth,
+    quoteHeight,
+    4,
+    4,
     "F"
   );
 
@@ -6066,59 +6010,95 @@ async function generateStudyPDF(){
     0
   );
 
-  doc.roundedRect(
+  doc.rect(
     margin,
     y,
-    170 * progress / 100,
-    5,
     2,
-    2,
+    quoteHeight,
     "F"
   );
 
 
-  doc.setFontSize(
-    8
+  doc.setFont(
+    "helvetica",
+    "bold"
   );
 
+  doc.setFontSize(11);
+
   doc.setTextColor(
-    160,
-    154,
-    149
+    255,
+    177,
+    92
   );
 
   doc.text(
-    `${progress}% da jornada concluída`,
-    margin,
-    y + 12
+    quoteLines,
+    margin + 9,
+    y + 10
   );
 
 
-  y += 27;
+  y +=
+    quoteHeight +
+    12;
 
 
-  /* --------------------------------
-     CONTENT
-  -------------------------------- */
+  /*
+    PONTOS
+  */
 
-  data.sections.forEach(
-    section => {
+  doc.setFont(
+    "helvetica",
+    "bold"
+  );
 
-      if(y > 250){
+  doc.setFontSize(9);
+
+  doc.setTextColor(
+    255,
+    177,
+    92
+  );
+
+  doc.text(
+    "PONTOS PARA LEMBRAR",
+    margin,
+    y
+  );
+
+  y += 8;
+
+
+  data.points.forEach(
+    point => {
+
+      /*
+        Verifica espaço.
+      */
+
+      if(y > 245){
+
+        addPdfFooter(
+          doc,
+          W,
+          H,
+          margin
+        );
 
         doc.addPage();
 
         doc.setFillColor(
-          14,
-          14,
-          14
+          13,
+          13,
+          13
         );
 
         doc.rect(
           0,
           0,
-          pageWidth,
-          pageHeight,
+          W,
+          H,
           "F"
         );
 
@@ -6131,8 +6111,8 @@ async function generateStudyPDF(){
         doc.rect(
           0,
           0,
-          pageWidth,
-          5,
+          4,
+          H,
           "F"
         );
 
@@ -6141,29 +6121,18 @@ async function generateStudyPDF(){
       }
 
 
-      doc.setFont(
-        "helvetica",
-        "bold"
-      );
-
-      doc.setFontSize(
-        12
-      );
-
-      doc.setTextColor(
+      doc.setFillColor(
         255,
-        177,
-        92
+        122,
+        0
       );
 
-      doc.text(
-        section.title.toUpperCase(),
-        margin,
-        y
+      doc.circle(
+        margin + 2,
+        y - 1,
+        1.2,
+        "F"
       );
-
-
-      y += 9;
 
 
       doc.setFont(
@@ -6171,105 +6140,66 @@ async function generateStudyPDF(){
         "normal"
       );
 
-      doc.setFontSize(
-        10.5
-      );
+      doc.setFontSize(9);
 
       doc.setTextColor(
-        218,
-        210,
-        202
+        215,
+        208,
+        201
       );
-
 
       const lines =
         doc.splitTextToSize(
-          section.text,
-          165
+          point,
+          contentWidth - 10
         );
 
-
-      lines.forEach(
-        line => {
-
-          if(y > 270){
-
-            doc.addPage();
-
-            doc.setFillColor(
-              14,
-              14,
-              14
-            );
-
-            doc.rect(
-              0,
-              0,
-              pageWidth,
-              pageHeight,
-              "F"
-            );
-
-            doc.setFillColor(
-              255,
-              122,
-              0
-            );
-
-            doc.rect(
-              0,
-              0,
-              pageWidth,
-              5,
-              "F"
-            );
-
-            y = 25;
-
-          }
-
-
-          doc.text(
-            line,
-            margin,
-            y
-          );
-
-          y += 6;
-
-        }
+      doc.text(
+        lines,
+        margin + 8,
+        y
       );
 
-
-      y += 9;
+      y +=
+        lines.length *
+        5 +
+        5;
 
     }
   );
 
 
-  /* --------------------------------
-     CHECKLIST
-  -------------------------------- */
+  /*
+    CHECKLIST
+  */
 
-  if(
-    chapterTasks[currentPage]
-  ){
+  if(data.tasks.length){
 
-    if(y > 215){
+    y += 7;
+
+
+    if(y > 245){
+
+      addPdfFooter(
+        doc,
+        W,
+        H,
+        margin
+      );
 
       doc.addPage();
 
       doc.setFillColor(
-        14,
-        14,
-        14
+        13,
+        13,
+        13
       );
 
       doc.rect(
         0,
         0,
-        pageWidth,
-        pageHeight,
+        W,
+        H,
         "F"
       );
 
@@ -6282,8 +6212,8 @@ async function generateStudyPDF(){
       doc.rect(
         0,
         0,
-        pageWidth,
-        5,
+        4,
+        H,
         "F"
       );
 
@@ -6297,9 +6227,7 @@ async function generateStudyPDF(){
       "bold"
     );
 
-    doc.setFontSize(
-      12
-    );
+    doc.setFontSize(9);
 
     doc.setTextColor(
       255,
@@ -6308,175 +6236,285 @@ async function generateStudyPDF(){
     );
 
     doc.text(
-      "CHECKLIST DA MISSÃO",
+      "MINHAS MISSÕES",
       margin,
       y
     );
 
-
-    y += 10;
-
-
-    const taskLabels = {
-
-      cam1:"Dia 01 · gravar 1 vídeo de 1 minuto",
-      cam2:"Dia 02 · gravar 1 vídeo de 1 minuto",
-      cam3:"Dia 03 · gravar 1 vídeo de 1 minuto",
-      cam4:"Dia 04 · gravar 1 vídeo de 1 minuto",
-      cam5:"Dia 05 · gravar 1 vídeo de 1 minuto",
-      cam6:"Dia 06 · gravar 1 vídeo de 1 minuto",
-      cam7:"Dia 07 · gravar 1 vídeo de 1 minuto",
-
-      edit1:"Remover erros",
-      edit2:"Cortar silêncios",
-      edit3:"Tirar repetições",
-      edit4:"Melhorar o ritmo",
-      edit5:"Conferir clareza",
-      edit6:"Adicionar texto quando necessário",
-
-      met1:"Comparar 3 vídeos",
-      met2:"Escolher o melhor desempenho",
-      met3:"Anotar 3 diferenças",
-      met4:"Definir 1 hipótese para testar",
-
-      sto1:"Mostrar um momento do meu dia",
-      sto2:"Fazer uma pergunta",
-      sto3:"Responder alguém",
-      sto4:"Mostrar um bastidor",
-      sto5:"Criar uma enquete"
-
-    };
+    y += 8;
 
 
-    chapterTasks[currentPage]
-      .forEach(
-        key => {
+    data.tasks.forEach(
+      (task,index) => {
 
-          doc.setDrawColor(
-            100,
-            95,
-            90
+        if(y > 265){
+
+          addPdfFooter(
+            doc,
+            W,
+            H,
+            margin
+          );
+
+          doc.addPage();
+
+          doc.setFillColor(
+            13,
+            13,
+            13
           );
 
           doc.rect(
-            margin,
-            y - 4,
-            5,
-            5
+            0,
+            0,
+            W,
+            H,
+            "F"
           );
 
+          doc.setFillColor(
+            255,
+            122,
+            0
+          );
 
-          if(
-            state.tasks[key]
-          ){
+          doc.rect(
+            0,
+            0,
+            4,
+            H,
+            "F"
+          );
 
-            doc.setFillColor(
-              255,
-              122,
-              0
-            );
+          y = 25;
 
-            doc.rect(
-              margin,
-              y - 4,
-              5,
-              5,
-              "F"
-            );
+        }
 
-            doc.setTextColor(
-              20,
-              20,
-              20
-            );
 
-            doc.setFontSize(
-              7
-            );
+        const key =
+          chapterTasks[pageKey]?.[index];
 
-            doc.text(
-              "✓",
-              margin + 1,
-              y
-            );
 
-          }
+        const completed =
+          key &&
+          saved[key] === true;
 
+
+        doc.setDrawColor(
+          completed
+            ? 255
+            : 100,
+          completed
+            ? 122
+            : 96,
+          completed
+            ? 0
+            : 90
+        );
+
+
+        doc.setLineWidth(
+          .5
+        );
+
+
+        doc.roundedRect(
+          margin,
+          y - 5,
+          5,
+          5,
+          1,
+          1,
+          "S"
+        );
+
+
+        if(completed){
+
+          doc.setFillColor(
+            255,
+            122,
+            0
+          );
+
+          doc.roundedRect(
+            margin,
+            y - 5,
+            5,
+            5,
+            1,
+            1,
+            "F"
+          );
 
           doc.setFont(
             "helvetica",
-            "normal"
+            "bold"
           );
 
-          doc.setFontSize(
-            9.5
-          );
+          doc.setFontSize(6);
 
           doc.setTextColor(
-            215,
-            207,
-            199
+            20,
+            20,
+            20
           );
 
           doc.text(
-            taskLabels[key] || key,
-            margin + 9,
-            y
+            "✓",
+            margin + 1,
+            y - 1
           );
 
-
-          y += 9;
-
         }
-      );
+
+
+        doc.setFont(
+          "helvetica",
+          "normal"
+        );
+
+        doc.setFontSize(9);
+
+        doc.setTextColor(
+          completed
+            ? 130
+            : 215,
+          completed
+            ? 125
+            : 208,
+          completed
+            ? 120
+            : 201
+        );
+
+        const taskLines =
+          doc.splitTextToSize(
+            task,
+            contentWidth - 12
+          );
+
+        doc.text(
+          taskLines,
+          margin + 9,
+          y
+        );
+
+        y +=
+          taskLines.length *
+          5 +
+          6;
+
+      }
+    );
 
   }
 
 
-  /* --------------------------------
-     FOOTER
-  -------------------------------- */
+  /*
+    ANOTAÇÕES
+  */
+
+  if(y < 245){
+
+    y += 8;
+
+    doc.setFont(
+      "helvetica",
+      "bold"
+    );
+
+    doc.setFontSize(9);
+
+    doc.setTextColor(
+      255,
+      177,
+      92
+    );
+
+    doc.text(
+      "ANOTAÇÕES",
+      margin,
+      y
+    );
+
+    y += 6;
+
+
+    doc.setDrawColor(
+      65,
+      60,
+      55
+    );
+
+    doc.setLineWidth(
+      .3
+    );
+
+
+    for(
+      let i=0;
+      i<4;
+      i++
+    ){
+
+      doc.line(
+        margin,
+        y + i*8,
+        W-margin,
+        y + i*8
+      );
+
+    }
+
+  }
+
+
+  /*
+    RODAPÉ
+  */
+
+  addPdfFooter(
+    doc,
+    W,
+    H,
+    margin
+  );
+
+
+  /*
+    NÚMERO DE PÁGINAS
+  */
 
   const totalPages =
     doc.internal.getNumberOfPages();
 
 
   for(
-    let i = 1;
-    i <= totalPages;
+    let i=1;
+    i<=totalPages;
     i++
   ){
 
     doc.setPage(i);
-
 
     doc.setFont(
       "helvetica",
       "normal"
     );
 
-    doc.setFontSize(
-      7
-    );
+    doc.setFontSize(7);
 
     doc.setTextColor(
-      105,
       100,
-      96
+      95,
+      90
     );
-
-
-    doc.text(
-      `Motim Book · ${name}`,
-      margin,
-      pageHeight - 12
-    );
-
 
     doc.text(
       `${i} / ${totalPages}`,
-      pageWidth - margin,
-      pageHeight - 12,
+      W - margin,
+      H - 10,
       {
         align:"right"
       }
@@ -6485,82 +6523,138 @@ async function generateStudyPDF(){
   }
 
 
-  /* --------------------------------
-     DOWNLOAD
-  -------------------------------- */
+  /*
+    DOWNLOAD
+  */
 
   const safeName =
-    name
-      .toLowerCase()
+    pageKey
       .replace(
-        /[^a-z0-9áéíóúãõç]+/gi,
+        /[^a-z0-9]/gi,
         "-"
-      )
-      .replace(
-        /^-+|-+$/g,
-        ""
       );
 
-
-  const fileName =
-    `motim-book-${currentPage}-${safeName || "estudo"}.pdf`;
-
-
   doc.save(
-    fileName
+    `Motim-Book-${safeName}.pdf`
   );
-
-  closePdfModal();
 
 }
 
 
 /* =====================================================
-   PDF EVENT
+   PDF FOOTER
 ===================================================== */
 
-generatePdf.addEventListener(
-  "click",
-  generateStudyPDF
-);
+function addPdfFooter(
+  doc,
+  W,
+  H,
+  margin
+){
+
+  doc.setDrawColor(
+    45,
+    42,
+    39
+  );
+
+  doc.setLineWidth(
+    .3
+  );
+
+  doc.line(
+    margin,
+    H - 17,
+    W - margin,
+    H - 17
+  );
+
+
+  doc.setFont(
+    "helvetica",
+    "bold"
+  );
+
+  doc.setFontSize(7);
+
+  doc.setTextColor(
+    100,
+    95,
+    90
+  );
+
+  doc.text(
+    "MOTIM BOOK · DO ZERO AOS 50K",
+    margin,
+    H - 10
+  );
+
+}
 
 
 /* =====================================================
-   NAV SCROLL EFFECT
+   PDF BUTTONS
 ===================================================== */
 
 document
-  .querySelectorAll(".page")
+  .querySelectorAll("[data-pdf]")
   .forEach(
-    page => {
+    button => {
 
-      page.addEventListener(
-        "scroll",
-        () => {
+      button.addEventListener(
+        "click",
+        async () => {
 
-          if(
-            page.scrollTop > 20
-          ){
+          const original =
+            button.innerHTML;
 
-            document
-              .querySelector("#nav")
-              .classList.add(
-                "scrolled"
-              );
+          button.disabled =
+            true;
 
-          }else{
+          button.innerHTML =
+            "⏳ Preparando PDF...";
 
-            document
-              .querySelector("#nav")
-              .classList.remove(
-                "scrolled"
-              );
+          try{
+
+            await generatePDF(
+              button.dataset.pdf
+            );
+
+            button.innerHTML =
+              "✓ PDF gerado";
+
+            setTimeout(
+              () => {
+
+                button.innerHTML =
+                  original;
+
+                button.disabled =
+                  false;
+
+              },
+              1800
+            );
+
+          }
+          catch(error){
+
+            console.error(
+              error
+            );
+
+            button.innerHTML =
+              original;
+
+            button.disabled =
+              false;
+
+            alert(
+              "Não foi possível gerar o PDF."
+            );
 
           }
 
-        },
-        {
-          passive:true
         }
       );
 
@@ -6569,65 +6663,120 @@ document
 
 
 /* =====================================================
+   RESET
+===================================================== */
+
+document
+  .querySelector("#reset")
+  .addEventListener(
+    "click",
+    () => {
+
+      const confirmed =
+        confirm(
+          "Resetar todas as tarefas desta jornada?"
+        );
+
+      if(!confirmed){
+        return;
+      }
+
+
+      saved = {};
+
+      save();
+
+      refreshProgress();
+
+      navigateTo(
+        "cover"
+      );
+
+      showToast(
+        "↻",
+        "Jornada resetada",
+        "Você pode começar novamente."
+      );
+
+    }
+  );
+
+
+/* =====================================================
+   NAV SCROLL
+===================================================== */
+
+window.addEventListener(
+  "scroll",
+  () => {
+
+    if(
+      window.scrollY > 20
+    ){
+
+      nav.classList.add(
+        "scrolled"
+      );
+
+    }
+    else{
+
+      nav.classList.remove(
+        "scrolled"
+      );
+
+    }
+
+  },
+  {
+    passive:true
+  }
+);
+
+
+/* =====================================================
    INIT
 ===================================================== */
 
 buildDrawer();
 
-refreshChecklist();
+refreshProgress();
 
-restoreChoices();
-
-updateUI();
+navigateTo(
+  "cover"
+);
 
 
 /* =====================================================
-   RESTORE CURRENT PAGE
+   GARANTIA EXTRA PARA MOBILE
 ===================================================== */
 
-if(
-  state.currentPage &&
-  pageUnlocked(state.currentPage)
-){
+/*
+  Alguns navegadores móveis podem preservar
+  a posição de scroll anterior ao trocar
+  conteúdo.
 
-  document
-    .querySelectorAll(".page")
-    .forEach(
-      page =>
-        page.classList.remove(
-          "active"
-        )
-    );
+  Este listener garante que quando a página
+  voltar para a viewport ela comece no topo.
+*/
 
+window.addEventListener(
+  "pageshow",
+  () => {
 
-  const restored =
-    document.querySelector(
-      `.page[data-page="${state.currentPage}"]`
-    );
+    if(
+      currentPage === "cover"
+    ){
 
+      window.scrollTo(
+        0,
+        0
+      );
 
-  if(restored){
-
-    restored.classList.add(
-      "active"
-    );
-
-    currentPage =
-      state.currentPage;
+    }
 
   }
-
-}
-
-
-updateUI();
-
-
-/* =====================================================
-   INITIAL START BUTTON
-===================================================== */
-
-updateStartButton();
+);
 
 </script>
 
