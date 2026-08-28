@@ -5388,6 +5388,7 @@ a{
   class="page chapter reveal"
   id="stories"
   data-page="stories"
+  data-chapter="04"
 >
 
   <div class="chapter-card">
@@ -6223,6 +6224,7 @@ a{
 
         </div>
 
+
         <!-- =========================
              CONCLUSÃO
         ========================= -->
@@ -6276,19 +6278,70 @@ a{
 
         </div>
 
+
+        <!-- =====================================================
+             CONCLUSÃO DO CAPÍTULO 04
+        ===================================================== -->
+
+        <div
+          class="panel"
+          id="chapter04-complete"
+          data-chapter-completion="stories"
+        >
+
+          <div class="paneltitle">
+            Capítulo 04 concluído
+          </div>
+
+          <p>
+            Você chegou ao final deste capítulo.
+          </p>
+
+          <p>
+            Marque abaixo quando tiver concluído todas as atividades
+            e estiver pronto para avançar.
+          </p>
+
+          <div class="checks">
+
+            <label class="check">
+
+              <input
+                type="checkbox"
+                data-k="stories_complete"
+                data-completes-chapter="stories"
+              >
+
+              <span>
+                <b>
+                  Concluí o Capítulo 04 · O poder dos Stories
+                </b>
+              </span>
+
+            </label>
+
+          </div>
+
+        </div>
+
       </div>
 
     </div>
 
   </div>
-  
-<!-- =====================================================
+
+
+  <!-- =====================================================
        NAVEGAÇÃO DO CAPÍTULO 04
   ===================================================== -->
 
-  <div class="page-controls">
+  <div
+    class="page-controls"
+    data-chapter-navigation="stories"
+  >
 
     <button
+      type="button"
       class="btn secondary page-control"
       data-prev
     >
@@ -6302,8 +6355,10 @@ a{
     <div class="next-wrap">
 
       <button
+        type="button"
         class="btn primary page-control"
         data-next
+        data-next-page="passaporte"
       >
         Próximo →
       </button>
@@ -6313,7 +6368,6 @@ a{
   </div>
 
 </section>
-
 <!-- =====================================================
      PASSAPORTE
 ===================================================== -->
